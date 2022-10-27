@@ -73,6 +73,9 @@ export default function MainTab() {
               width: 40,
               height: 40,
               p: theme.spacing(1, 1),
+              " *": {
+                cursor: "pointer !important",
+              },
             }}
             onClick={handleClickSearch}
           >
@@ -90,6 +93,9 @@ export default function MainTab() {
               width: 40,
               height: 40,
               p: theme.spacing(1, 1),
+              " *": {
+                cursor: "pointer !important",
+              },
             }}
             onClick={handleClickAlarm}
           >

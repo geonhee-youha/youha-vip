@@ -10,21 +10,12 @@ export default function Panel({
   return (
     <Box
       sx={{
-        height: "100vh",
-        p: 3,
+        borderRight: `1px solid ${blueGrey[100]}`,
+        backgroundColor: "#ffffff",
         ...sx,
       }}
     >
-      <Box
-        sx={{
-          minHeight: '100%',
-          borderRadius: 1,
-          backgroundColor: "#ffffff",
-          border: `1px solid ${blueGrey[100]}`,
-        }}
-      >
-        {children}
-      </Box>
+      {children}
     </Box>
   );
 }

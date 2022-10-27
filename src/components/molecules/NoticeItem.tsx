@@ -48,13 +48,16 @@ export default function NoticeItem({
     <ButtonBase
       sx={{
         width: "100%",
-        flexDirection: 'column',
+        flexDirection: "column",
         justifyContent: "flex-start",
         alignItems: "flex-start",
         p: 1,
         borderRadius: 1,
         "& .MuiTouchRipple-root *": {
           backgroundColor: alpha(blueGrey[900], 0.32),
+        },
+        " *": {
+          cursor: "pointer !important",
         },
       }}
       onClick={handleClick}
@@ -98,7 +101,7 @@ export default function NoticeItem({
           sx={{
             position: "relative",
             width: "100%",
-            height: open ? bodyHeight + 16 : 0,
+            height: open ? bodyHeight + 12 : 0,
             transition: `all 0.35s ease`,
             overflow: "hidden",
           }}
@@ -110,7 +113,6 @@ export default function NoticeItem({
               left: 0,
               right: 0,
               pt: 1,
-              pb: 1,
             }}
           >
             <Box
@@ -135,12 +137,13 @@ export default function NoticeItem({
       )}
       <Typo
         sx={{
+          mt: 0.5,
           fontSize: 12,
           lineHeight: "16px",
           color: blueGrey[500],
         }}
       >
-        {displayedAt(createdAt)}
+        {displayedAt(createdAt, inMainTab)}
       </Typo>
     </ButtonBase>
   );

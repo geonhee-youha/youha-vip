@@ -33,7 +33,7 @@ import MainTab from "../components/organisms/MainTab";
 import AlarmDrawer from "../components/organisms/AlarmDrawer";
 import HomeTab from "../components/organisms/HomeTab";
 import _ from "lodash";
-import { pages } from "../constants";
+import { homeTabWidth, mainTabWidth, pages } from "../constants";
 ChartJS.register(
   LineController,
   BarController,
@@ -240,7 +240,7 @@ function MyApp(props: MyAppProps) {
                 <AlarmDrawer />
                 <Box
                   sx={{
-                    minWidth: 100,
+                    minWidth: 400,
                     flex: 1,
                     overflow: "auto",
                   }}

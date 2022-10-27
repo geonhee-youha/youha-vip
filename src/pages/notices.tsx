@@ -9,7 +9,7 @@ export default function Page() {
     <Panel>
       <Box
         sx={{
-          p: theme.spacing(5, 6, 0, 6),
+          p: theme.spacing(10, 6, 0, 6),
         }}
       >
         <Box
@@ -35,6 +35,7 @@ export default function Page() {
         spacing={1}
         sx={{
           p: theme.spacing(2, 5, 5, 5),
+          height: 2000,
         }}
       >
         {notices.map((item, index) => (

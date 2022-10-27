@@ -182,7 +182,7 @@ export const dateToString = (date: Date) => {
   return year + month + day;
 };
 
-export function displayedAt(str: string | null) {
+export function displayedAt(str: string | null, short?: boolean) {
   const date = str === null ? new Date() : new Date(str);
   const dateTime = str === null ? 0 : new Date(str).getTime();
   const milliSeconds = new Date().getTime() - dateTime;
@@ -193,9 +193,9 @@ export function displayedAt(str: string | null) {
   const hours = minutes / 60;
   if (hours < 24) return `${Math.floor(hours)}시간 전`;
   const days = hours / 24;
-  return `${date.getFullYear()}년 ${
-    date.getMonth() + 1
-  }월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분`;
+  return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일${
+    short ? `` : ` ${date.getHours()}시 ${date.getMinutes()}분`
+  }`;
   // if (days < 7) return `${Math.floor(days)}일 전`;
   // const weeks = days / 7;
   // if (weeks < 5) return `${Math.floor(weeks)}주 전`;
