@@ -30,7 +30,7 @@ import {
 import { blueGrey } from "@mui/material/colors";
 import { Box } from "@mui/material";
 import MainTab from "../components/organisms/MainTab";
-import { AlarmDrawer } from "../components/organisms/AlarmDrawer";
+import AlarmDrawer from "../components/organisms/AlarmDrawer";
 import HomeTab from "../components/organisms/HomeTab";
 ChartJS.register(
   LineController,

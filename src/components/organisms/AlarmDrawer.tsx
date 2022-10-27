@@ -6,7 +6,7 @@ import { alarmDrawerState } from "../../recoil";
 import { theme } from "../../themes/theme";
 import Icon from "../atoms/Icon";
 import EmptyItem from "../molecules/EmptyItem";
-export function AlarmDrawer() {
+export default function AlarmDrawer() {
   const [alarmDrawer, setAlarmDrawer] = useRecoilState(alarmDrawerState);
   const handleClose = () => {
     setAlarmDrawer((prev) => {
