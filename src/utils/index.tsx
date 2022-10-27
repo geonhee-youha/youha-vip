@@ -2,14 +2,10 @@ import _ from "lodash";
 import React from "react";
 import createCache from "@emotion/cache";
 import { useEffect, useState } from "react";
-import { SetterOrUpdater } from "recoil";
-import { userDefaultProps, UserProps } from "../types/user";
 export function createEmotionCache() {
   return createCache({ key: "css" });
 }
-// stackRouter.ts
 import { NextRouter } from "next/router";
-// react native app 환경인지 판단
 const isApp = () => {
   let isApp = false;
 

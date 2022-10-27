@@ -3,7 +3,6 @@ import { blueGrey } from "@mui/material/colors";
 import { HomeTabProps } from "../../constants";
 import { theme } from "../../themes/theme";
 import Icon from "../atoms/Icon";
-
 export default function HomeTabItem({ item }: { item: HomeTabProps }) {
   const { title, iconName } = item;
   return (
@@ -19,8 +18,6 @@ export default function HomeTabItem({ item }: { item: HomeTabProps }) {
       <Box
         sx={{
           display: "flex",
-          //   backgroundColor: blueGrey[500],
-          //   borderBottom: `1px solid ${blueGrey[100]}`,
           p: theme.spacing(2),
         }}
       >
@@ -28,7 +25,6 @@ export default function HomeTabItem({ item }: { item: HomeTabProps }) {
           name={iconName}
           color={blueGrey[700]}
           prefix="fad"
-          //   color="#ffffff"
           size={20}
           sx={{ mr: 1 }}
         />
@@ -38,7 +34,6 @@ export default function HomeTabItem({ item }: { item: HomeTabProps }) {
             lineHeight: "24px",
             fontWeight: "700",
             color: blueGrey[700],
-            // color: "#ffffff",
           }}
         >
           {title}

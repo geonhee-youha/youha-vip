@@ -57,9 +57,8 @@ export const setInfiniteKey = (url: string | null) => {
     if (url === null) return null;
     if (previousPageData && !previousPageData.data.length) return null; // 끝에 도달
     if (index === 0) return `${api}`;
-    return `${api}${api?.includes("?") ? `&` : `?`}page=${index}&cursor=${
-      previousPageData.next
-    }`;
+    return `${api}${api?.includes("?") ? `&` : `?`}page=${index}&cursor=${previousPageData.next
+      }`;
   };
   return getKey;
 };
@@ -81,7 +80,7 @@ export function useCustomSWRInfinite(getKey: any) {
       data: {
         data: data,
         isLoading: !error && !data,
-        error: error || data === [undefined] ? true : false,
+        error: error || !data ? true : false,
         mutate: mutate,
         isValidating: isValidating,
         isLoadingMore:

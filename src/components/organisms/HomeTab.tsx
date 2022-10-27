@@ -16,7 +16,7 @@ export default function HomeTab() {
       }}
     >
       {homeTabs.map((item, index) => (
-        <HomeTabItem item={item} />
+        <HomeTabItem key={index} item={item} />
       ))}
     </Stack>
   ) : (

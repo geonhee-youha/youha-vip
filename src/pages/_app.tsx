@@ -2,7 +2,6 @@ import Head from "next/head";
 import { AppProps } from "next/app";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
-// import { library } from "@fortawesome/fontawesome-svg-core";
 import { fal } from "@fortawesome/pro-light-svg-icons";
 import { far } from "@fortawesome/pro-regular-svg-icons";
 import { fas } from "@fortawesome/pro-solid-svg-icons";
@@ -28,7 +27,11 @@ import {
   LineElement,
   BarElement,
 } from "chart.js";
-import Screen from "../components/templates/Screen";
+import { blueGrey } from "@mui/material/colors";
+import { Box } from "@mui/material";
+import MainTab from "../components/organisms/MainTab";
+import { AlarmDrawer } from "../components/organisms/AlarmDrawer";
+import HomeTab from "../components/organisms/HomeTab";
 ChartJS.register(
   LineController,
   BarController,
@@ -42,7 +45,7 @@ const clientSideEmotionCache = createEmotionCache();
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
-const { library, config } = require('@fortawesome/fontawesome-svg-core');
+const { library, config } = require("@fortawesome/fontawesome-svg-core");
 library.add(fal, far, fas, fad);
 declare global {
   interface Window {
@@ -204,9 +207,31 @@ function MyApp(props: MyAppProps) {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Global styles={reset} />
-          <Screen>
-            <Component {...pageProps} key={router.route} />
-          </Screen>
+          <Box
+            sx={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              display: "flex",
+              backgroundColor: blueGrey[50],
+            }}
+            className="Screen"
+          >
+            <MainTab />
+            <Box
+              sx={{
+                position: "relative",
+                flex: 1,
+                overflowY: "scroll",
+              }}
+            >
+              <AlarmDrawer />
+              <Component {...pageProps} key={router.route} />
+            </Box>
+            <HomeTab />
+          </Box>
         </ThemeProvider>
       </RecoilRoot>
     </CacheProvider>
