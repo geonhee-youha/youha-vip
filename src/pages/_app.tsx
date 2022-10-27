@@ -33,7 +33,7 @@ import MainTab from "../components/organisms/MainTab";
 import AlarmDrawer from "../components/organisms/AlarmDrawer";
 import HomeTab from "../components/organisms/HomeTab";
 import _ from "lodash";
-import { mainTabs } from "../constants";
+import { pages } from "../constants";
 ChartJS.register(
   LineController,
   BarController,
@@ -59,7 +59,7 @@ function MyApp(props: MyAppProps) {
   const router = useRouter();
   const currentPathName = `/${router.pathname.split("/")[1]}`;
   const inMainTabs =
-    _.findIndex(mainTabs, (el) => el.pathName === currentPathName) !== -1;
+    _.findIndex(pages, (el) => el.pathName === currentPathName) !== -1;
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
     <CacheProvider value={emotionCache}>

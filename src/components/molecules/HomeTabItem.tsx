@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
-import { homeTabMaxHeight, HomeTabProps, homeTabWidth } from "../../constants";
+import { homeTabItemMaxHeight, HomeTabProps, homeTabWidth } from "../../constants";
 import { theme } from "../../themes/theme";
 import Icon from "../atoms/Icon";
 export default function HomeTabItem({ item }: { item: HomeTabProps }) {
@@ -9,13 +9,11 @@ export default function HomeTabItem({ item }: { item: HomeTabProps }) {
     <Box
       sx={{
         flex: 1,
-        width: homeTabWidth,
-        minWidth: homeTabWidth,
         backgroundColor: "#ffffff",
         borderRadius: 1,
         border: `1px solid ${blueGrey[100]}`,
         overflow: "hidden",
-        minHeight: homeTabMaxHeight,
+        minHeight: homeTabItemMaxHeight,
       }}
     >
       <Box

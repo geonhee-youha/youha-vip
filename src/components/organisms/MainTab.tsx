@@ -3,7 +3,7 @@ import { blueGrey } from "@mui/material/colors";
 import _ from "lodash";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
-import { mainTabs, mainTabWidth } from "../../constants";
+import { pages, mainTabWidth } from "../../constants";
 import { notices } from "../../datas";
 import { alarmDrawerState } from "../../recoil";
 import { theme } from "../../themes/theme";
@@ -109,7 +109,10 @@ export default function MainTab() {
             p: theme.spacing(1.5, 2, 1, 2),
           }}
         >
-          {_.filter(mainTabs, (el) => el.hide !== true).map((item, index) => (
+          {_.filter(
+            pages,
+            (el) => el.pathName !== "/notices" && el.pathName !== "/search"
+          ).map((item, index) => (
             <MainTabItem key={index} item={item} />
           ))}
         </Stack>
@@ -119,9 +122,11 @@ export default function MainTab() {
             p: theme.spacing(0, 2, 1.5, 2),
           }}
         >
-          {_.filter(mainTabs, (el) => el.hide === true).map((item, index) => (
-            <MainTabItem key={index} item={item} right />
-          ))}
+          {_.filter(pages, (el) => el.pathName === "/notices").map(
+            (item, index) => (
+              <MainTabItem key={index} item={item} right />
+            )
+          )}
           <Box
             sx={{
               pl: 1,
@@ -136,7 +141,7 @@ export default function MainTab() {
               }}
             >
               {notices.map((item, index) => (
-                <NoticeItem key={index} item={item} />
+                <NoticeItem key={index} item={item} inMainTab />
               ))}
             </Box>
           </Box>

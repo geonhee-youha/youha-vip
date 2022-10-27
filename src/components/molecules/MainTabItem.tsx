@@ -2,7 +2,7 @@ import { alpha, Box, ButtonBase, Typography } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { MainTabProps, SlugProps } from "../../constants";
+import { PageProps, SlugProps } from "../../constants";
 import { theme } from "../../themes/theme";
 import youhaBlue from "../../themes/youhaBlue";
 import Icon from "../atoms/Icon";
@@ -11,7 +11,7 @@ export default function MainTabItem({
   item,
   right,
 }: {
-  item: MainTabProps;
+  item: PageProps;
   right?: boolean;
 }) {
   const router = useRouter();

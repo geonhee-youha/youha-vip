@@ -183,8 +183,9 @@ export const dateToString = (date: Date) => {
 };
 
 export function displayedAt(str: string | null) {
-  const date = str === null ? 0 : new Date(str).getTime();
-  const milliSeconds = new Date().getTime() - date;
+  const date = str === null ? new Date() : new Date(str);
+  const dateTime = str === null ? 0 : new Date(str).getTime();
+  const milliSeconds = new Date().getTime() - dateTime;
   const seconds = milliSeconds / 1000;
   if (seconds < 60) return `방금 전`;
   const minutes = seconds / 60;
@@ -192,13 +193,16 @@ export function displayedAt(str: string | null) {
   const hours = minutes / 60;
   if (hours < 24) return `${Math.floor(hours)}시간 전`;
   const days = hours / 24;
-  if (days < 7) return `${Math.floor(days)}일 전`;
-  const weeks = days / 7;
-  if (weeks < 5) return `${Math.floor(weeks)}주 전`;
-  const months = days / 30;
-  if (months < 12) return `${Math.floor(months)}개월 전`;
-  const years = days / 365;
-  return `${Math.floor(years)}년 전`;
+  return `${date.getFullYear()}년 ${
+    date.getMonth() + 1
+  }월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분`;
+  // if (days < 7) return `${Math.floor(days)}일 전`;
+  // const weeks = days / 7;
+  // if (weeks < 5) return `${Math.floor(weeks)}주 전`;
+  // const months = days / 30;
+  // if (months < 12) return `${Math.floor(months)}개월 전`;
+  // const years = days / 365;
+  // return `${Math.floor(years)}년 전`;
 }
 
 export const messagedAt = (str: string | null) => {

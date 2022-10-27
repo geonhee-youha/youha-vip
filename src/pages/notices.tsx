@@ -1,25 +1,46 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
+import { blueGrey } from "@mui/material/colors";
+import Panel from "../components/atoms/Panel";
+import NoticeItem from "../components/molecules/NoticeItem";
+import { notices } from "../datas";
+import { theme } from "../themes/theme";
 export default function Page() {
   return (
-    <Box
-      sx={{
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "ceneter",
-      }}
-    >
-      <Typography
+    <Panel>
+      <Box
         sx={{
-          fontSize: 40,
-          lineHeight: "56px",
-          fontWeight: "700",
-          textAlign: "center",
+          p: theme.spacing(5, 6, 0, 6),
         }}
       >
-        공지사항 화면
-      </Typography>
-    </Box>
+        <Box
+          sx={{
+            display: "flex",
+            borderBottom: `1px solid ${blueGrey[100]}`,
+            pb: 2,
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: 24,
+              lineHeight: "32px",
+              fontWeight: "700",
+              mr: "auto",
+            }}
+          >
+            공지사항
+          </Typography>
+        </Box>
+      </Box>
+      <Stack
+        spacing={1}
+        sx={{
+          p: theme.spacing(2, 5, 5, 5),
+        }}
+      >
+        {notices.map((item, index) => (
+          <NoticeItem key={index} item={item} />
+        ))}
+      </Stack>
+    </Panel>
   );
 }

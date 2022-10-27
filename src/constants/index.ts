@@ -1,19 +1,18 @@
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 export const mainTabWidth = 280
 export const homeTabWidth = 280
-export const homeTabMaxHeight = 280
+export const homeTabItemMaxHeight = 280
 export type SlugProps = {
     title: string;
     pathName: string;
 }
-export type MainTabProps = {
+export type PageProps = {
     title: string;
     iconName: IconName;
     pathName: string;
     slugs?: SlugProps[];
-    hide?: boolean;
 }
-export const mainTabs: MainTabProps[] = [
+export const pages: PageProps[] = [
     {
         title: '홈',
         iconName: 'home-alt',
@@ -81,7 +80,11 @@ export const mainTabs: MainTabProps[] = [
         title: '공지사항',
         iconName: 'bullhorn',
         pathName: '/notices',
-        hide: true,
+    },
+    {
+        title: '검색',
+        iconName: 'search',
+        pathName: '/search',
     },
 ]
 export type HomeTabProps = {
