@@ -1,5 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
-import { blueGrey } from "@mui/material/colors";
+import { Stack } from "@mui/material";
 import { useRouter } from "next/router";
 import { homeTabs } from "../../constants";
 import HomeTabItem from "../molecules/HomeTabItem";
