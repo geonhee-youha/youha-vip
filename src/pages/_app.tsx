@@ -32,6 +32,8 @@ import { Box } from "@mui/material";
 import MainTab from "../components/organisms/MainTab";
 import AlarmDrawer from "../components/organisms/AlarmDrawer";
 import HomeTab from "../components/organisms/HomeTab";
+import _ from "lodash";
+import { mainTabs } from "../constants";
 ChartJS.register(
   LineController,
   BarController,
@@ -55,6 +57,9 @@ declare global {
 }
 function MyApp(props: MyAppProps) {
   const router = useRouter();
+  const currentPathName = `/${router.pathname.split("/")[1]}`;
+  const inMainTabs =
+    _.findIndex(mainTabs, (el) => el.pathName === currentPathName) !== -1;
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (
     <CacheProvider value={emotionCache}>
@@ -207,35 +212,45 @@ function MyApp(props: MyAppProps) {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Global styles={reset} />
-          <Box
-            sx={{
-              height: "100%",
-              display: "flex",
-            }}
-            className="Screen"
-          >
-            <MainTab />
+          {!inMainTabs ? (
+            <Component {...pageProps} key={router.route} />
+          ) : (
             <Box
               sx={{
-                position: "relative",
-                flex: 1,
+                height: "100%",
                 display: "flex",
-                overflow: "auto",
+                "@media(min-width: 1920px)": {
+                  pl: `calc((100vw - 1920px) / 2)`,
+                },
               }}
             >
-              <AlarmDrawer />
+              <MainTab />
               <Box
                 sx={{
-                  minWidth: 100,
+                  position: "relative",
                   flex: 1,
+                  display: "flex",
                   overflow: "auto",
+                  backgroundColor: blueGrey[50],
+                  "@media(min-width: 1920px)": {
+                    pr: `calc((100vw - 1920px) / 2)`,
+                  },
                 }}
               >
-                <Component {...pageProps} key={router.route} />
+                <AlarmDrawer />
+                <Box
+                  sx={{
+                    minWidth: 100,
+                    flex: 1,
+                    overflow: "auto",
+                  }}
+                >
+                  <Component {...pageProps} key={router.route} />
+                </Box>
+                <HomeTab />
               </Box>
-              <HomeTab />
             </Box>
-          </Box>
+          )}
         </ThemeProvider>
       </RecoilRoot>
     </CacheProvider>

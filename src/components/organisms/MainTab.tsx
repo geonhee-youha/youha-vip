@@ -31,9 +31,6 @@ export default function MainTab() {
   return (
     <Box
       sx={{
-        "@media(min-width: 1920px)": {
-          pl: `calc((100vw - 1920px) / 2)`,
-        },
         height: "100%",
         backgroundColor: "#ffffff",
       }}
@@ -46,7 +43,7 @@ export default function MainTab() {
           display: "flex",
           flexDirection: "column",
           borderRight: `1px solid ${blueGrey[100]}`,
-          borderLeft: `1px solid ${blueGrey[100]}`,
+          backgroundColor: "#ffffff",
         }}
       >
         <Box

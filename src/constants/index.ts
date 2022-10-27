@@ -1,5 +1,7 @@
 import { IconName } from '@fortawesome/fontawesome-svg-core';
 export const mainTabWidth = 280
+export const homeTabWidth = 280
+export const homeTabMaxHeight = 280
 export type SlugProps = {
     title: string;
     pathName: string;

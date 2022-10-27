@@ -354,7 +354,7 @@ const reset = css`
   body {
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
-    background-color: #eceff1;
+    /* background-color: #eceff1; */
   }
   #__next {
     position: fixed;
@@ -375,11 +375,6 @@ const reset = css`
     --sab: var(--saib);
     --sal: var(--sail);
   }
-  @media(min-width: 1920px) {
-    #__next {
-      right: calc((100vw - 1920px)/2);
-    };
-  };
   a {
     color: #0000ff !important;
   }
