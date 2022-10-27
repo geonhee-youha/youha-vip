@@ -11,6 +11,7 @@ export type MainTabProps = {
     iconName: IconName;
     pathName: string;
     slugs?: SlugProps[];
+    hide?: boolean;
 }
 export const mainTabs: MainTabProps[] = [
     {
@@ -62,7 +63,7 @@ export const mainTabs: MainTabProps[] = [
         pathName: '/mypage',
         slugs: [
             {
-                title: '브랜드/제품 등록',
+                title: '브랜드/제품 관리',
                 pathName: '/products'
             },
             {
@@ -75,6 +76,12 @@ export const mainTabs: MainTabProps[] = [
         title: '즐겨찾기',
         iconName: 'star',
         pathName: '/favorite',
+    },
+    {
+        title: '공지사항',
+        iconName: 'bullhorn',
+        pathName: '/notices',
+        hide: true,
     },
 ]
 export type HomeTabProps = {

@@ -1,5 +1,6 @@
 import { Box, IconButton, Stack, Typography } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
+import _ from "lodash";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
 import { mainTabs, mainTabWidth } from "../../constants";
@@ -108,7 +109,7 @@ export default function MainTab() {
             p: theme.spacing(1.5, 2, 1, 2),
           }}
         >
-          {mainTabs.map((item, index) => (
+          {_.filter(mainTabs, (el) => el.hide !== true).map((item, index) => (
             <MainTabItem key={index} item={item} />
           ))}
         </Stack>
@@ -118,14 +119,9 @@ export default function MainTab() {
             p: theme.spacing(0, 2, 1.5, 2),
           }}
         >
-          <MainTabItem
-            item={{
-              title: "공지사항",
-              iconName: "bullhorn",
-              pathName: "/notices",
-            }}
-            right
-          />
+          {_.filter(mainTabs, (el) => el.hide === true).map((item, index) => (
+            <MainTabItem key={index} item={item} right />
+          ))}
           <Box
             sx={{
               pl: 1,
