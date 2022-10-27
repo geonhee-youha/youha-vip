@@ -75,3 +75,17 @@ export const mainTabs: MainTabProps[] = [
         pathName: '/favorite',
     },
 ]
+export type HomeTabProps = {
+    title: string;
+    iconName: IconName
+};
+export const homeTabs: HomeTabProps[] = [
+    {
+        title: "체크리스트",
+        iconName: 'check-circle'
+    },
+    {
+        title: "진행리스트",
+        iconName: 'rectangle-list'
+    },
+];
