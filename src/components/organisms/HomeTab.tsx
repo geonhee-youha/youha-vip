@@ -11,6 +11,8 @@ export default function HomeTab() {
       spacing={1}
       sx={{
         width: 400,
+        height: "100%",
+        minHeight: 840,
         p: 3,
       }}
     >
