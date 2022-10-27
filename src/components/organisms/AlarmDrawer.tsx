@@ -23,13 +23,19 @@ export default function AlarmDrawer() {
       onClose={handleClose}
       sx={{
         "& .MuiBackdrop-root": {
-          left: mainTabWidth,
+          left: `calc(${mainTabWidth}px + 1px)`,
+          "@media(min-width: 1920px)": {
+            left: `calc((100vw - 1920px) / 2 + ${mainTabWidth}px)`,
+          },
         },
         "& .MuiPaper-root": {
           position: "absolute",
           width: 400,
         },
-        left: mainTabWidth,
+        left: `calc(${mainTabWidth}px + 1px)`,
+        "@media(min-width: 1920px)": {
+          left: `calc((100vw - 1920px) / 2 + ${mainTabWidth}px)`,
+        },
         overflow: "hidden",
       }}
     >
