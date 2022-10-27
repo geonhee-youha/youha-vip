@@ -224,13 +224,22 @@ function MyApp(props: MyAppProps) {
               sx={{
                 position: "relative",
                 flex: 1,
-                overflowY: "scroll",
+                display: "flex",
+                overflow: "auto",
               }}
             >
               <AlarmDrawer />
-              <Component {...pageProps} key={router.route} />
+              <Box
+                sx={{
+                  minWidth: 100,
+                  flex: 1,
+                  overflow: "auto",
+                }}
+              >
+                <Component {...pageProps} key={router.route} />
+              </Box>
+              <HomeTab />
             </Box>
-            <HomeTab />
           </Box>
         </ThemeProvider>
       </RecoilRoot>

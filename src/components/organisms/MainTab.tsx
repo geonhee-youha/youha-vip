@@ -32,6 +32,7 @@ export default function MainTab() {
     <Box
       sx={{
         width: mainTabWidth,
+        minWidth: mainTabWidth,
         height: "100%",
         borderRight: `1px solid ${blueGrey[100]}`,
         backgroundColor: "#ffffff",
