@@ -65,6 +65,12 @@ export const pages: PageProps[] = [
         inMainTab: true
     },
     {
+        title: '크리에이터 리스트',
+        iconName: 'address-book',
+        pathName: '/creator',
+        inMainTab: true
+    },
+    {
         title: '즐겨찾기',
         iconName: 'star',
         pathName: '/favorite',

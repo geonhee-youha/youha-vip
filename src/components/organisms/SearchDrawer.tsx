@@ -11,6 +11,7 @@ import EmptyItem from "../molecules/EmptyItem";
 export default function SearchDrawer() {
   const router = useRouter();
   const [searchDrawer, setSearchDrawer] = useRecoilState(searchDrawerState);
+  const { open } = searchDrawer;
   useEffect(() => {
     handleClose();
   }, [router]);
@@ -25,8 +26,12 @@ export default function SearchDrawer() {
   return (
     <Drawer
       anchor="left"
-      open={searchDrawer.open}
+      open={open}
       onClose={handleClose}
+      ModalProps={{
+        container: document.querySelector(".Drawers"),
+        style: { position: "absolute" },
+      }}
       sx={{
         "& .MuiBackdrop-root": {
           left: `calc(${mainTabWidth}px)`,
@@ -39,11 +44,6 @@ export default function SearchDrawer() {
           width: mainTabWidth,
           borderRight: `1px solid ${blueGrey[100]}`,
         },
-        left: `calc(${mainTabWidth}px)`,
-        "@media(min-width: 1920px)": {
-          left: `calc((100vw - 1920px) / 2 + ${mainTabWidth}px)`,
-        },
-        overflow: "hidden",
       }}
     >
       <Box
@@ -78,8 +78,7 @@ export default function SearchDrawer() {
         sx={{
           p: theme.spacing(1.5, 2),
         }}
-      >
-      </Box>
+      ></Box>
     </Drawer>
   );
 }

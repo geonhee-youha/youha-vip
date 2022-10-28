@@ -1,13 +1,16 @@
 import _ from "lodash";
 import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
-import { blueGrey } from "@mui/material/colors";
+import { blueGrey, pink } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { pages, mainTabWidth } from "../../constants";
 import { notices, testUser } from "../../datas";
 import {
+  adDrawerState,
   alarmDrawerState,
+  alertPopupState,
   campaignDrawerState,
+  estimateDrawerState,
   searchDrawerState,
 } from "../../recoil";
 import { theme } from "../../themes/theme";
@@ -20,7 +23,12 @@ export default function MainTab() {
   const router = useRouter();
   const [searchDrawer, setSearchDrawer] = useRecoilState(searchDrawerState);
   const [alarmDrawer, setAlarmDrawer] = useRecoilState(alarmDrawerState);
-  const setCampaignDrawer = useSetRecoilState(campaignDrawerState);
+  const [campaignDrawer, setCampaignDrawer] =
+    useRecoilState(campaignDrawerState);
+  const setAlertPopup = useSetRecoilState(alertPopupState);
+  const [adDrawer, setAdDrawer] = useRecoilState(adDrawerState);
+  const [estimateDrawer, setEstimateDrawer] =
+    useRecoilState(estimateDrawerState);
   const handleClickLogo = () => {
     router.push("/home");
   };
@@ -65,12 +73,154 @@ export default function MainTab() {
     });
   };
   const handleClickEstimate = () => {
-    setCampaignDrawer((prev) => {
-      return {
-        ...prev,
-        open: !prev.open,
-      };
-    });
+    if (campaignDrawer.selectedId !== null) {
+      if (campaignDrawer.open === true) {
+        setAlertPopup((prev) => {
+          return {
+            ...prev,
+            open: true,
+            title: "잠깐, 창을 닫기 전에...",
+            body: "현재 진행내용을 저장하시겠습니까? 저장하기를 선택하시면 현재 상태가 저장됩니다.",
+            cancel: {
+              title: "그만두기",
+              onClick: () => {
+                setEstimateDrawer((prev) => {
+                  return {
+                    open: false,
+                    selectedId: null,
+                  };
+                });
+                setTimeout(
+                  () => {
+                    setAdDrawer((prev) => {
+                      return {
+                        open: false,
+                      };
+                    });
+                  },
+                  estimateDrawer.open ? 150 : 0
+                );
+                setTimeout(
+                  () => {
+                    setCampaignDrawer((prev) => {
+                      return {
+                        open: false,
+                        selectedId: null,
+                      };
+                    });
+                  },
+                  estimateDrawer.open && adDrawer.open
+                    ? 300
+                    : estimateDrawer.open || adDrawer.open
+                    ? 150
+                    : 0
+                );
+              },
+            },
+            confirm: {
+              title: "저장하기",
+              onClick: () => {
+                setEstimateDrawer((prev) => {
+                  return {
+                    ...prev,
+                    open: false,
+                    selectedId: null,
+                  };
+                });
+                setTimeout(
+                  () => {
+                    setAdDrawer((prev) => {
+                      return {
+                        ...prev,
+                        open: false,
+                      };
+                    });
+                  },
+                  estimateDrawer.open ? 150 : 0
+                );
+                setTimeout(
+                  () => {
+                    setCampaignDrawer((prev) => {
+                      return {
+                        ...prev,
+                        open: false,
+                      };
+                    });
+                  },
+                  estimateDrawer.open && adDrawer.open
+                    ? 300
+                    : estimateDrawer.open || adDrawer.open
+                    ? 150
+                    : 0
+                );
+              },
+            },
+          };
+        });
+      } else {
+        setAlertPopup((prev) => {
+          return {
+            ...prev,
+            open: true,
+            title: "진행중인 견적이 있습니다!",
+            body: "저장된 진행내용을 이어하시겠습니까? 새로하기를 누르시면 기존 진행내용은 삭제됩니다.",
+            cancel: {
+              title: "새로하기",
+              onClick: () => {
+                setCampaignDrawer((prev) => {
+                  return {
+                    open: true,
+                    selectedId: null,
+                  };
+                });
+                setAdDrawer((prev) => {
+                  return {
+                    open: false,
+                  };
+                });
+                setEstimateDrawer((prev) => {
+                  return {
+                    open: false,
+                  };
+                });
+              },
+            },
+            confirm: {
+              title: "이어하기",
+              onClick: () => {
+                setCampaignDrawer((prev) => {
+                  return {
+                    ...prev,
+                    open: true,
+                  };
+                });
+                setTimeout(() => {
+                  setAdDrawer((prev) => {
+                    return {
+                      open: true,
+                    };
+                  });
+                }, 150);
+                setTimeout(() => {
+                  setEstimateDrawer((prev) => {
+                    return {
+                      open: true,
+                    };
+                  });
+                }, 300);
+              },
+            },
+          };
+        });
+      }
+    } else {
+      setCampaignDrawer((prev) => {
+        return {
+          ...prev,
+          open: !prev.open,
+        };
+      });
+    }
     setSearchDrawer((prev) => {
       return {
         ...prev,
@@ -190,14 +340,14 @@ export default function MainTab() {
               fullWidth
               sx={{
                 mt: 1,
-                minHeight: 40,
-                height: 40,
+                minHeight: 48,
+                height: 48,
               }}
               onClick={handleClickEstimate}
             >
               <Icon
                 name="wand-magic-sparkles"
-                size={14}
+                size={16}
                 color="#ffffff"
                 prefix="fas"
                 sx={{
@@ -206,14 +356,39 @@ export default function MainTab() {
               />
               <Typography
                 sx={{
-                  fontSize: 14,
-                  lineHeight: "20px",
+                  fontSize: 16,
+                  lineHeight: "24px",
                   fontWeight: "700",
                   color: "#ffffff",
                 }}
               >
                 광고 견적내기
               </Typography>
+              {campaignDrawer.open === false &&
+                campaignDrawer.selectedId !== null && (
+                  <Box
+                    sx={{
+                      borderRadius: 0.5,
+                      ml: 1,
+                      height: 24,
+                      p: theme.spacing(0, 1),
+                      display: "flex",
+                      alignItems: "center",
+                      backgroundColor: pink[500],
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontSize: 12,
+                        lineHeight: "16px",
+                        fontWeight: "700",
+                        color: "#ffffff",
+                      }}
+                    >
+                      저장됨
+                    </Typography>
+                  </Box>
+                )}
             </Button>
           </Box>
         </Box>

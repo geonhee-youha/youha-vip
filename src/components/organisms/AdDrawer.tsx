@@ -12,9 +12,20 @@ export default function AdDrawer() {
   const router = useRouter();
   const [adDrawer, setAdDrawer] = useRecoilState(adDrawerState);
   const setEstimateDrawer = useSetRecoilState(estimateDrawerState);
+  const { open } = adDrawer;
   useEffect(() => {
     handleClose();
   }, [router]);
+  useEffect(() => {
+    if (open === false) {
+      setEstimateDrawer((prev) => {
+        return {
+          ...prev,
+          open: false,
+        };
+      });
+    }
+  }, [open]);
   const handleClose = () => {
     setAdDrawer((prev) => {
       return {
@@ -34,13 +45,17 @@ export default function AdDrawer() {
   return (
     <Drawer
       anchor="left"
-      open={adDrawer.open}
+      open={open}
       onClose={handleClose}
+      ModalProps={{
+        container: document.querySelector('.Drawers'),
+        style: { position: 'absolute' }
+      }}
       sx={{
         "& .MuiBackdrop-root": {
-          left: `calc(${mainTabWidth}px)`,
+          left: `calc(${mainTabWidth * 2}px)`,
           "@media(min-width: 1920px)": {
-            left: `calc((100vw - 1920px) / 2 + ${mainTabWidth}px)`,
+            left: `calc((100vw - 1920px) / 2 + ${mainTabWidth * 2}px)`,
           },
           backgroundColor: "transparent !important",
         },
@@ -48,11 +63,9 @@ export default function AdDrawer() {
           position: "absolute",
           width: mainTabWidth,
           borderRight: `1px solid ${blueGrey[100]}`,
+          boxShadow: 'none',
         },
-        left: `calc(${mainTabWidth * 2}px)`,
-        "@media(min-width: 1920px)": {
-          left: `calc((100vw - 1920px) / 2 + ${mainTabWidth * 2}px)`,
-        },
+        left: `calc(${mainTabWidth}px)`,
         overflow: "hidden",
       }}
     >

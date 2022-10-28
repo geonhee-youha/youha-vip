@@ -14,10 +14,11 @@ export const alarmDrawerState = atom<DrawerProps>({
     open: false
   },
 });
-export const campaignDrawerState = atom<DrawerProps>({
+export const campaignDrawerState = atom<DrawerProps & { selectedId: number | null }>({
   key: "campaignDrawerState",
   default: {
-    open: false
+    open: false,
+    selectedId: null
   },
 });
 export const adDrawerState = atom<DrawerProps>({
@@ -36,9 +37,17 @@ export type PopupProps = {
   open: boolean;
   title?: string;
   body?: string;
+  cancel?: {
+    title?: string;
+    onClick?: any
+  },
+  confirm?: {
+    title?: string;
+    onClick?: any
+  },
 }
 export const alertPopupState = atom<PopupProps>({
-  key: "estimateDrawerState",
+  key: "alertPopupState",
   default: {
     open: false,
   },

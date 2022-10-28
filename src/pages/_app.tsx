@@ -38,6 +38,7 @@ import CampaignDrawer from "../components/organisms/CampaignDrawer";
 import AdDrawer from "../components/organisms/AdDrawer";
 import SearchDrawer from "../components/organisms/SearchDrawer";
 import EstimateDrawer from "../components/organisms/EstimateDrawer";
+import AlertPopup from "../components/organisms/AlertPopup";
 ChartJS.register(
   LineController,
   BarController,
@@ -240,10 +241,11 @@ function MyApp(props: MyAppProps) {
                     pr: `calc((100vw - 1920px) / 2)`,
                   },
                 }}
+                className='Drawers'
               >
-                <EstimateDrawer />
-                <AdDrawer />
                 <CampaignDrawer />
+                <AdDrawer />
+                <EstimateDrawer />
                 <AlarmDrawer />
                 <SearchDrawer />
                 <Box
@@ -259,6 +261,7 @@ function MyApp(props: MyAppProps) {
               </Box>
             </Box>
           )}
+          <AlertPopup />
         </ThemeProvider>
       </RecoilRoot>
     </CacheProvider>

@@ -12,6 +12,7 @@ export default function EstimateDrawer() {
   const router = useRouter();
   const [estimateDrawer, setEstimateDrawer] =
     useRecoilState(estimateDrawerState);
+  const { open } = estimateDrawer;
   useEffect(() => {
     handleClose();
   }, [router]);
@@ -26,13 +27,17 @@ export default function EstimateDrawer() {
   return (
     <Drawer
       anchor="left"
-      open={estimateDrawer.open}
+      open={open}
       onClose={handleClose}
+      ModalProps={{
+        container: document.querySelector(".Drawers"),
+        style: { position: "absolute" },
+      }}
       sx={{
         "& .MuiBackdrop-root": {
-          left: `calc(${mainTabWidth}px)`,
+          left: `calc(${mainTabWidth * 3}px)`,
           "@media(min-width: 1920px)": {
-            left: `calc((100vw - 1920px) / 2 + ${mainTabWidth}px)`,
+            left: `calc((100vw - 1920px) / 2 + ${mainTabWidth * 3}px)`,
           },
           backgroundColor: "transparent !important",
         },
@@ -40,11 +45,9 @@ export default function EstimateDrawer() {
           position: "absolute",
           width: mainTabWidth,
           borderRight: `1px solid ${blueGrey[100]}`,
+          boxShadow: "none",
         },
-        left: `calc(${mainTabWidth * 3}px)`,
-        "@media(min-width: 1920px)": {
-          left: `calc((100vw - 1920px) / 2 + ${mainTabWidth * 3}px)`,
-        },
+        left: `calc(${mainTabWidth * 2}px)`,
         overflow: "hidden",
       }}
     >
