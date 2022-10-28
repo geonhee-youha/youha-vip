@@ -4,18 +4,18 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { mainTabWidth } from "../../constants";
-import { alarmDrawerState } from "../../recoil";
+import { searchDrawerState } from "../../recoil";
 import { theme } from "../../themes/theme";
 import Icon from "../atoms/Icon";
 import EmptyItem from "../molecules/EmptyItem";
-export default function AlarmDrawer() {
+export default function SearchDrawer() {
   const router = useRouter();
-  const [alarmDrawer, setAlarmDrawer] = useRecoilState(alarmDrawerState);
+  const [searchDrawer, setSearchDrawer] = useRecoilState(searchDrawerState);
   useEffect(() => {
     handleClose();
   }, [router]);
   const handleClose = () => {
-    setAlarmDrawer((prev) => {
+    setSearchDrawer((prev) => {
       return {
         ...prev,
         open: false,
@@ -25,7 +25,7 @@ export default function AlarmDrawer() {
   return (
     <Drawer
       anchor="left"
-      open={alarmDrawer.open}
+      open={searchDrawer.open}
       onClose={handleClose}
       sx={{
         "& .MuiBackdrop-root": {
@@ -61,7 +61,7 @@ export default function AlarmDrawer() {
             mr: "auto",
           }}
         >
-          알림
+          검색
         </Typography>
         <IconButton
           sx={{
@@ -79,7 +79,6 @@ export default function AlarmDrawer() {
           p: theme.spacing(1.5, 2),
         }}
       >
-        <EmptyItem />
       </Box>
     </Drawer>
   );

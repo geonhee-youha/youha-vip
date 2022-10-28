@@ -1,7 +1,7 @@
 import { IconName } from '@fortawesome/fontawesome-svg-core';
-export const mainTabWidth = 280
-export const homeTabWidth = 280
-export const homeTabItemMaxHeight = 280
+export const mainTabWidth = 384
+export const homeTabWidth = 384
+export const homeTabItemMaxHeight = 240
 export type SlugProps = {
     title: string;
     pathName: string;
@@ -11,27 +11,34 @@ export type PageProps = {
     iconName: IconName;
     pathName: string;
     slugs?: SlugProps[];
+    inMainTab?: boolean;
 }
 export const pages: PageProps[] = [
     {
-        title: '홈',
-        iconName: 'home-alt',
-        pathName: '/home',
+        title: '내 캠페인',
+        iconName: 'grid-2',
+        pathName: '/campaign',
+        inMainTab: true
     },
     {
-        title: '캠페인 관리',
-        iconName: 'wand-magic-sparkles',
-        pathName: '/campaign',
+        title: '광고집행 관리',
+        iconName: 'rectangle-ad',
+        pathName: '/ad',
         slugs: [
             {
-                title: '내 캠페인',
-                pathName: '/campaign'
-            },
-            {
-                title: '내 견적서',
+                title: '견적서 관리',
                 pathName: '/estimate'
             },
-        ]
+            {
+                title: '진행중인 광고',
+                pathName: '/proceeding'
+            },
+            {
+                title: '완료된 광고',
+                pathName: '/completed'
+            },
+        ],
+        inMainTab: true
     },
     {
         title: '인사이트',
@@ -54,37 +61,24 @@ export const pages: PageProps[] = [
                 title: '추천 믹스',
                 pathName: '/mix'
             },
-        ]
-    },
-    {
-        title: '마이페이지',
-        iconName: 'user',
-        pathName: '/mypage',
-        slugs: [
-            {
-                title: '브랜드/제품 관리',
-                pathName: '/products'
-            },
-            {
-                title: '계정 관리',
-                pathName: '/account'
-            },
-        ]
+        ],
+        inMainTab: true
     },
     {
         title: '즐겨찾기',
         iconName: 'star',
         pathName: '/favorite',
+        inMainTab: true
     },
     {
         title: '공지사항',
         iconName: 'bullhorn',
-        pathName: '/notices',
+        pathName: '/notice',
     },
     {
-        title: '검색',
-        iconName: 'search',
-        pathName: '/search',
+        title: '마이페이지',
+        iconName: 'user',
+        pathName: '/mypage',
     },
 ]
 export type HomeTabProps = {
@@ -101,3 +95,30 @@ export const homeTabs: HomeTabProps[] = [
         iconName: 'rectangle-list'
     },
 ];
+export type TabProps = {
+    id: number;
+    title: string;
+    value: string;
+}
+export const favoriteTabs: TabProps[] = [
+    {
+        id: 0,
+        title: '광고영상',
+        value: 'video'
+    },
+    {
+        id: 1,
+        title: '크리에이터',
+        value: 'creator'
+    },
+    {
+        id: 2,
+        title: '기획안',
+        value: 'plan'
+    },
+    {
+        id: 3,
+        title: '믹스',
+        value: 'mix'
+    },
+]

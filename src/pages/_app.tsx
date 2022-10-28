@@ -34,6 +34,10 @@ import AlarmDrawer from "../components/organisms/AlarmDrawer";
 import HomeTab from "../components/organisms/HomeTab";
 import _ from "lodash";
 import { homeTabWidth, mainTabWidth, pages } from "../constants";
+import CampaignDrawer from "../components/organisms/CampaignDrawer";
+import AdDrawer from "../components/organisms/AdDrawer";
+import SearchDrawer from "../components/organisms/SearchDrawer";
+import EstimateDrawer from "../components/organisms/EstimateDrawer";
 ChartJS.register(
   LineController,
   BarController,
@@ -57,7 +61,7 @@ declare global {
 }
 function MyApp(props: MyAppProps) {
   const router = useRouter();
-  const currentPathName = `/${router.pathname.split("/")[1]}`;
+  const currentPathName = `/${router.pathname.split("?")[0].split("/")[1]}`;
   const inMainTabs =
     _.findIndex(pages, (el) => el.pathName === currentPathName) !== -1;
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
@@ -237,10 +241,14 @@ function MyApp(props: MyAppProps) {
                   },
                 }}
               >
+                <EstimateDrawer />
+                <AdDrawer />
+                <CampaignDrawer />
                 <AlarmDrawer />
+                <SearchDrawer />
                 <Box
                   sx={{
-                    minWidth: 400,
+                    minWidth: mainTabWidth * 2,
                     flex: 1,
                     overflow: "auto",
                   }}

@@ -4,7 +4,7 @@ import { homeTabs, homeTabWidth } from "../../constants";
 import HomeTabItem from "../molecules/HomeTabItem";
 export default function HomeTab() {
   const router = useRouter();
-  const currentPathName = `/${router.pathname.split("/")[1]}`;
+  const currentPathName = `/${router.pathname.split('?')[0].split("/")[1]}`;
   return (
     <Stack
       spacing={1}

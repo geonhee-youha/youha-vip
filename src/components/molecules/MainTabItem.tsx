@@ -17,7 +17,7 @@ export default function MainTabItem({
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
   const { title, iconName, pathName, slugs } = item;
-  const currentPathName = `/${router.pathname.split("/")[1]}`;
+  const currentPathName = `/${router.pathname.split('?')[0].split("/")[1]}`;
   const checked = currentPathName === pathName;
   const handleClick = () => {
     if (slugs) return setOpen((prev) => !prev);
@@ -117,7 +117,7 @@ function SlugItem({
 }) {
   const router = useRouter();
   const { title, pathName } = item;
-  const currentPathName = `/${router.pathname.split("/")[2]}`;
+  const currentPathName = `/${router.pathname.split('?')[0].split("/")[2]}`;
   const checked = currentPathName === pathName;
   const handleClick = () => {
     router.push(`${parentPathName}${pathName}`);

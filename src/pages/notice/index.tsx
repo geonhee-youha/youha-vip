@@ -1,15 +1,28 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
-import Panel from "../components/atoms/Panel";
-import NoticeItem from "../components/molecules/NoticeItem";
-import { notices } from "../datas";
-import { theme } from "../themes/theme";
+import _ from "lodash";
+import { useRouter } from "next/router";
+import Panel from "../../components/atoms/Panel";
+import NoticeItem from "../../components/molecules/NoticeItem";
+import { pages } from "../../constants";
+import { notices } from "../../datas";
+import { theme } from "../../themes/theme";
 export default function Page() {
+  const router = useRouter();
+  const currentPathName = `/${router.pathname.split("?")[0].split("/")[1]}`;
+  const currentSlugPathName = `/${router.pathname.split("?")[0].split("/")[2]}`;
+  const pageTitle =
+    currentSlugPathName !== "/undefined"
+      ? _.findLast(
+          _.findLast(pages, (el) => el.pathName === currentPathName)?.slugs,
+          (el) => el.pathName === currentSlugPathName
+        )?.title
+      : _.findLast(pages, (el) => el.pathName === currentPathName)?.title;
   return (
     <Panel>
       <Box
         sx={{
-          p: theme.spacing(10, 6, 0, 6),
+          p: theme.spacing(8, 6, 0, 6),
         }}
       >
         <Box
@@ -27,7 +40,7 @@ export default function Page() {
               mr: "auto",
             }}
           >
-            공지사항
+            {pageTitle}
           </Typography>
         </Box>
       </Box>

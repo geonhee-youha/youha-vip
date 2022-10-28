@@ -1,31 +1,40 @@
-import { Box, Drawer, IconButton, Typography } from "@mui/material";
+import { Box, Button, Drawer, IconButton, Typography } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { mainTabWidth } from "../../constants";
-import { alarmDrawerState } from "../../recoil";
+import { adDrawerState, estimateDrawerState } from "../../recoil";
 import { theme } from "../../themes/theme";
 import Icon from "../atoms/Icon";
 import EmptyItem from "../molecules/EmptyItem";
-export default function AlarmDrawer() {
+export default function AdDrawer() {
   const router = useRouter();
-  const [alarmDrawer, setAlarmDrawer] = useRecoilState(alarmDrawerState);
+  const [adDrawer, setAdDrawer] = useRecoilState(adDrawerState);
+  const setEstimateDrawer = useSetRecoilState(estimateDrawerState);
   useEffect(() => {
     handleClose();
   }, [router]);
   const handleClose = () => {
-    setAlarmDrawer((prev) => {
+    setAdDrawer((prev) => {
       return {
         ...prev,
         open: false,
       };
     });
   };
+  const handleClickEstimate = () => {
+    setEstimateDrawer((prev) => {
+      return {
+        ...prev,
+        open: true,
+      };
+    });
+  };
   return (
     <Drawer
       anchor="left"
-      open={alarmDrawer.open}
+      open={adDrawer.open}
       onClose={handleClose}
       sx={{
         "& .MuiBackdrop-root": {
@@ -33,15 +42,16 @@ export default function AlarmDrawer() {
           "@media(min-width: 1920px)": {
             left: `calc((100vw - 1920px) / 2 + ${mainTabWidth}px)`,
           },
+          backgroundColor: "transparent !important",
         },
         "& .MuiPaper-root": {
           position: "absolute",
           width: mainTabWidth,
           borderRight: `1px solid ${blueGrey[100]}`,
         },
-        left: `calc(${mainTabWidth}px)`,
+        left: `calc(${mainTabWidth * 2}px)`,
         "@media(min-width: 1920px)": {
-          left: `calc((100vw - 1920px) / 2 + ${mainTabWidth}px)`,
+          left: `calc((100vw - 1920px) / 2 + ${mainTabWidth * 2}px)`,
         },
         overflow: "hidden",
       }}
@@ -61,7 +71,7 @@ export default function AlarmDrawer() {
             mr: "auto",
           }}
         >
-          알림
+          광고세트 등록
         </Typography>
         <IconButton
           sx={{
@@ -79,7 +89,9 @@ export default function AlarmDrawer() {
           p: theme.spacing(1.5, 2),
         }}
       >
-        <EmptyItem />
+        <Button onClick={handleClickEstimate} sx={{ mt: "auto" }}>
+          다음으로
+        </Button>
       </Box>
     </Drawer>
   );

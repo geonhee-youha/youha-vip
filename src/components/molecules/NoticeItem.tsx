@@ -35,7 +35,7 @@ export default function NoticeItem({
   }, [queryId]);
   const handleClick = () => {
     if (inMainTab) {
-      router.push(`/notices?id=${id}`);
+      router.push(`/notice?id=${id}`);
     } else {
       const bodyEl: HTMLElement | null = document.querySelector(
         `.NoticeItem-${id}-body`

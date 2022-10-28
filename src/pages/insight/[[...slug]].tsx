@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { pages } from "../../constants";
 export default function Page() {
   const router = useRouter();
-  const currentPathName = `/${router.pathname.split("/")[1]}`;
+  const currentPathName = `/${router.pathname.split('?')[0].split("/")[1]}`;
   const tabIndex = _.findIndex(
     pages,
     (el) => el.pathName === currentPathName

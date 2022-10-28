@@ -10,6 +10,7 @@ export default function Panel({
   return (
     <Box
       sx={{
+        minHeight: '100%',
         borderRight: `1px solid ${blueGrey[100]}`,
         backgroundColor: "#ffffff",
         ...sx,

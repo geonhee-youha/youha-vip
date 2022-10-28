@@ -32,4 +32,14 @@ export const estimateDrawerState = atom<DrawerProps>({
     open: false
   },
 });
-export const alertPopupState
+export type PopupProps = {
+  open: boolean;
+  title?: string;
+  body?: string;
+}
+export const alertPopupState = atom<PopupProps>({
+  key: "estimateDrawerState",
+  default: {
+    open: false,
+  },
+});
