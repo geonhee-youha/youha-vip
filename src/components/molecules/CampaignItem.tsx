@@ -134,7 +134,7 @@ export default function CampaignItem({
               alignItems: "center",
               backgroundColor:
                 //   checked ? pink[500] :
-                blueGrey[800],
+                blueGrey[700],
             }}
           >
             <Typography
@@ -155,7 +155,7 @@ export default function CampaignItem({
           fontSize: 20,
           lineHeight: "32px",
           fontWeight: "700",
-          color: checked ? "#ffffff" : blueGrey[800],
+          color: checked ? "#ffffff" : blueGrey[700],
         }}
       >
         {title}

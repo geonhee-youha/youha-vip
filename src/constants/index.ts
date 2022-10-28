@@ -2,6 +2,14 @@ import { IconName } from '@fortawesome/fontawesome-svg-core';
 export const mainTabWidth = 384
 export const homeTabWidth = 384
 export const homeTabItemMaxHeight = 240
+export type AgeProps = '10대' | '20~30대' | '40~50대' | '60대 이상'
+export type SexProps = '남성' | '여성'
+export const ages: AgeProps[] = [
+    '10대', '20~30대', '40~50대', '60대 이상',
+]
+export const sexs: SexProps[] = [
+    '남성', '여성',
+]
 export type SlugProps = {
     title: string;
     pathName: string;
@@ -61,10 +69,10 @@ export const pages: PageProps[] = [
                 title: '추천 기획안',
                 pathName: '/plan'
             },
-            {
-                title: '추천 믹스',
-                pathName: '/mix'
-            },
+            // {
+            //     title: '추천 믹스',
+            //     pathName: '/mix'
+            // },
         ],
         inMainTab: true
     },
@@ -131,4 +139,21 @@ export const favoriteTabs: TabProps[] = [
         title: '믹스',
         value: 'mix'
     },
+]
+export type creatorFilter = {
+    title: string;
+    iconName: IconName;
+    tags: string[]
+}
+export const creatorFilters: creatorFilter[] = [
+    {
+        title: '성별',
+        iconName: 'people-simple',
+        tags: sexs
+    },
+    {
+        title: '연령',
+        iconName: 'calendar',
+        tags: ages
+    }
 ]

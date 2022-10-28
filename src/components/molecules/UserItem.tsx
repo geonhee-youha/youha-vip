@@ -52,7 +52,7 @@ export default function UserItem({ item }: { item: UserProps }) {
             fontSize: 12,
             lineHeight: "16px",
             fontWeight: "700",
-            color: blueGrey[800],
+            color: blueGrey[700],
           }}
         >
           {company.name} {company.team.name}
@@ -64,7 +64,7 @@ export default function UserItem({ item }: { item: UserProps }) {
             fontSize: 20,
             lineHeight: "32px",
             fontWeight: "700",
-            color: blueGrey[800],
+            color: blueGrey[700],
           }}
         >
           {name}
@@ -74,7 +74,7 @@ export default function UserItem({ item }: { item: UserProps }) {
               fontSize: 12,
               lineHeight: "32px",
               fontWeight: "700",
-              color: blueGrey[800],
+              color: blueGrey[700],
               ml: 0.5,
             }}
           >

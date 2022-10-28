@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { AgeProps, SexProps } from "../constants";
 
 export type NoticeProps = {
     id: number;
@@ -42,14 +43,6 @@ export type VideoProps = {
     creator: CreatorProps;
     view: number;
 }
-export type AgeProps = '10대' | '20~30대' | '40~50대' | '60대 이상'
-export type SexProps = '남성' | '여성' | '성별무관'
-export const ages: AgeProps[] = [
-    '10대', '20~30대', '40~50대', '60대 이상',
-]
-export const sexs: SexProps[] = [
-    '남성', '여성', '성별무관',
-]
 export type CampaignProps = {
     id: number;
     title: string;
