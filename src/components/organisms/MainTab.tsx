@@ -4,7 +4,7 @@ import { blueGrey, pink } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { pages, mainTabWidth } from "../../constants";
-import { notices, testUser } from "../../datas";
+import { testNotices, testUser } from "../../datas";
 import {
   adDrawerState,
   alarmDrawerState,
@@ -82,7 +82,7 @@ export default function MainTab() {
             title: "잠깐, 창을 닫기 전에...",
             body: "현재 진행내용을 저장하시겠습니까? 저장하기를 선택하시면 현재 상태가 저장됩니다.",
             cancel: {
-              title: "그만두기",
+              title: "삭제하기",
               onClick: () => {
                 setEstimateDrawer((prev) => {
                   return {
@@ -333,13 +333,12 @@ export default function MainTab() {
           </Box>
           <Box
             sx={{
-              p: theme.spacing(0, 1, 1, 1),
+              p: theme.spacing(1, 1, 1, 1),
             }}
           >
             <Button
               fullWidth
               sx={{
-                mt: 1,
                 minHeight: 48,
                 height: 48,
               }}
@@ -407,7 +406,11 @@ export default function MainTab() {
           >
             {_.filter(pages, (el) => el.inMainTab === true).map(
               (item, index) => (
-                <MainTabItem key={index} item={item} />
+                <MainTabItem
+                  key={index}
+                  item={item}
+                  handleClickEstimate={handleClickEstimate}
+                />
               )
             )}
           </Stack>
@@ -435,7 +438,7 @@ export default function MainTab() {
                   borderRadius: 1,
                 }}
               >
-                {notices.map((item, index) => (
+                {testNotices.map((item, index) => (
                   <NoticeItem key={index} item={item} inMainTab />
                 ))}
               </Box>

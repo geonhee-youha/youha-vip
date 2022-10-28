@@ -26,6 +26,10 @@ export const pages: PageProps[] = [
         pathName: '/ad',
         slugs: [
             {
+                title: '견적내기',
+                pathName: '/'
+            },
+            {
                 title: '견적서 관리',
                 pathName: '/estimate'
             },

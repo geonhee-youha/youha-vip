@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Panel from "../../components/atoms/Panel";
 import NoticeItem from "../../components/molecules/NoticeItem";
 import { pages } from "../../constants";
-import { notices } from "../../datas";
+import { testNotices } from "../../datas";
 import { theme } from "../../themes/theme";
 export default function Page() {
   const router = useRouter();
@@ -51,7 +51,7 @@ export default function Page() {
           height: 2000,
         }}
       >
-        {notices.map((item, index) => (
+        {testNotices.map((item, index) => (
           <NoticeItem key={index} item={item} />
         ))}
       </Stack>

@@ -29,7 +29,7 @@ export default function AlarmDrawer() {
       open={open}
       onClose={handleClose}
       ModalProps={{
-        container: document.querySelector(".Drawers"),
+         container: typeof document !== 'undefined' ? document.querySelector(".Drawers") : null,
         style: { position: "absolute" },
       }}
       sx={{

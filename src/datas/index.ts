@@ -6,7 +6,7 @@ export type NoticeProps = {
     body: string;
     createdAt: any;
 }
-export const notices: NoticeProps[] = [
+export const testNotices: NoticeProps[] = [
     {
         id: 1,
         title: '브랜드 2개 이상 등록하신 고객님 대상 이벤트',
@@ -42,31 +42,57 @@ export type VideoProps = {
     creator: CreatorProps;
     view: number;
 }
+export type AgeProps = '10대' | '20~30대' | '40~50대' | '60대 이상'
+export type SexProps = '남성' | '여성' | '성별무관'
+export const ages: AgeProps[] = [
+    '10대', '20~30대', '40~50대', '60대 이상',
+]
+export const sexs: SexProps[] = [
+    '남성', '여성', '성별무관',
+]
 export type CampaignProps = {
-    type: 'brand' | 'product'; //브랜드인지 제품인지
-    name: string; //캠페인 이름
-    description: string; //캠페인 설명
-    createdAt: string | Date; //캠페인 시작시간
-    endedAt: string | Date; //캠페인 종료시간
-    category: any; //캠페인 카테고리
+    id: number;
+    title: string;
+    description: string;
+    category: string;
     target: {
-        age: '10대' | '20~30대' | '40~50대' | '60대 이상', //캠페인 타겟 연령
-        sex?: 'male' | 'female', //켐페인 타겟 성별
+        age: AgeProps,
+        sex: SexProps,
     },
-    budget: number; //캠페인 예산
 }
-export type ProductProps = {
-    // 제품 이름
-    // 제품 사진
-    // 제품 설명
-    // 제품 태그
-}
-export type BrandProps = {
-    // 브랜드 이름
-    // 브랜드 로고?
-    // 브랜드 태그 - 특징 관련된 태그들
-    // 브랜드 설명
-    // 제품들
+export const testCampaigns: CampaignProps[] = [
+    {
+        id: 0,
+        title: '동원샘물 캠페인',
+        description: '동원 F&B의 동원샘물, 미네마인을 마케팅',
+        category: '패션',
+        target: {
+            age: '20~30대',
+            sex: '여성',
+        },
+    },
+    {
+        id: 1,
+        title: '네일 아트샵 방문 캠페인',
+        description: '동원 F&B의 동원샘물, 미네마인을 마케팅',
+        category: '패션',
+        target: {
+            age: '20~30대',
+            sex: '남성',
+        },
+    }
+]
+export type AdProps = {
+    id: number;
+    title: string;
+    description: string;
+    createdAt: string | Date;
+    endedAt: string | Date;
+    target: {
+        age: AgeProps,
+        sex?: SexProps,
+    },
+    budget: number;
 }
 export type UserProps = {
     id: number;

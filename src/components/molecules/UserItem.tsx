@@ -52,18 +52,19 @@ export default function UserItem({ item }: { item: UserProps }) {
             fontSize: 12,
             lineHeight: "16px",
             fontWeight: "700",
-            color: blueGrey[900],
+            color: blueGrey[800],
           }}
         >
           {company.name} {company.team.name}
         </Typography>
         <Typography
-          component="span"
+          component="div"
           sx={{
+            height: 32,
             fontSize: 20,
             lineHeight: "32px",
             fontWeight: "700",
-            color: blueGrey[900],
+            color: blueGrey[800],
           }}
         >
           {name}
@@ -71,9 +72,9 @@ export default function UserItem({ item }: { item: UserProps }) {
             component="span"
             sx={{
               fontSize: 12,
-              lineHeight: "24px",
+              lineHeight: "32px",
               fontWeight: "700",
-              color: blueGrey[900],
+              color: blueGrey[800],
               ml: 0.5,
             }}
           >

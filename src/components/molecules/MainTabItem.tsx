@@ -2,22 +2,25 @@ import { alpha, Box, ButtonBase, Typography } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import { PageProps, SlugProps } from "../../constants";
-import { theme } from "../../themes/theme";
+import { campaignDrawerState } from "../../recoil";
 import youhaBlue from "../../themes/youhaBlue";
 import Icon from "../atoms/Icon";
 
 export default function MainTabItem({
   item,
   right,
+  handleClickEstimate,
 }: {
   item: PageProps;
   right?: boolean;
+  handleClickEstimate?: () => void;
 }) {
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
   const { title, iconName, pathName, slugs } = item;
-  const currentPathName = `/${router.pathname.split('?')[0].split("/")[1]}`;
+  const currentPathName = `/${router.pathname.split("?")[0].split("/")[1]}`;
   const checked = currentPathName === pathName;
   const handleClick = () => {
     if (slugs) return setOpen((prev) => !prev);
@@ -98,7 +101,13 @@ export default function MainTabItem({
             }}
           >
             {slugs.map((item, index) => (
-              <SlugItem key={index} item={item} pathName={pathName} setOpen={setOpen}/>
+              <SlugItem
+                key={index}
+                item={item}
+                pathName={pathName}
+                setOpen={setOpen}
+                handleClickEstimate={handleClickEstimate}
+              />
             ))}
           </Box>
         </Box>
@@ -110,16 +119,22 @@ function SlugItem({
   item,
   pathName: parentPathName,
   setOpen,
+  handleClickEstimate,
 }: {
   item: SlugProps;
   pathName: string;
   setOpen?: Dispatch<SetStateAction<boolean>>;
+  handleClickEstimate?: () => void;
 }) {
   const router = useRouter();
   const { title, pathName } = item;
-  const currentPathName = `/${router.pathname.split('?')[0].split("/")[2]}`;
+  const currentPathName = `/${router.pathname.split("?")[0].split("/")[2]}`;
   const checked = currentPathName === pathName;
   const handleClick = () => {
+    if (title === "견적내기") {
+      if (handleClickEstimate !== undefined) handleClickEstimate();
+      return;
+    }
     router.push(`${parentPathName}${pathName}`);
   };
   useEffect(() => {

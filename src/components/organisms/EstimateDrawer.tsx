@@ -30,7 +30,7 @@ export default function EstimateDrawer() {
       open={open}
       onClose={handleClose}
       ModalProps={{
-        container: document.querySelector(".Drawers"),
+         container: typeof document !== 'undefined' ? document.querySelector(".Drawers") : null,
         style: { position: "absolute" },
       }}
       sx={{
@@ -66,7 +66,7 @@ export default function EstimateDrawer() {
             mr: "auto",
           }}
         >
-          견적 확인
+          크리에이터 리스트
         </Typography>
         <IconButton
           sx={{

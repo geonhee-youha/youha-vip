@@ -11,28 +11,30 @@ import EmptyItem from "../molecules/EmptyItem";
 export default function AdDrawer() {
   const router = useRouter();
   const [adDrawer, setAdDrawer] = useRecoilState(adDrawerState);
-  const setEstimateDrawer = useSetRecoilState(estimateDrawerState);
+  const [estimateDrawer, setEstimateDrawer] =
+    useRecoilState(estimateDrawerState);
   const { open } = adDrawer;
   useEffect(() => {
     handleClose();
   }, [router]);
-  useEffect(() => {
-    if (open === false) {
-      setEstimateDrawer((prev) => {
-        return {
-          ...prev,
-          open: false,
-        };
-      });
-    }
-  }, [open]);
   const handleClose = () => {
-    setAdDrawer((prev) => {
+    setEstimateDrawer((prev) => {
       return {
         ...prev,
         open: false,
       };
     });
+    setTimeout(
+      () => {
+        setAdDrawer((prev) => {
+          return {
+            ...prev,
+            open: false,
+          };
+        });
+      },
+      estimateDrawer.open ? 150 : 0
+    );
   };
   const handleClickEstimate = () => {
     setEstimateDrawer((prev) => {
@@ -48,8 +50,11 @@ export default function AdDrawer() {
       open={open}
       onClose={handleClose}
       ModalProps={{
-        container: document.querySelector('.Drawers'),
-        style: { position: 'absolute' }
+        container:
+          typeof document !== "undefined"
+            ? document.querySelector(".Drawers")
+            : null,
+        style: { position: "absolute" },
       }}
       sx={{
         "& .MuiBackdrop-root": {
@@ -63,7 +68,7 @@ export default function AdDrawer() {
           position: "absolute",
           width: mainTabWidth,
           borderRight: `1px solid ${blueGrey[100]}`,
-          boxShadow: 'none',
+          boxShadow: "none",
         },
         left: `calc(${mainTabWidth}px)`,
         overflow: "hidden",
@@ -102,7 +107,7 @@ export default function AdDrawer() {
           p: theme.spacing(1.5, 2),
         }}
       >
-        <Button onClick={handleClickEstimate} sx={{ mt: "auto" }}>
+        <Button variant='text' onClick={handleClickEstimate} sx={{ mt: "auto" }}>
           다음으로
         </Button>
       </Box>
