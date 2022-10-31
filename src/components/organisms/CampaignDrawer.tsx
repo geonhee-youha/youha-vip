@@ -11,7 +11,7 @@ import { blueGrey } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { mainTabWidth } from "../../constants";
+import { getDrawerWidth, mainTabWidth } from "../../constants";
 import { testCampaigns } from "../../datas";
 import {
   adDrawerState,
@@ -191,7 +191,7 @@ export default function CampaignDrawer() {
         },
         "& .MuiPaper-root": {
           position: "absolute",
-          width: mainTabWidth,
+          width: getDrawerWidth(1),
           borderRight: `1px solid ${blueGrey[100]}`,
         },
       }}

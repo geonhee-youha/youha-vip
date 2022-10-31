@@ -33,7 +33,7 @@ import MainTab from "../components/organisms/MainTab";
 import AlarmDrawer from "../components/organisms/AlarmDrawer";
 import HomeTab from "../components/organisms/HomeTab";
 import _ from "lodash";
-import { homeTabWidth, mainTabWidth, pages } from "../constants";
+import { getDrawerWidth, homeTabWidth, mainTabWidth, pages } from "../constants";
 import CampaignDrawer from "../components/organisms/CampaignDrawer";
 import AdDrawer from "../components/organisms/AdDrawer";
 import SearchDrawer from "../components/organisms/SearchDrawer";
@@ -250,7 +250,7 @@ function MyApp(props: MyAppProps) {
                 <SearchDrawer />
                 <Box
                   sx={{
-                    minWidth: mainTabWidth * 2,
+                    minWidth: getDrawerWidth(2),
                     flex: 1,
                     overflow: "auto",
                   }}

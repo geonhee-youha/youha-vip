@@ -34,6 +34,8 @@ export type CreatorProps = {
     url: string;
     subscribes?: number;
 }
+export const testCreators: CreatorProps[] = [
+]
 export type VideoProps = {
     id: number;
     thumbnail?: string;

@@ -3,7 +3,7 @@ import { blueGrey } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { mainTabWidth } from "../../constants";
+import { getDrawerWidth, mainTabWidth } from "../../constants";
 import { estimateDrawerState } from "../../recoil";
 import { theme } from "../../themes/theme";
 import Icon from "../atoms/Icon";
@@ -30,24 +30,29 @@ export default function EstimateDrawer() {
       open={open}
       onClose={handleClose}
       ModalProps={{
-         container: typeof document !== 'undefined' ? document.querySelector(".Drawers") : null,
+        container:
+          typeof document !== "undefined"
+            ? document.querySelector(".Drawers")
+            : null,
         style: { position: "absolute" },
       }}
       sx={{
         "& .MuiBackdrop-root": {
-          left: `calc(${mainTabWidth * 3}px)`,
+          left: `calc(${mainTabWidth + getDrawerWidth(2)}px)`,
           "@media(min-width: 1920px)": {
-            left: `calc((100vw - 1920px) / 2 + ${mainTabWidth * 3}px)`,
+            left: `calc((100vw - 1920px) / 2 + ${
+              mainTabWidth + getDrawerWidth(2)
+            }px)`,
           },
           backgroundColor: "transparent !important",
         },
         "& .MuiPaper-root": {
           position: "absolute",
-          width: mainTabWidth,
+          width: getDrawerWidth(1),
           borderRight: `1px solid ${blueGrey[100]}`,
           boxShadow: "none",
         },
-        left: `calc(${mainTabWidth * 2}px)`,
+        left: `calc(${getDrawerWidth(2)}px)`,
         overflow: "hidden",
       }}
     >

@@ -1,6 +1,9 @@
 import { IconName } from '@fortawesome/fontawesome-svg-core';
-export const mainTabWidth = 384
-export const homeTabWidth = 384
+export const mainTabWidth = 320
+export const homeTabWidth = 320
+export const getDrawerWidth = (index: number) => {
+    return (1920 - mainTabWidth - homeTabWidth) / 3 * index
+}
 export const homeTabItemMaxHeight = 240
 export type AgeProps = '10대' | '20~30대' | '40~50대' | '60대 이상'
 export type SexProps = '남성' | '여성'
@@ -134,11 +137,11 @@ export const favoriteTabs: TabProps[] = [
         title: '기획안',
         value: 'plan'
     },
-    {
-        id: 3,
-        title: '믹스',
-        value: 'mix'
-    },
+    // {
+    //     id: 3,
+    //     title: '믹스',
+    //     value: 'mix'
+    // },
 ]
 export type creatorFilter = {
     title: string;

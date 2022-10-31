@@ -3,7 +3,7 @@ import { blueGrey } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { mainTabWidth } from "../../constants";
+import { getDrawerWidth, mainTabWidth } from "../../constants";
 import { adDrawerState, estimateDrawerState } from "../../recoil";
 import { theme } from "../../themes/theme";
 import Icon from "../atoms/Icon";
@@ -58,19 +58,21 @@ export default function AdDrawer() {
       }}
       sx={{
         "& .MuiBackdrop-root": {
-          left: `calc(${mainTabWidth * 2}px)`,
+          left: `calc(${mainTabWidth + getDrawerWidth(1)}px)`,
           "@media(min-width: 1920px)": {
-            left: `calc((100vw - 1920px) / 2 + ${mainTabWidth * 2}px)`,
+            left: `calc((100vw - 1920px) / 2 + ${
+              mainTabWidth + getDrawerWidth(1)
+            }px)`,
           },
           backgroundColor: "transparent !important",
         },
         "& .MuiPaper-root": {
           position: "absolute",
-          width: mainTabWidth,
+          width: getDrawerWidth(1),
           borderRight: `1px solid ${blueGrey[100]}`,
           boxShadow: "none",
         },
-        left: `calc(${mainTabWidth}px)`,
+        left: `calc(${getDrawerWidth(1)}px)`,
         overflow: "hidden",
       }}
     >
@@ -107,7 +109,11 @@ export default function AdDrawer() {
           p: theme.spacing(1.5, 2),
         }}
       >
-        <Button variant='text' onClick={handleClickEstimate} sx={{ mt: "auto" }}>
+        <Button
+          variant="text"
+          onClick={handleClickEstimate}
+          sx={{ mt: "auto" }}
+        >
           다음으로
         </Button>
       </Box>

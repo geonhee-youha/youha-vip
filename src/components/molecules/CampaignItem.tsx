@@ -1,6 +1,7 @@
-import { Box, ButtonBase, Typography } from "@mui/material";
-import { blueGrey, pink } from "@mui/material/colors";
+import { Box, ButtonBase, SxProps, Typography } from "@mui/material";
+import { blueGrey } from "@mui/material/colors";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import { getDrawerWidth } from "../../constants";
 import { CampaignProps } from "../../datas";
 import {
   adDrawerState,
@@ -9,13 +10,18 @@ import {
 } from "../../recoil";
 import { theme } from "../../themes/theme";
 import youhaBlue from "../../themes/youhaBlue";
-import Icon from "../atoms/Icon";
 export default function CampaignItem({
   item,
+  index,
   checked,
+  onClick,
+  sx,
 }: {
   item: CampaignProps;
+  index?: number;
   checked?: boolean;
+  onClick?: any;
+  sx?: SxProps;
 }) {
   const { title, description, category, target } = item;
   const [campaignDrawer, setCampaignDrawer] =
@@ -24,6 +30,10 @@ export default function CampaignItem({
   const [estimateDrawer, setEstimateDrawer] =
     useRecoilState(estimateDrawerState);
   const handleClick = () => {
+    if (typeof onClick !== "undefined") {
+      onClick();
+      return;
+    }
     setCampaignDrawer((prev) => {
       return {
         ...prev,
@@ -112,8 +122,10 @@ export default function CampaignItem({
         " *": {
           transition: `all 0.35s ease`,
         },
+        ...sx,
       }}
       onClick={handleClick}
+      className={typeof index !== "undefined" ? `CampaignItem-${index}` : ""}
     >
       <Box
         sx={{
