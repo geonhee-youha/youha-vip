@@ -6,11 +6,10 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { pages, mainTabWidth } from "../../constants";
 import { testNotices, testUser } from "../../datas";
 import {
-  adDrawerState,
   alarmDrawerState,
-  alertPopupState,
+  alertDialogState,
   campaignDrawerState,
-  estimateDrawerState,
+  creatorPlanDrawerState,
   searchDrawerState,
 } from "../../recoil";
 import { theme } from "../../themes/theme";
@@ -25,10 +24,10 @@ export default function MainTab() {
   const [alarmDrawer, setAlarmDrawer] = useRecoilState(alarmDrawerState);
   const [campaignDrawer, setCampaignDrawer] =
     useRecoilState(campaignDrawerState);
-  const setAlertPopup = useSetRecoilState(alertPopupState);
-  const [adDrawer, setAdDrawer] = useRecoilState(adDrawerState);
-  const [estimateDrawer, setEstimateDrawer] =
-    useRecoilState(estimateDrawerState);
+  const [creatorPlanDrawer, setCreatorPlanDrawer] = useRecoilState(
+    creatorPlanDrawerState
+  );
+  const setAlertDialog = useSetRecoilState(alertDialogState);
   const handleClickLogo = () => {
     router.push("/home");
   };
@@ -46,6 +45,12 @@ export default function MainTab() {
       };
     });
     setCampaignDrawer((prev) => {
+      return {
+        ...prev,
+        open: false,
+      };
+    });
+    setCreatorPlanDrawer((prev) => {
       return {
         ...prev,
         open: false,
@@ -71,11 +76,17 @@ export default function MainTab() {
         open: false,
       };
     });
+    setCreatorPlanDrawer((prev) => {
+      return {
+        ...prev,
+        open: false,
+      };
+    });
   };
   const handleClickEstimate = () => {
     if (campaignDrawer.selectedId !== null) {
       if (campaignDrawer.open === true) {
-        setAlertPopup((prev) => {
+        setAlertDialog((prev) => {
           return {
             ...prev,
             open: true,
@@ -84,81 +95,42 @@ export default function MainTab() {
             cancel: {
               title: "삭제하기",
               onClick: () => {
-                setEstimateDrawer((prev) => {
+                setCampaignDrawer((prev) => {
                   return {
                     open: false,
                     selectedId: null,
                   };
                 });
-                setTimeout(
-                  () => {
-                    setAdDrawer((prev) => {
-                      return {
-                        open: false,
-                      };
-                    });
-                  },
-                  estimateDrawer.open ? 150 : 0
-                );
-                setTimeout(
-                  () => {
-                    setCampaignDrawer((prev) => {
-                      return {
-                        open: false,
-                        selectedId: null,
-                      };
-                    });
-                  },
-                  estimateDrawer.open && adDrawer.open
-                    ? 300
-                    : estimateDrawer.open || adDrawer.open
-                    ? 150
-                    : 0
-                );
+                setCreatorPlanDrawer((prev) => {
+                  return {
+                    open: false,
+                    selectedCreatorIds: [],
+                    selectedPlanIds: [],
+                  };
+                });
               },
             },
             confirm: {
               title: "저장하기",
               onClick: () => {
-                setEstimateDrawer((prev) => {
+                setCampaignDrawer((prev) => {
                   return {
                     ...prev,
                     open: false,
-                    selectedId: null,
                   };
                 });
-                setTimeout(
-                  () => {
-                    setAdDrawer((prev) => {
-                      return {
-                        ...prev,
-                        open: false,
-                      };
-                    });
-                  },
-                  estimateDrawer.open ? 150 : 0
-                );
-                setTimeout(
-                  () => {
-                    setCampaignDrawer((prev) => {
-                      return {
-                        ...prev,
-                        open: false,
-                      };
-                    });
-                  },
-                  estimateDrawer.open && adDrawer.open
-                    ? 300
-                    : estimateDrawer.open || adDrawer.open
-                    ? 150
-                    : 0
-                );
+                setCreatorPlanDrawer((prev) => {
+                  return {
+                    ...prev,
+                    open: false,
+                  };
+                });
               },
             },
           };
         });
       } else {
-        setAlertPopup((prev) => {
+        setAlertDialog((prev) => {
           return {
             ...prev,
             open: true,
@@ -173,16 +145,6 @@ export default function MainTab() {
                     selectedId: null,
                   };
                 });
-                setAdDrawer((prev) => {
-                  return {
-                    open: false,
-                  };
-                });
-                setEstimateDrawer((prev) => {
-                  return {
-                    open: false,
-                  };
-                });
               },
             },
             confirm: {
@@ -194,20 +156,12 @@ export default function MainTab() {
                     open: true,
                   };
                 });
-                setTimeout(() => {
-                  setAdDrawer((prev) => {
-                    return {
-                      open: true,
-                    };
-                  });
-                }, 150);
-                setTimeout(() => {
-                  setEstimateDrawer((prev) => {
-                    return {
-                      open: true,
-                    };
-                  });
-                }, 300);
+                setCreatorPlanDrawer((prev) => {
+                  return {
+                    ...prev,
+                    open: true,
+                  };
+                });
               },
             },
           };
@@ -237,25 +191,31 @@ export default function MainTab() {
   return (
     <Box
       sx={{
-        height: "100%",
+        position: "absolute",
+        top: 24,
+        left: 24,
+        bottom: 24,
+        width: mainTabWidth,
+        minWidth: mainTabWidth,
         backgroundColor: "#ffffff",
+        borderRadius: 1,
+        zIndex: 99999,
+        "@media(min-width: 1600px)": {
+          left: `calc((100vw - 1600px) / 2 + ${24}px)`,
+        },
       }}
     >
       <Box
         sx={{
-          width: mainTabWidth,
-          minWidth: mainTabWidth,
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          borderRight: `1px solid ${blueGrey[100]}`,
-          backgroundColor: "#ffffff",
         }}
       >
         <Box
           sx={{
             display: "flex",
-            p: theme.spacing(1.5, 2),
+            p: theme.spacing(2, 1.5, 2, 2),
           }}
         >
           <Box
@@ -313,149 +273,158 @@ export default function MainTab() {
         </Box>
         <Box
           sx={{
-            p: theme.spacing(0, 2, 2, 2),
-          }}
-        >
-          <Box
-            sx={{
-              p: 1,
-            }}
-          >
-            <Box
-              sx={{
-                p: 1,
-                borderRadius: 1,
-                backgroundColor: blueGrey[50],
-              }}
-            >
-              <UserItem item={testUser} />
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              p: theme.spacing(1, 1, 1, 1),
-            }}
-          >
-            <Button
-              fullWidth
-              sx={{
-                minHeight: 48,
-                height: 48,
-              }}
-              onClick={handleClickEstimate}
-            >
-              <Icon
-                name="wand-magic-sparkles"
-                size={16}
-                color="#ffffff"
-                prefix="fas"
-                sx={{
-                  mr: 0.5,
-                }}
-              />
-              <Typography
-                sx={{
-                  fontSize: 16,
-                  lineHeight: "24px",
-                  fontWeight: "700",
-                  color: "#ffffff",
-                }}
-              >
-                광고 견적내기
-              </Typography>
-              {campaignDrawer.open === false &&
-                campaignDrawer.selectedId !== null && (
-                  <Box
-                    sx={{
-                      borderRadius: 0.5,
-                      ml: 1,
-                      height: 24,
-                      p: theme.spacing(0, 1),
-                      display: "flex",
-                      alignItems: "center",
-                      backgroundColor: pink[500],
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: 12,
-                        lineHeight: "16px",
-                        fontWeight: "700",
-                        color: "#ffffff",
-                      }}
-                    >
-                      저장됨
-                    </Typography>
-                  </Box>
-                )}
-            </Button>
-          </Box>
-        </Box>
-        <Stack
-          spacing={1}
-          sx={{
             flex: 1,
+            overflow: "auto",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          <Stack
-            spacing={1}
+          <Box
             sx={{
-              flex: 1,
-              p: theme.spacing(1.5, 2, 0, 2),
+              p: theme.spacing(0, 2, 1, 2),
             }}
           >
-            {_.filter(pages, (el) => el.inMainTab === true).map(
-              (item, index) => (
-                <MainTabItem
-                  key={index}
-                  item={item}
-                  handleClickEstimate={handleClickEstimate}
-                />
-              )
-            )}
-          </Stack>
-          <Stack
-            spacing={1}
-            sx={{
-              p: theme.spacing(0, 2, 1.5, 2),
-            }}
-          >
-            {_.filter(pages, (el) => el.pathName === "/notice").map(
-              (item, index) => (
-                <MainTabItem key={index} item={item} right />
-              )
-            )}
             <Box
               sx={{
-                pl: 1,
-                pr: 1,
+                p: theme.spacing(0, 1, 0, 1),
               }}
             >
               <Box
                 sx={{
                   p: 1,
-                  backgroundColor: blueGrey[50],
                   borderRadius: 1,
+                  backgroundColor: blueGrey[50],
                 }}
               >
-                {testNotices.map((item, index) => (
-                  <NoticeItem key={index} item={item} inMainTab />
-                ))}
+                <UserItem item={testUser} />
               </Box>
             </Box>
-            <Typography
+            <Box
               sx={{
-                fontSize: 10,
-                lineHeight: "14px",
-                color: blueGrey[400],
-                textAlign: "center",
-                p: 1,
+                p: theme.spacing(1, 1, 1, 1),
               }}
             >
-              ⓒ Ticketplace Inc.
-            </Typography>
+              <Button
+                fullWidth
+                sx={{
+                  minHeight: 48,
+                  height: 48,
+                }}
+                onClick={handleClickEstimate}
+              >
+                <Icon
+                  name="wand-magic-sparkles"
+                  size={16}
+                  color="#ffffff"
+                  prefix="fas"
+                  sx={{
+                    mr: 0.5,
+                  }}
+                />
+                <Typography
+                  sx={{
+                    fontSize: 16,
+                    lineHeight: "24px",
+                    fontWeight: "700",
+                    color: "#ffffff",
+                  }}
+                >
+                  광고 견적내기
+                </Typography>
+                {campaignDrawer.open === false &&
+                  campaignDrawer.selectedId !== null && (
+                    <Box
+                      sx={{
+                        borderRadius: 0.5,
+                        ml: 1,
+                        height: 24,
+                        p: theme.spacing(0, 1),
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: pink[500],
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: 12,
+                          lineHeight: "16px",
+                          fontWeight: "700",
+                          color: "#ffffff",
+                        }}
+                      >
+                        저장됨
+                      </Typography>
+                    </Box>
+                  )}
+              </Button>
+            </Box>
+          </Box>
+          <Stack
+            spacing={1}
+            sx={{
+              flex: 1,
+            }}
+          >
+            <Stack
+              spacing={1}
+              sx={{
+                flex: 1,
+                p: theme.spacing(2, 2, 0, 2),
+              }}
+            >
+              {_.filter(pages, (el) => el.inMainTab === true).map(
+                (item, index) => (
+                  <MainTabItem
+                    key={index}
+                    item={item}
+                    handleClickEstimate={handleClickEstimate}
+                  />
+                )
+              )}
+            </Stack>
+            <Stack
+              spacing={1}
+              sx={{
+                p: theme.spacing(0, 2, 2, 2),
+              }}
+            >
+              {_.filter(pages, (el) => el.pathName === "/notice").map(
+                (item, index) => (
+                  <MainTabItem key={index} item={item} right />
+                )
+              )}
+              <Box
+                sx={{
+                  pl: 1,
+                  pr: 1,
+                }}
+              >
+                <Box
+                  sx={{
+                    p: 1,
+                    backgroundColor: blueGrey[50],
+                    borderRadius: 1,
+                  }}
+                >
+                  {testNotices.map((item, index) => (
+                    <NoticeItem key={index} item={item} inMainTab />
+                  ))}
+                </Box>
+              </Box>
+              <Typography
+                sx={{
+                  fontSize: 10,
+                  lineHeight: "14px",
+                  color: blueGrey[400],
+                  textAlign: "center",
+                  p: 1,
+                }}
+              >
+                ⓒ Ticketplace Inc.
+              </Typography>
+            </Stack>
           </Stack>
-        </Stack>
+        </Box>
       </Box>
     </Box>
   );

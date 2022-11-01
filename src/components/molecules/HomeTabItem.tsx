@@ -9,9 +9,8 @@ export default function HomeTabItem({ item }: { item: HomeTabProps }) {
     <Box
       sx={{
         flex: 1,
-        backgroundColor: "#ffffff",
         borderRadius: 1,
-        border: `1px solid ${blueGrey[100]}`,
+        backgroundColor: blueGrey[50],
         overflow: "hidden",
         minHeight: homeTabItemMaxHeight,
       }}

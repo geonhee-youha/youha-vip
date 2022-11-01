@@ -1,13 +1,13 @@
-import { Box, Drawer, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { mainTabWidth } from "../../constants";
-import { alarmDrawerState } from "../../recoil";
-import { theme } from "../../themes/theme";
-import Icon from "../atoms/Icon";
-import EmptyItem from "../molecules/EmptyItem";
+import { mainTabWidth } from "../../../constants";
+import { alarmDrawerState } from "../../../recoil";
+import { theme } from "../../../themes/theme";
+import Icon from "../../atoms/Icon";
+import EmptyItem from "../../molecules/EmptyItem";
 export default function AlarmDrawer() {
   const router = useRouter();
   const [alarmDrawer, setAlarmDrawer] = useRecoilState(alarmDrawerState);
@@ -24,37 +24,34 @@ export default function AlarmDrawer() {
     });
   };
   return (
-    <Drawer
-      anchor="left"
-      open={open}
-      onClose={handleClose}
-      ModalProps={{
-         container: typeof document !== 'undefined' ? document.querySelector(".Drawers") : null,
-        style: { position: "absolute" },
-      }}
+    <Box
       sx={{
-        "& .MuiBackdrop-root": {
-          left: `calc(${mainTabWidth}px)`,
-          "@media(min-width: 1920px)": {
-            left: `calc((100vw - 1920px) / 2 + ${mainTabWidth}px)`,
-          },
+        position: "absolute",
+        top: 24,
+        bottom: 24,
+        left: mainTabWidth + 48,
+        width: mainTabWidth,
+        transform: open ? 0 : `translateX(-${mainTabWidth + 24}px)`,
+        "@media(min-width: 1600px)": {
+          left: `calc((100vw - 1600px) / 2 + ${mainTabWidth + 48}px)`,
         },
-        "& .MuiPaper-root": {
-          position: "absolute",
-          width: mainTabWidth,
-          borderRight: `1px solid ${blueGrey[100]}`,
-        },
+        borderRadius: 1,
+        backgroundColor: "#ffffff",
+        zIndex: 99998,
+        transition: `transform 0.35s ease`,
+        overflow: "auto",
       }}
     >
       <Box
         sx={{
           display: "flex",
-          p: theme.spacing(1.5, 2),
+          p: theme.spacing(2, 2.5, 2, 3),
+          alignItems: "center",
         }}
       >
         <Typography
           sx={{
-            p: theme.spacing(0.5, 1),
+            p: theme.spacing(0.5, 0),
             fontSize: 20,
             lineHeight: "32px",
             fontWeight: "700",
@@ -76,11 +73,11 @@ export default function AlarmDrawer() {
       </Box>
       <Box
         sx={{
-          p: theme.spacing(1.5, 2),
+          p: theme.spacing(0, 3, 3, 3),
         }}
       >
         <EmptyItem />
       </Box>
-    </Drawer>
+    </Box>
   );
 }

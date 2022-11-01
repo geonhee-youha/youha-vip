@@ -1,12 +1,54 @@
 import { IconName } from '@fortawesome/fontawesome-svg-core';
-export const mainTabWidth = 320
-export const homeTabWidth = 320
-export const getDrawerWidth = (index: number) => {
-    return (1920 - mainTabWidth - homeTabWidth) / 3 * index
-}
+export const mainTabWidth = (1600 - 24 * 3) / 4
+export const homeTabWidth = (1600 - 24 * 3) / 4
 export const homeTabItemMaxHeight = 240
+export type InputProps = {
+    value: string;
+    error: boolean;
+    helperText: string;
+};
+export const inputDefaultProps: InputProps = {
+    value: "",
+    error: false,
+    helperText: "",
+};
 export type AgeProps = '10대' | '20~30대' | '40~50대' | '60대 이상'
 export type SexProps = '남성' | '여성'
+export const testCategories = ["패션",
+    "뷰티",
+    "비건/친환경",
+    "가구/인테리어",
+    "건강",
+    "다이어트",
+    "여행",
+    "게임",
+    "펫/동물",
+    "IT/앱",
+    "가전/전자기기",
+    "영화/드라마",
+    "웹툰/애니",
+    "자동차",
+    "음악",
+    "운동",
+    "시사/정치",
+    "교육",
+    "키즈",
+    "은행",
+    "증권",
+    "카드",
+    "금융",
+    "투자/제태크",
+    "주류",
+    "음료",
+    "음식",
+    "음식점",
+    "출판",
+    "공기업/관공서",
+    "병원",
+    "엔터테인먼트",
+    "종교",
+    "사회적 기업",
+    "기타",]
 export const ages: AgeProps[] = [
     '10대', '20~30대', '40~50대', '60대 이상',
 ]
@@ -61,12 +103,12 @@ export const pages: PageProps[] = [
         pathName: '/insight',
         slugs: [
             {
-                title: '추천 광고영상',
-                pathName: '/video'
-            },
-            {
                 title: '추천 크리에이터',
                 pathName: '/creator'
+            },
+            {
+                title: '추천 광고영상',
+                pathName: '/video'
             },
             {
                 title: '추천 기획안',
@@ -124,24 +166,43 @@ export type TabProps = {
 export const favoriteTabs: TabProps[] = [
     {
         id: 0,
-        title: '광고영상',
-        value: 'video'
+        title: '크리에이터',
+        value: ''
     },
     {
         id: 1,
-        title: '크리에이터',
-        value: 'creator'
+        title: '광고영상',
+        value: ''
     },
     {
         id: 2,
         title: '기획안',
-        value: 'plan'
+        value: ''
     },
-    // {
-    //     id: 3,
-    //     title: '믹스',
-    //     value: 'mix'
-    // },
+]
+export const creatorPopupTabs: TabProps[] = [
+    {
+        id: 0,
+        title: '추천 크리에이터',
+        value: ''
+    },
+    {
+        id: 1,
+        title: '즐겨찾기',
+        value: ''
+    },
+]
+export const planPopupTabs: TabProps[] = [
+    {
+        id: 0,
+        title: '추천 기획안',
+        value: ''
+    },
+    {
+        id: 1,
+        title: '즐겨찾기',
+        value: ''
+    },
 ]
 export type creatorFilter = {
     title: string;
@@ -158,5 +219,10 @@ export const creatorFilters: creatorFilter[] = [
         title: '연령',
         iconName: 'calendar',
         tags: ages
+    },
+    {
+        title: '구독',
+        iconName: 'users',
+        tags: []
     }
 ]

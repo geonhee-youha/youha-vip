@@ -2,16 +2,29 @@ import { Box, ButtonBase, Typography } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import _ from "lodash";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { TabProps } from "../../constants";
 import youhaBlue from "../../themes/youhaBlue";
 
-export default function TabBar({ tabs }: { tabs: TabProps[] }) {
+export default function TabBar({
+  tabs,
+  index,
+  setIndex,
+  title,
+}: {
+  tabs: TabProps[];
+  index?: number;
+  setIndex?: Dispatch<SetStateAction<number>>;
+  title?: string;
+}) {
   const router = useRouter();
+  const currentPathName = `/${router.pathname.split("?")[0].split("/")[1]}`;
   const { value: queryValue } = router.query;
-  const index = _.findIndex(
-    tabs,
-    (el) => el.value === queryValue ?? tabs[0].value
+  const tabIndex = Math.max(
+    typeof index === "undefined"
+      ? _.findIndex(tabs, (el) => el.value === queryValue ?? tabs[0].value)
+      : index,
+    0
   );
   const [indicator, setIndicator] = useState<{
     width: number;
@@ -22,20 +35,29 @@ export default function TabBar({ tabs }: { tabs: TabProps[] }) {
   });
   useEffect(() => {
     var targetEl: any = document.querySelector(
-      `.TabItem.${queryValue ?? tabs[0].value}`
+      typeof index !== "undefined"
+        ? `${title ? `.${title} ` : ""}.TabItemIndex.TabItem-${index}`
+        : `${title ? `.${title} ` : ""}.TabItemValue.TabItem-${
+            queryValue ?? tabs[0].value
+          }`
     );
     if (targetEl !== null) {
-      let targetWidth = targetEl.offsetWidth - 16;
-      if (index > 0) {
+      let targetWidth = targetEl.offsetWidth - 16;      
+      if (tabIndex > 0) {
         let widths = [];
-        let prevEls: any = document.querySelectorAll(`.TabItem`);
+        let prevEls: any = document.querySelectorAll(
+          typeof index !== "undefined"
+            ? `${title ? `.${title} ` : ""}.TabItemIndex`
+            : `${title ? `.${title} ` : ""}.TabItemValue`
+        );
         for (let i: any = 0; i <= prevEls.length; i += 1) {
-          if (i < index) prevEls[i] && widths.push(prevEls[i].offsetWidth - 16);
+          if (i < tabIndex)
+            prevEls[i] && widths.push(prevEls[i].offsetWidth - 16);
         }
         let prevElWidth = _.sum(widths);
         setIndicator({
           width: targetWidth,
-          left: `calc(${prevElWidth}px + ${16 * index}px + 8px)`,
+          left: `calc(${prevElWidth}px + ${16 * tabIndex}px + 8px)`,
         });
       } else {
         setIndicator({
@@ -44,7 +66,7 @@ export default function TabBar({ tabs }: { tabs: TabProps[] }) {
         });
       }
     }
-  }, [queryValue]);
+  }, [tabIndex]);
   return (
     <Box
       sx={{
@@ -62,10 +84,27 @@ export default function TabBar({ tabs }: { tabs: TabProps[] }) {
           backgroundColor: blueGrey[100],
         },
       }}
+      className={title ?? ""}
     >
-      {tabs.map((item, index) => (
-        <TabItem key={index} item={item} />
-      ))}
+      {tabs.map((item, index) => {
+        const focused = tabIndex === index;
+        const handleClick = () => {
+          if (typeof setIndex !== "undefined") {
+            setIndex(index);
+            return;
+          }
+          router.push(`${currentPathName}?value=${item.value}`);
+        };
+        return (
+          <TabItem
+            key={index}
+            index={index}
+            item={item}
+            focused={focused}
+            onClick={handleClick}
+          />
+        );
+      })}
       <Box
         sx={{
           position: "absolute",
@@ -81,23 +120,30 @@ export default function TabBar({ tabs }: { tabs: TabProps[] }) {
     </Box>
   );
 }
-function TabItem({ item }: { item: TabProps }) {
-  const router = useRouter();
-  const currentPathName = `/${router.pathname.split('?')[0].split("/")[1]}`;
-  const { value: queryValue } = router.query;
-  const { id, title, value } = item;
-  const focused = `${queryValue}` === `${value}` || (id === 0 && !queryValue);
-  const handleClick = () => {
-    router.push(`${currentPathName}?value=${value}`);
-  };
+function TabItem({
+  item,
+  index,
+  focused,
+  onClick,
+}: {
+  item: TabProps;
+  index: number;
+  focused: boolean;
+  onClick: () => void;
+}) {
+  const { title, value } = item;
   return (
     <ButtonBase
       sx={{
         p: 1,
         borderRadius: 1,
       }}
-      onClick={handleClick}
-      className={`TabItem ${value}`}
+      onClick={onClick}
+      className={
+        value !== ""
+          ? `TabItemValue TabItem-${value}`
+          : `TabItemIndex TabItem-${index}`
+      }
     >
       <Typography
         sx={{

@@ -58,3 +58,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .ptr__pull-down--pull-more > div > p {
   display: none;
 }
+.MuiMenuItem-root {
+  font-size: 14px !important;
+  line-height: 20px !important;
+}

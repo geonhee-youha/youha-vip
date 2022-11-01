@@ -1,5 +1,12 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { Box, ButtonBase, Typography } from "@mui/material";
+import {
+  Box,
+  ButtonBase,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography,
+} from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import { Stack } from "@mui/system";
 import _ from "lodash";
@@ -7,7 +14,9 @@ import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useState } from "react";
 import Icon from "../../components/atoms/Icon";
 import Panel from "../../components/atoms/Panel";
+import CreatorItem from "../../components/molecules/CreatorItem";
 import { creatorFilters, pages } from "../../constants";
+import { testCreators } from "../../datas";
 import { theme } from "../../themes/theme";
 import youhaBlue from "../../themes/youhaBlue";
 export default function Page() {
@@ -24,12 +33,27 @@ export default function Page() {
   const [filter, setFilter] = useState<{ [key: string]: string }>({
     성별: "전체",
     연령: "전체",
+    구독: "전체",
   });
+  const [sort, setSort] = useState<string>("subscriberCount");
+  const creators = _.sortBy(testCreators, sort).reverse();
+  const handleChangeSort = (event: SelectChangeEvent) => {
+    setSort(event.target.value);
+  };
   return (
-    <Panel>
+    <Panel
+      sx={{
+        overflow: "auto !important",
+      }}
+    >
       <Box
         sx={{
-          p: theme.spacing(8, 6, 0, 6),
+          mt: 0,
+          position: "sticky",
+          top: 0,
+          p: theme.spacing(2.25, 3, 0, 3),
+          backgroundColor: "#ffffff",
+          zIndex: 99,
         }}
       >
         <Box
@@ -42,7 +66,7 @@ export default function Page() {
           <Typography
             sx={{
               fontSize: 24,
-              lineHeight: "32px",
+              lineHeight: "36px",
               fontWeight: "700",
               mr: "auto",
             }}
@@ -51,34 +75,78 @@ export default function Page() {
           </Typography>
         </Box>
       </Box>
-      <Stack
-        spacing={1}
-        sx={{
-          p: theme.spacing(2, 5, 2, 5),
-        }}
-      >
-        {creatorFilters.map((item, index) => (
-          <FilterItem
-            key={index}
-            item={item}
-            filter={filter}
-            setFilter={setFilter}
-          />
-        ))}
-        {/* <Typography
+      <Box sx={{}}>
+        <Stack
+          spacing={1}
           sx={{
-            fontSize: 16,
-            lineHeight: "24px",
-            color: blueGrey[500],
-            "& span": {
-              fontWeight: "700",
-              color: blueGrey[800],
-            },
+            p: theme.spacing(2, 2, 0, 2),
           }}
         >
-          총 <span>2,432</span>명의 크리에이터
-        </Typography> */}
-      </Stack>
+          {creatorFilters.map((item, index) => (
+            <FilterItem
+              key={index}
+              item={item}
+              filter={filter}
+              setFilter={setFilter}
+            />
+          ))}
+        </Stack>
+        <Box>
+          <Box
+            sx={{
+              p: theme.spacing(2, 3, 2, 3),
+            }}
+          >
+            <Select
+              value={sort}
+              onChange={handleChangeSort}
+              displayEmpty
+              inputProps={{ "aria-label": "Without label" }}
+              sx={{
+                backgroundColor: `${"transparent"} !important`,
+                height: 40,
+                fontSize: 14,
+                lineHeight: "20px",
+                fontWeight: "700",
+                color: blueGrey[700],
+                "& fieldset": {
+                  borderColor: blueGrey[100],
+                  borderWidth: `1px !important`,
+                  boxShadow: "none !important",
+                },
+              }}
+            >
+              <MenuItem value={"viewCount"}>구독자순</MenuItem>
+              <MenuItem value={"standardCommercialPrice"}>
+                예상 광고단가 순
+              </MenuItem>
+              <MenuItem value={"subscriberCount"}>예상 노출수 순</MenuItem>
+              <MenuItem value={"CPV"}>예상 CPV</MenuItem>
+            </Select>
+          </Box>
+          <Box
+            sx={{
+              overflow: "auto",
+            }}
+          >
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1fr",
+                gridAutoColumn: "1fr",
+                gridTemplateRows: "auto auto",
+                gridRowGap: 8,
+                gridColumnGap: 8,
+                p: theme.spacing(0, 3, 20, 3),
+              }}
+            >
+              {creators.map((item, index) => (
+                <CreatorItem key={index} item={item} />
+              ))}
+            </Box>
+          </Box>
+        </Box>
+      </Box>
     </Panel>
   );
 }
@@ -135,7 +203,7 @@ function FilterItem({
         </Box>
         <Box
           sx={{
-            pt: 1,
+            mb: -1,
             display: "flex",
             alignItems: "center",
           }}

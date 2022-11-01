@@ -19,10 +19,19 @@ export default function Page() {
         )?.title
       : _.findLast(pages, (el) => el.pathName === currentPathName)?.title;
   return (
-    <Panel>
+    <Panel
+      sx={{
+        overflow: "auto !important",
+      }}
+    >
       <Box
         sx={{
-          p: theme.spacing(8, 6, 0, 6),
+          mt: 0,
+          position: "sticky",
+          top: 0,
+          p: theme.spacing(2.25, 3, 0, 3),
+          backgroundColor: "#ffffff",
+          zIndex: 99,
         }}
       >
         <Box
@@ -35,7 +44,7 @@ export default function Page() {
           <Typography
             sx={{
               fontSize: 24,
-              lineHeight: "32px",
+              lineHeight: "36px",
               fontWeight: "700",
               mr: "auto",
             }}
@@ -47,8 +56,7 @@ export default function Page() {
       <Stack
         spacing={1}
         sx={{
-          p: theme.spacing(2, 5, 5, 5),
-          height: 2000,
+          p: theme.spacing(2, 2, 2, 2),
         }}
       >
         {testNotices.map((item, index) => (

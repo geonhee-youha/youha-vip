@@ -9,13 +9,13 @@ import {
 } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import { useRecoilState } from "recoil";
-import { alertPopupState } from "../../recoil";
+import { alertDialogState } from "../../../recoil";
 
-export default function AlertPopup() {
-  const [alertPopup, setAlertPopup] = useRecoilState(alertPopupState);
-  const { open, title, body, cancel, confirm } = alertPopup;
+export default function AlertDialog() {
+  const [alertDialog, setAlertDialog] = useRecoilState(alertDialogState);
+  const { open, title, body, cancel, confirm } = alertDialog;
   const handleClose = () => {
-    setAlertPopup((prev) => {
+    setAlertDialog((prev) => {
       return {
         ...prev,
         open: false,
@@ -67,11 +67,19 @@ export default function AlertPopup() {
           color="secondary"
           sx={{
             color: blueGrey[400],
+            fontWeight: "700",
           }}
         >
           {cancel?.title ?? "취소"}
         </Button>
-        <Button onClick={handleClickConfirm} autoFocus variant="text">
+        <Button
+          onClick={handleClickConfirm}
+          autoFocus
+          variant="text"
+          sx={{
+            fontWeight: "700",
+          }}
+        >
           {confirm?.title ?? "확인"}
         </Button>
       </DialogActions>

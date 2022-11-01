@@ -354,7 +354,6 @@ const reset = css`
   body {
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
-    /* background-color: #eceff1; */
   }
   #__next {
     position: fixed;
@@ -362,14 +361,7 @@ const reset = css`
     left: 0;
     right: 0;
     bottom: 0;
-    /* background-color: #f5f5f5; 
-    background-color: #ffffff;*/
-    /* width: 100%;
-  height: 100vh; */
-    /* max-width: 1000px;
-  margin: 0 auto; */
-    /* min-height: 100%; */
-    /* background-color: #ffffff; */
+    /* background-color: #eceff1; */
     --sat: var(--sait);
     --sar: var(--sair);
     --sab: var(--saib);

@@ -66,6 +66,8 @@ export const theme = createTheme({
           // "& label": {
           //   color: grey[300],
           // },
+          fontSize: 14,
+          lineHeight: '20px',
           "& *": { borderWidth: `1px !important` },
           "& fieldset": {
             borderWidth: 1,
@@ -302,6 +304,10 @@ export const theme = createTheme({
           // height: "2em",
           width: 56,
           height: 56,
+          cursor: 'pointer',
+          '& *': {
+            cursor: 'pointer',
+          },
           "&:hover": {
             backgroundColor: "transparent",
           },

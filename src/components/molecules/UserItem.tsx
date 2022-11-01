@@ -91,13 +91,13 @@ export default function UserItem({ item }: { item: UserProps }) {
           {email}
         </Typography>
       </Box>
-      <Icon
+      {/* <Icon
         name="angle-right"
         sx={{
           ml: "auto",
           transition: `all 0.35s ease`,
         }}
-      />
+      /> */}
     </ButtonBase>
   );
 }

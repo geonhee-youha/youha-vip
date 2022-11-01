@@ -26,19 +26,32 @@ import {
   PointElement,
   LineElement,
   BarElement,
+  ArcElement,
+  RadarController,
+  Tooltip,
+  Legend,
+  RadialLinearScale,
 } from "chart.js";
 import { blueGrey } from "@mui/material/colors";
 import { Box } from "@mui/material";
 import MainTab from "../components/organisms/MainTab";
-import AlarmDrawer from "../components/organisms/AlarmDrawer";
-import HomeTab from "../components/organisms/HomeTab";
+import AlarmDrawer from "../components/organisms/Drawer/AlarmDrawer";
 import _ from "lodash";
-import { getDrawerWidth, homeTabWidth, mainTabWidth, pages } from "../constants";
-import CampaignDrawer from "../components/organisms/CampaignDrawer";
-import AdDrawer from "../components/organisms/AdDrawer";
-import SearchDrawer from "../components/organisms/SearchDrawer";
-import EstimateDrawer from "../components/organisms/EstimateDrawer";
-import AlertPopup from "../components/organisms/AlertPopup";
+import { mainTabWidth, pages } from "../constants";
+import CampaignDrawer from "../components/organisms/Drawer/CampaignDrawer";
+import SearchDrawer from "../components/organisms/Drawer/SearchDrawer";
+import AlertDialog from "../components/organisms/Dialog/AlertDialog";
+import BackDrop from "../components/atoms/Backdrop";
+import CampaignPopup from "../components/organisms/Popup/CampaignPopup";
+import CreatorPopup from "../components/organisms/Popup/CreatorPopup";
+import CampaignDialog from "../components/organisms/Dialog/CampaignDialog";
+import CreatorDialog from "../components/organisms/Dialog/CreatorDialog";
+import PlanDialog from "../components/organisms/Dialog/PlanDialog";
+import CreatorPlanDrawer from "../components/organisms/Drawer/CreatorPlanDrawer";
+import PlanPopup from "../components/organisms/Popup/PlanPopup";
+import EstimateInputDialog from "../components/organisms/Dialog/EstimateInputDialog";
+import EstimateDialog from "../components/organisms/Dialog/EstimateDialog";
+import AdDialog from "../components/organisms/Dialog/AdDialog";
 ChartJS.register(
   LineController,
   BarController,
@@ -46,7 +59,12 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
-  BarElement
+  BarElement,
+  ArcElement,
+  RadarController,
+  RadialLinearScale,
+  Tooltip,
+  Legend
 );
 const clientSideEmotionCache = createEmotionCache();
 interface MyAppProps extends AppProps {
@@ -222,46 +240,51 @@ function MyApp(props: MyAppProps) {
           ) : (
             <Box
               sx={{
-                height: "100%",
-                display: "flex",
-                "@media(min-width: 1920px)": {
-                  pl: `calc((100vw - 1920px) / 2)`,
-                },
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: blueGrey[100],
+                overflow: "auto",
               }}
+              className="Drawers"
             >
+              <BackDrop />
               <MainTab />
+              <CreatorPlanDrawer />
+              <CampaignDrawer />
+              <CampaignDialog />
+              <CreatorDialog />
+              <EstimateDialog />
+              <AdDialog />
+              <PlanDialog />
+              <EstimateInputDialog />
+              <AlarmDrawer />
+              <SearchDrawer />
               <Box
                 sx={{
-                  position: "relative",
-                  flex: 1,
-                  display: "flex",
-                  overflow: "auto",
-                  backgroundColor: blueGrey[50],
-                  "@media(min-width: 1920px)": {
-                    pr: `calc((100vw - 1920px) / 2)`,
+                  position: "absolute",
+                  top: 24,
+                  bottom: 24,
+                  left: `calc(${mainTabWidth + 24 + 24}px)`,
+                  right: `calc(${24 + 24}px)`,
+                  "@media(min-width: 1600px)": {
+                    left: `calc((100vw - 1600px) / 2 + ${
+                      mainTabWidth + 24 + 24
+                    }px)`,
+                    right: `calc((100vw - 1600px) / 2 + ${24 + 24}px)`,
                   },
                 }}
-                className='Drawers'
               >
-                <CampaignDrawer />
-                <AdDrawer />
-                <EstimateDrawer />
-                <AlarmDrawer />
-                <SearchDrawer />
-                <Box
-                  sx={{
-                    minWidth: getDrawerWidth(2),
-                    flex: 1,
-                    overflow: "auto",
-                  }}
-                >
-                  <Component {...pageProps} key={router.route} />
-                </Box>
-                <HomeTab />
+                <Component {...pageProps} key={router.route} />
               </Box>
             </Box>
           )}
-          <AlertPopup />
+          <CampaignPopup />
+          <CreatorPopup />
+          <PlanPopup />
+          <AlertDialog />
         </ThemeProvider>
       </RecoilRoot>
     </CacheProvider>
