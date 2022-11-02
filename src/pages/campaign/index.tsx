@@ -320,7 +320,7 @@ export default function Page() {
                       }}
                     >
                       <Chart
-                        type="doughnut"
+                        type="pie"
                         data={totalChartData}
                         options={totalChartOptions}
                       />
@@ -578,7 +578,7 @@ export default function Page() {
                       }}
                     >
                       <Chart
-                        type="doughnut"
+                        type="pie"
                         data={ageChartData}
                         options={ageChartOptions}
                       />
@@ -611,7 +611,7 @@ export default function Page() {
                       }}
                     >
                       <Chart
-                        type="doughnut"
+                        type="pie"
                         data={issueChartData}
                         options={issueChartOptions}
                       />
@@ -825,7 +825,7 @@ export default function Page() {
 const totalChartData = {
   datasets: [
     {
-      // type: "doughnut" as const,
+      // type: "pie" as const,
       label: "Dataset 1",
       data: [150, 20],
       backgroundColor: [blueGrey[800], blueGrey[100]],
@@ -988,7 +988,7 @@ const sexChartData = {
   labels: ["남성", "여성"],
   datasets: [
     {
-      // type: "doughnut" as const,
+      // type: "pie" as const,
       label: "Dataset 1",
       data: [150, 200],
       backgroundColor: [indigo[500], pink[500]],
@@ -1073,7 +1073,7 @@ const ageChartOptions = {
 const issueChartData = {
   datasets: [
     {
-      // type: "doughnut" as const,
+      // type: "pie" as const,
       label: "Dataset 1",
       data: [24, 86],
       backgroundColor: [blueGrey[800], blueGrey[100]],
