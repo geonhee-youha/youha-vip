@@ -31,6 +31,8 @@ import {
   Tooltip,
   Legend,
   RadialLinearScale,
+  PieController,
+  DoughnutController,
 } from "chart.js";
 import { blueGrey } from "@mui/material/colors";
 import { Box } from "@mui/material";
@@ -63,6 +65,8 @@ ChartJS.register(
   ArcElement,
   RadarController,
   RadialLinearScale,
+  PieController,
+  DoughnutController,
   Tooltip,
   Legend
 );
