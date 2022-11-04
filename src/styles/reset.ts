@@ -321,10 +321,10 @@ const reset = css`
   }
   input,
   textarea {
-    caret-color: #1c5af6 !important;
+    caret-color: #263238 !important;
   }
   input::placeholder {
-    color: #ced4da;
+    color: #607d8b;
   }
   input[type="checkbox"] {
     padding: 0;
@@ -361,7 +361,8 @@ const reset = css`
     left: 0;
     right: 0;
     bottom: 0;
-    /* background-color: #eceff1; */
+    overflow: auto;
+    background-color: #eceff1;
     --sat: var(--sait);
     --sar: var(--sair);
     --sab: var(--saib);

@@ -1,19 +1,9 @@
 import { IconName } from '@fortawesome/fontawesome-svg-core';
-export const mainTabWidth = (1600 - 24 * 3) / 4
-export const homeTabWidth = (1600 - 24 * 3) / 4
+export const mainTabWidth = (1200 - 16 * 5) / 4
+export const homeTabWidth = (1200 - 16 * 5) / 4
 export const homeTabItemMaxHeight = 240
-export type InputProps = {
-    value: string;
-    error: boolean;
-    helperText: string;
-};
-export const inputDefaultProps: InputProps = {
-    value: "",
-    error: false,
-    helperText: "",
-};
 export type AgeProps = '10대' | '20~30대' | '40~50대' | '60대 이상'
-export type SexProps = '남성' | '여성'
+export type SexProps = '남성' | '여성' | '성별무관'
 export const testCategories = ["패션",
     "뷰티",
     "비건/친환경",
@@ -53,7 +43,7 @@ export const ages: AgeProps[] = [
     '10대', '20~30대', '40~50대', '60대 이상',
 ]
 export const sexs: SexProps[] = [
-    '남성', '여성',
+    '남성', '여성', '성별무관'
 ]
 export type SlugProps = {
     title: string;

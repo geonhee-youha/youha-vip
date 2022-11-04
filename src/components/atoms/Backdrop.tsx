@@ -1,10 +1,12 @@
 import { Backdrop } from "@mui/material";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import { checkedCreatorIdsState } from "../../datas";
 import {
   alarmDrawerState,
   alertDialogState,
   campaignDrawerState,
-  creatorPlanDrawerState,
+  creatorDrawerState,
+  estimateDrawerState,
   searchDrawerState,
 } from "../../recoil";
 
@@ -13,9 +15,10 @@ export default function BackDrop() {
   const [alarmDrawer, setAlarmDrawer] = useRecoilState(alarmDrawerState);
   const [campaignDrawer, setCampaignDrawer] =
     useRecoilState(campaignDrawerState);
-  const [creatorPlanDrawer, setCreatorPlanDrawer] = useRecoilState(
-    creatorPlanDrawerState
-  );
+  const [creatorDrawer, setCreatorDrawer] = useRecoilState(creatorDrawerState);
+  const [estimateDrawer, setEstimateDrawer] =
+    useRecoilState(estimateDrawerState);
+  const setCheckedCreatorIds = useSetRecoilState(checkedCreatorIdsState);
   const setAlertDialog = useSetRecoilState(alertDialogState);
   const handleClick = () => {
     if (searchDrawer.open) {
@@ -36,17 +39,26 @@ export default function BackDrop() {
       });
       return;
     }
-    // if (creatorPlanDrawer.open) {
-    //   setCreatorPlanDrawer((prev) => {
-    //     return {
-    //       ...prev,
-    //       open: false,
-    //     };
-    //   });
-    //   return;
-    // }
+    if (estimateDrawer.open) {
+      setEstimateDrawer((prev) => {
+        return {
+          ...prev,
+          open: false,
+        };
+      });
+      return;
+    }
+    if (creatorDrawer.open) {
+      setCreatorDrawer((prev) => {
+        return {
+          ...prev,
+          open: false,
+        };
+      });
+      return;
+    }
     if (campaignDrawer.open) {
-      if (campaignDrawer.selectedId !== null) {
+      if (campaignDrawer.selectedCampaignIds.length > 0) {
         setAlertDialog((prev) => {
           return {
             ...prev,
@@ -59,16 +71,24 @@ export default function BackDrop() {
                 setCampaignDrawer((prev) => {
                   return {
                     open: false,
-                    selectedId: null,
+                    selectedCampaignIds: [],
                   };
                 });
-                setCreatorPlanDrawer((prev) => {
+                setCreatorDrawer((prev) => {
                   return {
                     open: false,
                     selectedCreatorIds: [],
                     selectedPlanIds: [],
+                    pass: false,
                   };
                 });
+                setEstimateDrawer((prev) => {
+                  return {
+                    open: false,
+                    mix: undefined,
+                  };
+                });
+                setCheckedCreatorIds([]);
               },
             },
             confirm: {
@@ -80,7 +100,13 @@ export default function BackDrop() {
                     open: false,
                   };
                 });
-                setCreatorPlanDrawer((prev) => {
+                setCreatorDrawer((prev) => {
+                  return {
+                    ...prev,
+                    open: false,
+                  };
+                });
+                setEstimateDrawer((prev) => {
                   return {
                     ...prev,
                     open: false,
@@ -98,7 +124,13 @@ export default function BackDrop() {
             open: false,
           };
         });
-        setCreatorPlanDrawer((prev) => {
+        setCreatorDrawer((prev) => {
+          return {
+            ...prev,
+            open: false,
+          };
+        });
+        setEstimateDrawer((prev) => {
           return {
             ...prev,
             open: false,
@@ -114,7 +146,8 @@ export default function BackDrop() {
         searchDrawer.open ||
         alarmDrawer.open ||
         campaignDrawer.open ||
-        creatorPlanDrawer.open
+        creatorDrawer.open ||
+        estimateDrawer.open
       }
       onClick={handleClick}
       sx={{

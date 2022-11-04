@@ -2882,10 +2882,22 @@ export type CampaignProps = {
     id: number;
     title: string;
     description: string;
-    category: string;
+    categories: string[];
+    keyword: string;
     target: {
-        age?: AgeProps,
+        ages?: AgeProps[],
         sex?: SexProps,
+    },
+}
+export const campaignDefaultProps = {
+    id: 0,
+    title: "",
+    description: "",
+    categories: [],
+    keyword: "",
+    target: {
+        ages: [],
+        sex: undefined,
     },
 }
 export const testCampaigns: CampaignProps[] = [
@@ -2893,9 +2905,10 @@ export const testCampaigns: CampaignProps[] = [
         id: 0,
         title: '동원샘물 캠페인',
         description: '동원 F&B의 동원샘물, 미네마인을 마케팅',
-        category: '패션',
+        categories: ['패션'],
+        keyword: '동원샘물',
         target: {
-            age: '20~30대',
+            ages: ['20~30대'],
             sex: '여성',
         },
     },
@@ -2903,9 +2916,10 @@ export const testCampaigns: CampaignProps[] = [
         id: 1,
         title: '네일 아트샵 방문 캠페인',
         description: '동원 F&B의 동원샘물, 미네마인을 마케팅',
-        category: '패션',
+        categories: ['패션'],
+        keyword: '네일',
         target: {
-            age: '20~30대',
+            ages: ['20~30대'],
             sex: '남성',
         },
     }
@@ -2921,7 +2935,7 @@ export type AdProps = {
     createdAt: string | Date;
     endedAt: string | Date;
     target: {
-        age: AgeProps,
+        ages: AgeProps[],
         sex?: SexProps,
     },
     budget: number;
@@ -2960,3 +2974,1119 @@ export const userState = atom<UserProps | null>({
     key: "userState",
     default: testUser
 });
+export const categoryList: { [key: string]: { value: string; emoji: string; label: string } } = {
+    fashion: { value: "fashion", emoji: "🛍️", label: "패션" },
+    beauty: { value: "beauty", emoji: "💄", label: "뷰티" },
+    eco: { value: "eco", emoji: "🌳", label: "비건/친환경" },
+    interior: { value: "interior", emoji: "🛋️", label: "가구/인테리어" },
+    healthcare: { value: "healthcare", emoji: "💪", label: "건강" },
+    diet: { value: "diet", emoji: "🥗", label: "다이어트" },
+    travel: { value: "travel", emoji: "✈️", label: "여행" },
+    game: { value: "game", emoji: "🎮", label: "게임" },
+    pet: { value: "pet", emoji: "🐶", label: "펫/동물" },
+    it: { value: "it", emoji: "📱", label: "IT/앱" },
+    electronics: { value: "electronics", emoji: "📺", label: "가전/전자기기" },
+    "movie-drama-production": { value: "movie-drama-production", emoji: "📽️", label: "영화/드라마" },
+    "webtoon-animation": { value: "webtoon-animation", emoji: "👸", label: "웹툰/애니" },
+    car: { value: "car", emoji: "🏎️", label: "자동차" },
+    music: { value: "music", emoji: "🎹", label: "음악" },
+    "outdoor-exercise": { value: "outdoor-exercise", emoji: "🏃‍♀️", label: "운동" },
+    politics: { value: "politics", emoji: "🗳️", label: "시사/정치" },
+    education: { value: "education", emoji: "🏫", label: "교육" },
+    kids: { value: "kids", emoji: "🧒", label: "키즈" },
+    bank: { value: "bank", emoji: "🏦", label: "은행" },
+    stock: { value: "stock", emoji: "📈", label: "증권" },
+    "credit-card": { value: "credit-card", emoji: "💳", label: "카드" },
+    finance: { value: "finance", emoji: "🪙", label: "금융" },
+    investment: { value: "investment", emoji: "💸", label: "투자/제태크" },
+    liquor: { value: "liquor", emoji: "🍷", label: "주류" },
+    beverage: { value: "beverage", emoji: "🧃", label: "음료" },
+    food: { value: "food", emoji: "🍲", label: "음식" },
+    restaurant: { value: "restaurant", emoji: "🥢", label: "음식점" },
+    publisher: { value: "publisher", emoji: "📖", label: "출판" },
+    "public-office": { value: "public-office", emoji: "📢", label: "공기업/관공서" },
+    hospital: { value: "hospital", emoji: "🏥", label: "병원" },
+    entertainment: { value: "entertainment", emoji: "💃", label: "엔터테인먼트" },
+    religion: { value: "religion", emoji: "📿", label: "종교" },
+    "social-enterprise": { value: "social-enterprise", emoji: "🐧", label: "사회적 기업" },
+    etc: { value: "etc", emoji: "", label: "기타" },
+};
+
+
+export const testPlanDatas = [
+    {
+        "kind": "youtube#playlist",
+        "etag": "q808n4ZQNM0lZD3W8YSsU1k8tnc",
+        "id": "PLNF8K9Ddz0kLX1niy_IAFTV1YKeSBhVsD",
+        "snippet": {
+            "publishedAt": "2022-08-11T15:02:24Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "Pink Venom",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/gQlMMD8auMs/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/gQlMMD8auMs/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/gQlMMD8auMs/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/gQlMMD8auMs/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/gQlMMD8auMs/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "Pink Venom",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "Lxlw5wZVJ_6MNZIgKb9Ev3bDwDI",
+        "id": "PLNF8K9Ddz0kKuIYCH9b9epXgQBuOkACPN",
+        "snippet": {
+            "publishedAt": "2022-08-02T03:45:45Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "BORN PINK",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/POe9SOEKotk/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/POe9SOEKotk/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/POe9SOEKotk/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/POe9SOEKotk/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/POe9SOEKotk/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "BORN PINK",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "jrfenJa06AhKRa95wJ8O1AZWVeA",
+        "id": "PLNF8K9Ddz0kKlf_ogkL9_31b--vTfJhMf",
+        "snippet": {
+            "publishedAt": "2021-08-26T12:00:34Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "LISA",
+            "description": "More about BLACKPINK @ http://www.blackpinkofficial.com/ http://www.facebook.com/BLACKPINKOFFICIAL http://www.youtube.com/BLACKPINKOFFICIAL http://www.instagram.com/BLACKPINKOFFICIAL http://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/awkkyBH2zEo/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/awkkyBH2zEo/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/awkkyBH2zEo/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/awkkyBH2zEo/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/awkkyBH2zEo/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "LISA",
+                "description": "More about BLACKPINK @ http://www.blackpinkofficial.com/ http://www.facebook.com/BLACKPINKOFFICIAL http://www.youtube.com/BLACKPINKOFFICIAL http://www.instagram.com/BLACKPINKOFFICIAL http://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "dEP7arOvynVwBL80kGr-qopBk1E",
+        "id": "PLNF8K9Ddz0kKZAbwpPPJxU2jpWqNToguE",
+        "snippet": {
+            "publishedAt": "2021-08-03T05:01:24Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "5th ANNIVERSARY [4+1]",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/8k3QLN3WbwE/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/8k3QLN3WbwE/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/8k3QLN3WbwE/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/8k3QLN3WbwE/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/8k3QLN3WbwE/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "5th ANNIVERSARY [4+1]",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "TZM-qhna1CgVw5EY67vYPkvAHF8",
+        "id": "PLNF8K9Ddz0kJcZcKu24diA5alT-fCa-3a",
+        "snippet": {
+            "publishedAt": "2021-06-01T10:31:26Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "BLACKPINK in JAPAN",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/Ra6Y5EMbghY/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/Ra6Y5EMbghY/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/Ra6Y5EMbghY/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/Ra6Y5EMbghY/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/Ra6Y5EMbghY/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "BLACKPINK in JAPAN",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "EsJfJpw8aSUIOtgsE82IRTXxrVI",
+        "id": "PLNF8K9Ddz0kItIojCCyaEbKK6WoH2ohRK",
+        "snippet": {
+            "publishedAt": "2021-03-06T01:18:38Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "ROSÉ \"On The Ground\" Premiere Countdown on RELEASED",
+            "description": "",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/S7_iy3BOgvk/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/S7_iy3BOgvk/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/S7_iy3BOgvk/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/S7_iy3BOgvk/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/S7_iy3BOgvk/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "ROSÉ \"On The Ground\" Premiere Countdown on RELEASED",
+                "description": ""
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "-G8_vnjU_m-b9AGrJTdPY2ayNQk",
+        "id": "PLNF8K9Ddz0kJ36dXtkVmHHhcXVgSzoXIs",
+        "snippet": {
+            "publishedAt": "2021-03-01T15:24:28Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "ROSÉ",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/CKZvWhCqx1s/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/CKZvWhCqx1s/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/CKZvWhCqx1s/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/CKZvWhCqx1s/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/CKZvWhCqx1s/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "ROSÉ",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "_Y4NDrjCCNhLxsW3XD2yske48Zs",
+        "id": "PLNF8K9Ddz0kLj74XBzZD8z3_QPdsqFtkN",
+        "snippet": {
+            "publishedAt": "2020-12-03T02:06:54Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "THE SHOW",
+            "description": "Buy Access for the 2021.01.31 2PM (KST) Livestream Concert @ https://yt.be/music/BLACKPINKTheShow",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/oIupRdK7pwM/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/oIupRdK7pwM/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/oIupRdK7pwM/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/oIupRdK7pwM/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/oIupRdK7pwM/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "THE SHOW",
+                "description": "Buy Access for the 2021.01.31 2PM (KST) Livestream Concert @ https://yt.be/music/BLACKPINKTheShow"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "qFhucdtnkL04SfZAYagWgnQxw0c",
+        "id": "PLNF8K9Ddz0kJWSgNkDMo6yh8J6yelIYXP",
+        "snippet": {
+            "publishedAt": "2020-09-29T06:48:24Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "Watch us on RELEASED",
+            "description": "Exclusive access, never been seen footage, and your latest music news leading up to our worldwide music video premiere \"Lovesick Girls\"",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/_oGv-g2HSEc/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/_oGv-g2HSEc/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/_oGv-g2HSEc/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/_oGv-g2HSEc/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/_oGv-g2HSEc/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "Watch us on RELEASED",
+                "description": "Exclusive access, never been seen footage, and your latest music news leading up to our worldwide music video premiere \"Lovesick Girls\""
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "N263nLP12sV87YGNj8Hq6JYkzSM",
+        "id": "PLNF8K9Ddz0kKeTUhlNE2bCQyvO7o3O3Bd",
+        "snippet": {
+            "publishedAt": "2020-09-26T23:50:45Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "THE ALBUM",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/dyRsYk0LyA8/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/dyRsYk0LyA8/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/dyRsYk0LyA8/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/dyRsYk0LyA8/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/dyRsYk0LyA8/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "THE ALBUM",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "tYWV5Uj09ywMgD-zrYPHiwqq1oI",
+        "id": "PLNF8K9Ddz0kIp11y8S69Kzvdl-ymzNPip",
+        "snippet": {
+            "publishedAt": "2020-08-23T11:29:28Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "Ice Cream",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/vRXZj0DzXIA/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/vRXZj0DzXIA/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/vRXZj0DzXIA/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/vRXZj0DzXIA/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/vRXZj0DzXIA/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "Ice Cream",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "sLrLuQ2rh69H4rKOrJFw8XQgbQs",
+        "id": "PLNF8K9Ddz0kJQldfxlGv4ZlXmdXM3D_ru",
+        "snippet": {
+            "publishedAt": "2020-06-17T23:48:19Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "How You Like That",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/ioNng23DkIM/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/ioNng23DkIM/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/ioNng23DkIM/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/ioNng23DkIM/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/ioNng23DkIM/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "How You Like That",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "w7E1mlYqa1---4X66RXoSToChUE",
+        "id": "PLNF8K9Ddz0kIrPevRMAxtlj5_BK7KPg57",
+        "snippet": {
+            "publishedAt": "2020-06-13T01:01:23Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "24/365 with BLACKPINK",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/O_ibCeLnhPQ/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/O_ibCeLnhPQ/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/O_ibCeLnhPQ/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/O_ibCeLnhPQ/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/O_ibCeLnhPQ/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "24/365 with BLACKPINK",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "QsT6tmgLcHNE73jgI4x0O3tLc3I",
+        "id": "PLNF8K9Ddz0kI2GdcJrk82MNhF9bkWRpSY",
+        "snippet": {
+            "publishedAt": "2019-05-30T06:29:56Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "SQUARE UP",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/IHNzOHi8sJs/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/IHNzOHi8sJs/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/IHNzOHi8sJs/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/IHNzOHi8sJs/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/IHNzOHi8sJs/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "SQUARE UP",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "0lVMiXs_fqzrNmqswJWnLnmk-e0",
+        "id": "PLNF8K9Ddz0kLOiKe-yqXiMJX57cFd4Egy",
+        "snippet": {
+            "publishedAt": "2019-05-30T06:29:46Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "마지막처럼",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/Amq-qlqbjYA/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/Amq-qlqbjYA/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/Amq-qlqbjYA/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/Amq-qlqbjYA/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/Amq-qlqbjYA/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "마지막처럼",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "ZKiOHkcMDkQCpEH58NtAsa00iNs",
+        "id": "PLNF8K9Ddz0kJMdhJX4ISswMgpsqhr31v4",
+        "snippet": {
+            "publishedAt": "2019-05-30T06:29:36Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "SQUARE TWO",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/9pdj4iJD08s/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/9pdj4iJD08s/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/9pdj4iJD08s/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/9pdj4iJD08s/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/9pdj4iJD08s/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "SQUARE TWO",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "or7wrmd1pF2w047Uqmuo28HHav0",
+        "id": "PLNF8K9Ddz0kLSb3CSZtsS1OtHysCoUcg-",
+        "snippet": {
+            "publishedAt": "2019-05-30T06:29:26Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "SQUARE ONE",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/dISNgvVpWlo/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/dISNgvVpWlo/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/dISNgvVpWlo/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/dISNgvVpWlo/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/dISNgvVpWlo/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "SQUARE ONE",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "Lp9Bl1CzBsg4GWqRP4Ef4sblDnU",
+        "id": "PLNF8K9Ddz0kJlgxgD4Bnkk1jhQ61gW6W4",
+        "snippet": {
+            "publishedAt": "2019-04-02T05:15:56Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "JENNIE",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/b73BI9eUkjM/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/b73BI9eUkjM/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/b73BI9eUkjM/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/b73BI9eUkjM/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/b73BI9eUkjM/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "JENNIE",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "EkOBrKwoIHrOJAVAJrbr0FfzER4",
+        "id": "PLNF8K9Ddz0kI-fTJtkPI7PFDjdM-nJtSG",
+        "snippet": {
+            "publishedAt": "2019-04-02T05:14:43Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "KILL THIS LOVE",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/2S24-y0Ij3Y/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/2S24-y0Ij3Y/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/2S24-y0Ij3Y/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/2S24-y0Ij3Y/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/2S24-y0Ij3Y/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "KILL THIS LOVE",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "ji67djwQawR11yV3lotplcNu9UE",
+        "id": "PLNF8K9Ddz0kIPqeB0P0DNtDL10w3mko_q",
+        "snippet": {
+            "publishedAt": "2019-03-01T01:03:39Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "BLACKPINK DIARIES",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/hownMyg3g3M/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/hownMyg3g3M/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/hownMyg3g3M/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/hownMyg3g3M/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/hownMyg3g3M/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "BLACKPINK DIARIES",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "wEoFKJFyf85LXUWZ3yBeVHGwTfI",
+        "id": "PLNF8K9Ddz0kJWl_ftRAo0aNJCSZlQVkRd",
+        "snippet": {
+            "publishedAt": "2017-11-04T01:01:30Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "BLACKPINK HOUSE",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/wpMn2cFX_EQ/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/wpMn2cFX_EQ/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/wpMn2cFX_EQ/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/wpMn2cFX_EQ/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/wpMn2cFX_EQ/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "BLACKPINK HOUSE",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "vcpeRF1WBCG_6-9mB9bRVmgYOrI",
+        "id": "PLNF8K9Ddz0kKKkPixGOA_xfLYqUG1QXlF",
+        "snippet": {
+            "publishedAt": "2016-08-14T09:12:03Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "PERFORMANCES",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/PjrAwC4TIPA/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/PjrAwC4TIPA/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/PjrAwC4TIPA/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/PjrAwC4TIPA/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/PjrAwC4TIPA/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "PERFORMANCES",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "JhtDZBqm7p284-fyHf9b4JbHcUo",
+        "id": "PLNF8K9Ddz0kJ_ucHOcUZoQvR1vt_nBw9G",
+        "snippet": {
+            "publishedAt": "2016-08-08T11:23:08Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "BEHIND THE SCENES",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/L0zIUVVEW6g/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/L0zIUVVEW6g/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/L0zIUVVEW6g/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/L0zIUVVEW6g/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/L0zIUVVEW6g/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "BEHIND THE SCENES",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "rqXOHFUm8z7zcHnmbRs6K082FSg",
+        "id": "PLNF8K9Ddz0kKfujG6blfAxngYh_C66C_q",
+        "snippet": {
+            "publishedAt": "2016-08-08T02:53:57Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "MUSIC VIDEOS",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/POe9SOEKotk/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/POe9SOEKotk/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/POe9SOEKotk/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/POe9SOEKotk/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/POe9SOEKotk/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "MUSIC VIDEOS",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    },
+    {
+        "kind": "youtube#playlist",
+        "etag": "Mbz4iLc0po6gAfdyTQJVCjd_9Vo",
+        "id": "PLNF8K9Ddz0kI4uLrV7BYrdcebUuMf06z1",
+        "snippet": {
+            "publishedAt": "2016-07-06T01:03:07Z",
+            "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+            "title": "DANCE PRACTICE VIDEOS",
+            "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink",
+            "thumbnails": {
+                "default": {
+                    "url": "https://i.ytimg.com/vi/PjrAwC4TIPA/default.jpg",
+                    "width": 120,
+                    "height": 90
+                },
+                "medium": {
+                    "url": "https://i.ytimg.com/vi/PjrAwC4TIPA/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                },
+                "high": {
+                    "url": "https://i.ytimg.com/vi/PjrAwC4TIPA/hqdefault.jpg",
+                    "width": 480,
+                    "height": 360
+                },
+                "standard": {
+                    "url": "https://i.ytimg.com/vi/PjrAwC4TIPA/sddefault.jpg",
+                    "width": 640,
+                    "height": 480
+                },
+                "maxres": {
+                    "url": "https://i.ytimg.com/vi/PjrAwC4TIPA/maxresdefault.jpg",
+                    "width": 1280,
+                    "height": 720
+                }
+            },
+            "channelTitle": "BLACKPINK",
+            "localized": {
+                "title": "DANCE PRACTICE VIDEOS",
+                "description": "More about BLACKPINK @\nhttp://www.blackpinkofficial.com/\nhttp://www.facebook.com/BLACKPINKOFFICIAL\nhttp://www.youtube.com/BLACKPINKOFFICIAL\nhttp://www.instagram.com/BLACKPINKOFFICIAL\nhttp://www.twitter.com/ygofficialblink"
+            }
+        }
+    }
+]

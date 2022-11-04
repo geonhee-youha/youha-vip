@@ -5,6 +5,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { PageProps, SlugProps } from "../../constants";
 import { campaignDrawerState } from "../../recoil";
+import { theme } from "../../themes/theme";
 import youhaBlue from "../../themes/youhaBlue";
 import Icon from "../atoms/Icon";
 
@@ -47,7 +48,7 @@ export default function MainTabItem({
           sx={{
             maxWidth: 24,
             mr: 2,
-            color: checked ? youhaBlue[500] : blueGrey[700],
+            color: checked ? youhaBlue[500] : blueGrey[900],
           }}
         />
         <Typography
@@ -55,13 +56,14 @@ export default function MainTabItem({
             fontSize: 16,
             lineHeight: "24px",
             fontWeight: "700",
-            color: checked ? youhaBlue[500] : blueGrey[700],
+            color: checked ? youhaBlue[500] : blueGrey[900],
           }}
         >
           {title}
         </Typography>
         {slugs && (
           <Icon
+            size={20}
             name="angle-down"
             sx={{
               ml: "auto",
@@ -73,6 +75,7 @@ export default function MainTabItem({
         {right && (
           <Icon
             name="angle-right"
+            size={20}
             sx={{
               ml: "auto",
             }}
@@ -82,20 +85,15 @@ export default function MainTabItem({
       {slugs && (
         <Box
           sx={{
-            pl: 1,
-            pr: 1,
-            maxHeight: open ? slugs.length * 36 + 8 * 2 + 8 : 0,
+            maxHeight: open ? slugs.length * 36 + 8 * 2 + 8 * 2 : 0,
             transition: `all 0.35s ease`,
             overflow: "hidden",
           }}
         >
           <Box
             sx={{
-              pt: 1,
-              pb: 1,
-              pl: 1,
-              pr: 1,
-              mt: 1,
+              m: theme.spacing(1, 1, 1, 1),
+              p: theme.spacing(1),
               backgroundColor: blueGrey[50],
               borderRadius: 1,
             }}
@@ -147,7 +145,7 @@ function SlugItem({
       sx={{
         width: "100%",
         justifyContent: "flex-start",
-        p: 1,
+        p: theme.spacing(1),
         borderRadius: 1,
         "& .MuiTouchRipple-root *": {
           backgroundColor: alpha(blueGrey[900], 0.32),
@@ -160,7 +158,7 @@ function SlugItem({
           fontSize: 14,
           lineHeight: "20px",
           fontWeight: "700",
-          color: checked ? youhaBlue[500] : blueGrey[700],
+          color: checked ? youhaBlue[500] : blueGrey[900],
         }}
       >
         {title}

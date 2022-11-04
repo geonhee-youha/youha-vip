@@ -92,3 +92,29 @@ export function displayedAt(str: string | null, short?: boolean) {
   // const years = days / 365;
   // return `${Math.floor(years)}년 전`;
 }
+export function setKoNumber(number: number) {
+  var pWon = comma(number);
+  var won = `${pWon}`.replace(/,/g, "");
+  var arrWon = [" ", "만 ", "억 ", "조 "];
+  var pattern = /(-?[0-9]+)([0-9]{4})/;
+  var changeWon = "";
+  while (pattern.test(won)) {
+    won = won.replace(pattern, "$1,$2");
+  }
+  var arrCount = won.split(",").length - 1;
+  for (var ii: number = 0; ii < won.split(",").length; ii++) {
+    if (arrWon[arrCount] === undefined) {
+      break;
+    }
+    var tempWon = 0;
+    for (var i: number = 0; i < won.split(",")[ii].length; i++) {
+      var num1 = won.split(",")[ii].substring(i, i + 1);
+      tempWon = tempWon + Number(num1);
+    }
+    if (tempWon > 0) {
+      changeWon += comma(Number(won.split(",")[ii])) + arrWon[arrCount];
+    }
+    arrCount--;
+  }
+  return changeWon.slice(0, -1);
+}

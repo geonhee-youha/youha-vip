@@ -35,25 +35,25 @@ import {
   DoughnutController,
 } from "chart.js";
 import { blueGrey } from "@mui/material/colors";
-import { Box } from "@mui/material";
-import MainTab from "../components/organisms/MainTab";
-import AlarmDrawer from "../components/organisms/Drawer/AlarmDrawer";
+import { Box, Paper, Stack } from "@mui/material";
+import MainTab from "../components/templates/MainTab";
+import AlarmDrawer from "../components/templates/Drawer/AlarmDrawer";
 import _ from "lodash";
 import { mainTabWidth, pages } from "../constants";
-import CampaignDrawer from "../components/organisms/Drawer/CampaignDrawer";
-import SearchDrawer from "../components/organisms/Drawer/SearchDrawer";
-import AlertDialog from "../components/organisms/Dialog/AlertDialog";
+import CampaignDrawer from "../components/templates/Drawer/CampaignDrawer";
+import SearchDrawer from "../components/templates/Drawer/SearchDrawer";
+import AlertDialog from "../components/templates/Dialog/AlertDialog";
 import BackDrop from "../components/atoms/Backdrop";
-import CampaignPopup from "../components/organisms/Popup/CampaignPopup";
-import CreatorPopup from "../components/organisms/Popup/CreatorPopup";
-import CampaignDialog from "../components/organisms/Dialog/CampaignDialog";
-import CreatorDialog from "../components/organisms/Dialog/CreatorDialog";
-import PlanDialog from "../components/organisms/Dialog/PlanDialog";
-import CreatorPlanDrawer from "../components/organisms/Drawer/CreatorPlanDrawer";
-import PlanPopup from "../components/organisms/Popup/PlanPopup";
-import EstimateInputDialog from "../components/organisms/Dialog/EstimateInputDialog";
-import EstimateDialog from "../components/organisms/Dialog/EstimateDialog";
-import AdDialog from "../components/organisms/Dialog/AdDialog";
+import CampaignPopup from "../components/templates/Popup/CampaignPopup";
+import CreatorPopup from "../components/templates/Popup/CreatorPopup";
+import CampaignDialog from "../components/templates/Dialog/CampaignDialog";
+import CreatorDialog from "../components/templates/Dialog/CreatorDialog";
+import PlanDialog from "../components/templates/Dialog/PlanDialog";
+import CreatorDrawer from "../components/templates/Drawer/CreatorDrawer";
+import PlanPopup from "../components/templates/Popup/PlanPopup";
+import EstimateDialog from "../components/templates/Dialog/EstimateDialog";
+import AdDialog from "../components/templates/Dialog/AdDialog";
+import EstimateDrawer from "../components/templates/Drawer/EstimateDrawer";
 ChartJS.register(
   LineController,
   BarController,
@@ -242,21 +242,23 @@ function MyApp(props: MyAppProps) {
           {!inMainTabs ? (
             <Component {...pageProps} key={router.route} />
           ) : (
-            <Box
-              sx={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: blueGrey[100],
-                overflow: "auto",
-              }}
-              className="Drawers"
-            >
+            <>
               <BackDrop />
-              <MainTab />
-              <CreatorPlanDrawer />
+              <Box
+                sx={{
+                  position: "relative",
+                  m: `0 auto`,
+                  width: 1600,
+                  height: "100%",
+                  overflow: "auto",
+                }}
+                className="GlobalContainer"
+              >
+                <MainTab />
+                <CampaignDrawer />
+                <CreatorDrawer />
+                <EstimateDrawer />
+                {/* <CreatorDrawer />
               <CampaignDrawer />
               <CampaignDialog />
               <CreatorDialog />
@@ -265,30 +267,54 @@ function MyApp(props: MyAppProps) {
               <PlanDialog />
               <EstimateInputDialog />
               <AlarmDrawer />
-              <SearchDrawer />
-              <Box
-                sx={{
-                  position: "absolute",
-                  top: 24,
-                  bottom: 24,
-                  left: `calc(${mainTabWidth + 24 + 24}px)`,
-                  right: `calc(${24 + 24}px)`,
-                  "@media(min-width: 1600px)": {
-                    left: `calc((100vw - 1600px) / 2 + ${
-                      mainTabWidth + 24 + 24
-                    }px)`,
-                    right: `calc((100vw - 1600px) / 2 + ${24 + 24}px)`,
-                  },
-                }}
-              >
-                <Component {...pageProps} key={router.route} />
+              <SearchDrawer /> */}
+                <Stack
+                  spacing={2}
+                  sx={{
+                    position: "absolute",
+                    top: 24,
+                    bottom: 24,
+                    right: 24,
+                    left: 376 + 24 + 16,
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Paper
+                    elevation={4}
+                    sx={{
+                      height: 72,
+                      borderRadius: 1,
+                      boxShadow: `4px 4px 8px 4px rgba(0, 0, 0, 0.08)`,
+                      // border: `1px solid ${blueGrey[300]}`
+                    }}
+                  ></Paper>
+                  <Box
+                    sx={{
+                      position: "relative",
+                      flex: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                      }}
+                    >
+                      <Component {...pageProps} key={router.route} />
+                    </Box>
+                  </Box>
+                </Stack>
+                <CampaignPopup />
+                <CreatorPopup />
+                <PlanPopup />
+                <AlertDialog />
               </Box>
-            </Box>
+            </>
           )}
-          <CampaignPopup />
-          <CreatorPopup />
-          <PlanPopup />
-          <AlertDialog />
         </ThemeProvider>
       </RecoilRoot>
     </CacheProvider>

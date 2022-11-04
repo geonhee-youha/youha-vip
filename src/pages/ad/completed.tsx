@@ -78,13 +78,13 @@ export default function Page() {
           top: 0,
           p: theme.spacing(2.25, 3, 0, 3),
           backgroundColor: "#ffffff",
-          zIndex: 99,
+          zIndex: 98,
         }}
       >
         <Box
           sx={{
             display: "flex",
-            borderBottom: `1px solid ${blueGrey[100]}`,
+            borderBottom: `1px solid ${blueGrey[50]}`,
             pb: 2,
           }}
         >

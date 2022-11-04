@@ -76,13 +76,13 @@ export default function Page() {
           top: 0,
           p: theme.spacing(2.25, 3, 0, 3),
           backgroundColor: "#ffffff",
-          zIndex: 99,
+          zIndex: 98,
         }}
       >
         <Box
           sx={{
             display: "flex",
-            borderBottom: `1px solid ${blueGrey[100]}`,
+            borderBottom: `1px solid ${blueGrey[50]}`,
             pb: 2,
           }}
         >
@@ -118,7 +118,7 @@ export default function Page() {
                 fontWeight: "700",
                 color: blueGrey[700],
                 "& fieldset": {
-                  borderColor: blueGrey[100],
+                  borderColor: blueGrey[50],
                   borderWidth: `1px !important`,
                   boxShadow: "none !important",
                 },
@@ -149,7 +149,7 @@ export default function Page() {
                     key={index}
                     sx={{
                       borderRadius: 1,
-                      border: `1px solid ${blueGrey[100]}`,
+                      border: `1px solid ${blueGrey[50]}`,
                       p: 2,
                       flexDirection: "column",
                       justifyContent: "flex-start",

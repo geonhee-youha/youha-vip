@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { UserProps } from "../../datas";
 import { theme } from "../../themes/theme";
 import Icon from "../atoms/Icon";
+import Typo from "../atoms/Typo";
 
 export default function UserItem({ item }: { item: UserProps }) {
   const router = useRouter();
@@ -52,7 +53,7 @@ export default function UserItem({ item }: { item: UserProps }) {
             fontSize: 12,
             lineHeight: "16px",
             fontWeight: "700",
-            color: blueGrey[700],
+            color: blueGrey[900],
           }}
         >
           {company.name} {company.team.name}
@@ -60,11 +61,11 @@ export default function UserItem({ item }: { item: UserProps }) {
         <Typography
           component="div"
           sx={{
-            height: 32,
+            height: 28,
             fontSize: 20,
             lineHeight: "32px",
             fontWeight: "700",
-            color: blueGrey[700],
+            color: blueGrey[900],
           }}
         >
           {name}
@@ -74,30 +75,25 @@ export default function UserItem({ item }: { item: UserProps }) {
               fontSize: 12,
               lineHeight: "32px",
               fontWeight: "700",
-              color: blueGrey[700],
+              color: blueGrey[900],
               ml: 0.5,
             }}
           >
             {company.team.position}
           </Typography>
         </Typography>
-        <Typography
+        <Typo
+          lines={1}
           sx={{
+            mt: 0.5,
             fontSize: 12,
             lineHeight: "16px",
-            color: blueGrey[400],
+            color: blueGrey[600],
           }}
         >
           {email}
-        </Typography>
+        </Typo>
       </Box>
-      {/* <Icon
-        name="angle-right"
-        sx={{
-          ml: "auto",
-          transition: `all 0.35s ease`,
-        }}
-      /> */}
     </ButtonBase>
   );
 }

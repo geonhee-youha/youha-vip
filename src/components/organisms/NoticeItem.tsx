@@ -72,14 +72,14 @@ export default function NoticeItem({
                   fontSize: 14,
                   lineHeight: "20px",
                   fontWeight: "700",
-                  color: blueGrey[700],
+                  color: blueGrey[900],
                 }
               : {
                   flex: 1,
-                  fontSize: 16,
-                  lineHeight: "24px",
+                  fontSize: 14,
+                  lineHeight: "20px",
                   fontWeight: "700",
-                  color: blueGrey[700],
+                  color: blueGrey[900],
                 }
           }
         >
@@ -88,6 +88,7 @@ export default function NoticeItem({
         {!inMainTab && (
           <Icon
             name="angle-down"
+            size={16}
             sx={{
               ml: "auto",
               transform: `rotate(${open ? 180 : 0}deg)`,
@@ -111,8 +112,8 @@ export default function NoticeItem({
               position: "absolute",
               top: 0,
               left: 0,
-              right: 0,
               pt: 1,
+              pb: 0.5,
             }}
           >
             <Box
@@ -125,8 +126,9 @@ export default function NoticeItem({
             >
               <Typo
                 sx={{
-                  fontSize: 14,
-                  lineHeight: "20px",
+                  fontSize: 12,
+                  lineHeight: "16px",
+                  fontWeight: '700'
                 }}
               >
                 {body}
@@ -136,12 +138,21 @@ export default function NoticeItem({
         </Box>
       )}
       <Typo
-        sx={{
-          mt: 0.5,
-          fontSize: 12,
-          lineHeight: "16px",
-          color: blueGrey[500],
-        }}
+        sx={
+          inMainTab
+            ? {
+                mt: 0.5,
+                fontSize: 12,
+                lineHeight: "16px",
+                color: blueGrey[700],
+              }
+            : {
+                mt: 0.5,
+                fontSize: 12,
+                lineHeight: "16px",
+                color: blueGrey[700],
+              }
+        }
       >
         {displayedAt(createdAt, inMainTab)}
       </Typo>

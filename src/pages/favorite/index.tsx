@@ -12,9 +12,9 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import SwipeableViews from "react-swipeable-views";
 import Panel from "../../components/atoms/Panel";
-import CreatorItem from "../../components/molecules/CreatorItem";
-import PlanItem from "../../components/molecules/PlanItem";
-import TabBar from "../../components/organisms/TabBar";
+import CreatorItem from "../../components/organisms/CreatorItem";
+import PlanItem from "../../components/organisms/PlanItem";
+import TabBar from "../../components/templates/TabBar";
 import { creatorFilters, favoriteTabs, pages } from "../../constants";
 import { testCreators, testPlans } from "../../datas";
 import { theme } from "../../themes/theme";
@@ -54,7 +54,7 @@ export default function Page() {
           top: 0,
           p: theme.spacing(2.25, 3, 0, 3),
           backgroundColor: "#ffffff",
-          zIndex: 99,
+          zIndex: 98,
         }}
         className="Header"
       >
@@ -112,7 +112,7 @@ export default function Page() {
                     fontWeight: "700",
                     color: blueGrey[700],
                     "& fieldset": {
-                      borderColor: blueGrey[100],
+                      borderColor: blueGrey[50],
                       borderWidth: `1px !important`,
                       boxShadow: "none !important",
                     },

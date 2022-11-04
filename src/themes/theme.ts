@@ -8,7 +8,6 @@ import {
   blue,
   red,
   teal,
-  grey,
   orange,
   pink,
   blueGrey,
@@ -56,23 +55,19 @@ export const theme = createTheme({
     MuiFormHelperText: {
       styleOverrides: {
         root: {
-          // color: grey[300],
+          // color: blueGrey[300],
         },
       },
     },
     MuiTextField: {
       styleOverrides: {
         root: {
-          // "& label": {
-          //   color: grey[300],
-          // },
-          fontSize: 14,
-          lineHeight: '20px',
+          fontSize: 16,
+          lineHeight: '24px',
           "& *": { borderWidth: `1px !important` },
           "& fieldset": {
             borderWidth: 1,
             borderColor: youhaBlue[100],
-            // borderRadius: 20,
           },
           "&:hover fieldset": {
             borderWidth: 1,
@@ -201,7 +196,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: "transparent",
-          color: grey[900],
+          color: blueGrey[900],
         },
       },
     },
@@ -223,7 +218,7 @@ export const theme = createTheme({
     },
     MuiButton: {
       defaultProps: {
-        disableElevation: true,
+        disableElevation: false,
         variant: "contained",
         size: "large",
       },
@@ -243,6 +238,15 @@ export const theme = createTheme({
           //   backgroundColor: 'transparent',
           // },
           minHeight: 40,
+          '&.MuiButton-containedPrimary.Mui-disabled': {
+            // backgroundColor: youhaBlue[500],
+            opacity: 0.4,
+            cursor: "not-allowed !important",
+          },
+          '&.MuiButton-containedSecondary.Mui-disabled': {
+            backgroundColor: blueGrey[100],
+            cursor: "not-allowed !important",
+          }
         },
         containedPrimary: {
           // color: '#ffffff',

@@ -55,6 +55,8 @@ export default function Icon({
         variant={badgeVariant}
         sx={{
           "& .MuiBadge-badge": {
+            width: 20,
+            height: 20,
             backgroundColor: pink[500],
             fontSize: 12,
             fontWeight: "700",
