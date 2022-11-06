@@ -74,7 +74,7 @@ export default function Page() {
         }}
         className={`PaperTarget-${id}`}
       >
-        <PaperHeader id={id} title={"즐겨찾기"}>
+        <PaperHeader big id={id} title={"즐겨찾기"}>
           <Box
             sx={{
               p: theme.spacing(0, 2, 0, 2),
@@ -82,7 +82,7 @@ export default function Page() {
           >
             <TabBar
               color="secondary"
-              title="creatorDialog"
+              id={id}
               tabs={favoriteTabs}
               index={tabIndex}
               setIndex={setTabIndex}
