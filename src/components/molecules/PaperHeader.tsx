@@ -9,17 +9,24 @@ export default function PaperHeader({
   id,
   onClose,
   children,
+  big,
 }: {
   title: React.ReactNode;
   id?: string;
-  onClose: () => void;
+  onClose?: () => void;
   children?: React.ReactNode;
+  big?: boolean;
 }) {
   useEffect(() => {
     var paperTargetEl: any = document.querySelector(`.PaperTarget-${id}`);
     const handleScroll = () => {
       var headerEl: any = document.querySelector(`.PaperHeader-${id}`);
-      if (`${id}` === "undefined" || paperTargetEl === null || headerEl === null) return;
+      if (
+        `${id}` === "undefined" ||
+        paperTargetEl === null ||
+        headerEl === null
+      )
+        return;
       if (paperTargetEl.scrollTop > 0) {
         headerEl.style.boxShadow = `4px 4px 8px 4px rgba(0, 0, 0, 0.08)`;
       } else {
@@ -59,8 +66,8 @@ export default function PaperHeader({
         >
           <Typography
             sx={{
-              fontSize: 20,
-              lineHeight: "32px",
+              fontSize: big ? 24 : 20,
+              lineHeight: big ? "36px" : "32px",
               fontWeight: "700",
               "& span": {
                 color: pink[500],
@@ -71,18 +78,20 @@ export default function PaperHeader({
             {title}
           </Typography>
         </Box>
-        <IconButton
-          sx={{
-            width: 40,
-            height: 40,
-            " *": {
-              cursor: "pointer !important",
-            },
-          }}
-          onClick={onClose}
-        >
-          <Icon name="xmark" prefix="fas" size={20} color={blueGrey[200]} />
-        </IconButton>
+        {!big && (
+          <IconButton
+            sx={{
+              width: 40,
+              height: 40,
+              " *": {
+                cursor: "pointer !important",
+              },
+            }}
+            onClick={onClose}
+          >
+            <Icon name="xmark" prefix="fas" size={20} color={blueGrey[200]} />
+          </IconButton>
+        )}
       </Stack>
       {children}
     </Box>

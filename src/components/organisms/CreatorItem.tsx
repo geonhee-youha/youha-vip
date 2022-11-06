@@ -1,6 +1,7 @@
 import {
   alpha,
   Box,
+  Button,
   ButtonBase,
   IconButton,
   Stack,
@@ -8,35 +9,35 @@ import {
 } from "@mui/material";
 import { blueGrey, pink } from "@mui/material/colors";
 import _ from "lodash";
+import { useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { checkedCreatorIdsState, favoritedCreatorIdsState } from "../../datas";
+import {
+  checkedCreatorIdsState,
+  checkedPlaylistIdsState,
+  favoritedCreatorIdsState,
+  testPlaylists,
+} from "../../datas";
 import { creatorDialogState, creatorDrawerState } from "../../recoil";
 import { theme } from "../../themes/theme";
 import youhaBlue from "../../themes/youhaBlue";
 import { setKoNumber } from "../../utils";
+import DataCell from "../atoms/DataCell";
 import Icon from "../atoms/Icon";
 import Typo from "../atoms/Typo";
 
 export default function CreatorItem({
   item,
-  big,
   checkMode,
   tempCheck,
+  forceCheck,
 }: {
   item: any;
   big?: boolean;
   checkMode?: boolean;
   tempCheck?: boolean;
+  forceCheck?: boolean;
 }) {
-  const {
-    id,
-    thumbnail,
-    title,
-    subscriberCount,
-    averageCommercialViewCount,
-    standardCommercialPrice,
-    CPV,
-  } = item;
+  const { id, thumbnail, title, subscriberCount, CPV } = item;
   const [creatorDrawer, setCreatorDrawer] = useRecoilState(creatorDrawerState);
   const [favoritedCreatorIds, setFavoritedCreatorIds] = useRecoilState(
     favoritedCreatorIdsState
@@ -44,18 +45,35 @@ export default function CreatorItem({
   const [checkedCreatorIds, setCheckedCreatorIds] = useRecoilState(
     checkedCreatorIdsState
   );
+  const [checkedPlaylistIds, setCheckedPlaylistIds] = useRecoilState(
+    checkedPlaylistIdsState
+  );
   const setCreatorDialog = useSetRecoilState(creatorDialogState);
   const targetCheckList = tempCheck
     ? checkedCreatorIds
     : creatorDrawer.selectedCreatorIds;
   const checked =
-    checkMode && _.findIndex(targetCheckList, (el) => el === id) !== -1;
-  const favorited = _.findIndex(favoritedCreatorIds, (el) => el === id) !== -1;
+    (forceCheck || checkMode) &&
+    _.findIndex(targetCheckList, (el) => el === id) !== -1;
+  const favorited = favoritedCreatorIds.includes(id);
+  const playlists = _.filter(
+    testPlaylists.flatMap((el) => el.playlistItems),
+    (el: any) => el.snippet.channelTitle === title
+  );
+  const checkedPlaylists = _.filter(
+    testPlaylists.flatMap((el) => el.playlistItems),
+    (el: any) =>
+      el.snippet.channelTitle === title && checkedPlaylistIds.includes(el.id)
+  );
   const handleClick = () => {
     setCreatorDialog((prev) => {
       return {
         ...prev,
         open: true,
+        creatorId: id,
+        tabIndex: 0,
+        checkMode: !tempCheck && checkMode ? true : false,
+        forceCheck: forceCheck,
       };
     });
   };
@@ -73,14 +91,17 @@ export default function CreatorItem({
       return;
     }
     setCreatorDrawer((prev) => {
+      let prevPass = _.cloneDeep(prev.pass);
       let prevSelectedIds = _.cloneDeep(prev.selectedCreatorIds);
       if (prevSelectedIds.includes(id)) {
         prevSelectedIds = _.filter(prevSelectedIds, (el) => el !== id);
       } else {
+        prevPass = false;
         prevSelectedIds = [...prevSelectedIds, id];
       }
       return {
         ...prev,
+        pass: prevPass,
         selectedCreatorIds: prevSelectedIds,
       };
     });
@@ -94,6 +115,17 @@ export default function CreatorItem({
         prevList = [...prevList, id];
       }
       return prevList;
+    });
+  };
+  const handleClickPlaylist = () => {
+    setCreatorDialog((prev) => {
+      return {
+        ...prev,
+        open: true,
+        creatorId: id,
+        tabIndex: 2,
+        checkMode: true,
+      };
     });
   };
   return (
@@ -122,13 +154,27 @@ export default function CreatorItem({
               : blueGrey[100]
           } !important`,
           boxShadow: `2px 2px 4px 0px ${alpha("#000000", 0.08)}`,
-          transition: `all 0.35s ease`,
           "& *": {
-            transition: `all 0.35s ease`,
             cursor: "pointer",
           },
           cursor: "pointer",
           backgroundColor: "#ffffff",
+          pb:
+            forceCheck || (!tempCheck && checkMode)
+              ? `${
+                  checkedPlaylists.length > 3
+                    ? forceCheck
+                      ? 208.74 - 16 - 40
+                      : 208.74 - 16
+                    : checkedPlaylists.length === 0 && playlists.length > 3
+                    ? forceCheck
+                      ? 208.74 - 8 - 16 - 40
+                      : 208.74 - 16
+                    : forceCheck
+                    ? 133.38 - 8 - 16 - 40
+                    : 133.38 - 8
+                }px`
+              : 0,
         }}
         onClick={handleClick}
       >
@@ -137,7 +183,6 @@ export default function CreatorItem({
             width: "100%",
             display: "flex",
             flexDirection: "column",
-            // alignItems: "flex-start",
             alignItems: "center",
             p: theme.spacing(2),
           }}
@@ -148,7 +193,6 @@ export default function CreatorItem({
               width: 104,
               height: 104,
               borderRadius: "50%",
-              // border: `1px solid ${blueGrey[100]}`,
               border: `1px solid ${
                 checked
                   ? tempCheck
@@ -233,67 +277,9 @@ export default function CreatorItem({
           >
             구독자 {`${setKoNumber(subscriberCount)}명`}
           </Typography>
-          {/* <Typography
-            sx={{
-              mt: 0.5,
-              fontSize: 14,
-              lineHeight: "20px",
-              color: checked
-                ? tempCheck
-                  ? blueGrey[900]
-                  : youhaBlue[500]
-                : blueGrey[700],
-            }}
-          >
-            평균 단가 {`${setKoNumber(standardCommercialPrice)}원`}
-          </Typography> */}
-          {/* <DataRow
-            tempCheck={tempCheck}
-            checked={checked}
-            label="구독자"
-            value={`${setKoNumber(subscriberCount)}명`}
-          /> */}
-          {/* <Stack
-            spacing={1}
-            alignItems="center"
-            sx={{
-              width: '100%',
-              mt: 2,
-            }}
-          >
-            <DataRow
-              tempCheck={tempCheck}
-              checked={checked}
-              label="구독자"
-              value={`${setKoNumber(subscriberCount)}명`}
-            />
-            <DataRow
-              tempCheck={tempCheck}
-              checked={checked}
-              label="예상 광고단가"
-              value={`${setKoNumber(standardCommercialPrice)}원`}
-            />
-            <DataRow
-              tempCheck={tempCheck}
-              checked={checked}
-              label="예상 노출수"
-              value={
-                averageCommercialViewCount
-                  ? `${setKoNumber(averageCommercialViewCount)}회`
-                  : "집계중"
-              }
-            />
-          </Stack> */}
         </Box>
         <Box
           sx={{
-            // borderTop: `1px solid ${
-            //   checked
-            //     ? tempCheck
-            //       ? blueGrey[900]
-            //       : youhaBlue[500]
-            //     : blueGrey[100]
-            // } !important`,
             width: "100%",
             display: "flex",
             flexDirection: "column",
@@ -309,10 +295,10 @@ export default function CreatorItem({
               gridTemplateRows: "auto auto",
               gridRowGap: 0,
               backgroundColor: checked
-              ? tempCheck
-                ? blueGrey[50]
-                : youhaBlue[50]
-              : blueGrey[50],
+                ? tempCheck
+                  ? blueGrey[50]
+                  : youhaBlue[50]
+                : blueGrey[50],
               borderRadius: 1,
               p: 1,
             }}
@@ -356,15 +342,15 @@ export default function CreatorItem({
           </Box>
         </Box>
       </ButtonBase>
-      <Stack
-        spacing={1}
-        sx={{
-          position: "absolute",
-          top: 16,
-          right: 16,
-        }}
-      >
-        {checkMode && (
+      {checkMode && (
+        <Stack
+          spacing={1}
+          sx={{
+            position: "absolute",
+            top: 16,
+            right: 16,
+          }}
+        >
           <IconButton
             sx={{
               width: 32,
@@ -386,6 +372,7 @@ export default function CreatorItem({
               boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
               zIndex: 98,
               borderRadius: 0.5,
+              transition: "none",
             }}
             onClick={handleClickCheck}
           >
@@ -396,8 +383,17 @@ export default function CreatorItem({
               color={checked ? "#ffffff" : blueGrey[300]}
             />
           </IconButton>
-        )}
-        {!checkMode && (
+        </Stack>
+      )}
+      {!forceCheck && !tempCheck && !checkMode && (
+        <Stack
+          spacing={1}
+          sx={{
+            position: "absolute",
+            top: 16,
+            left: 16,
+          }}
+        >
           <IconButton
             sx={{
               width: 32,
@@ -409,6 +405,7 @@ export default function CreatorItem({
               boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
               zIndex: 98,
               borderRadius: 0.5,
+              transition: "none",
             }}
             onClick={handleClickFavorite}
           >
@@ -419,119 +416,258 @@ export default function CreatorItem({
               color={favorited ? "#ffffff" : blueGrey[300]}
             />
           </IconButton>
-        )}
-      </Stack>
-    </Box>
-  );
-}
-function DataRow({
-  tempCheck,
-  checked,
-  label,
-  value,
-}: {
-  tempCheck?: boolean;
-  checked?: boolean;
-  label: string;
-  value: any;
-}) {
-  return (
-    <Stack
-      direction="row"
-      spacing={1}
-      sx={{
-        display: "flex",
-        width: "100%",
-      }}
-    >
-      <Typography
-        sx={{
-          fontSize: 14,
-          lineHeight: "20px",
-          minWidth: 84,
-          color: checked
-            ? tempCheck
-              ? blueGrey[900]
-              : youhaBlue[500]
-            : blueGrey[900],
-          // textAlign: "right",
-        }}
-      >
-        {label}
-      </Typography>
-      <Typography
-        sx={{
-          flex: 1,
-          fontSize: 14,
-          lineHeight: "20px",
-          fontWeight: "700",
-          color: checked
-            ? tempCheck
-              ? blueGrey[900]
-              : youhaBlue[500]
-            : blueGrey[900],
-        }}
-      >
-        {value}
-      </Typography>
-    </Stack>
-  );
-}
-function DataCell({
-  tempCheck,
-  checked,
-  label,
-  value,
-}: {
-  tempCheck?: boolean;
-  checked?: boolean;
-  label: string;
-  value: React.ReactNode;
-}) {
-  return (
-    <Box
-      sx={{
-        flex: 1,
-        // width: 104,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        "& *": {
-          textAlign: "center",
-        },
-        p: 1,
-      }}
-    >
-      <Box>
-        <Typography
+        </Stack>
+      )}
+      {(forceCheck || (checkMode && !tempCheck)) && (
+        <Stack
+          spacing={2}
           sx={{
-            fontSize: 12,
-            lineHeight: "16px",
-            color: checked
-              ? tempCheck
-                ? blueGrey[900]
-                : youhaBlue[500]
-              : blueGrey[700],
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            p: theme.spacing(2),
+            zIndex: 9,
           }}
+          onClick={handleClickPlaylist}
         >
-          {label}
-        </Typography>
-        <Typography
-          sx={{
-            mt: 0.5,
-            fontSize: 14,
-            lineHeight: "20px",
-            fontWeight: "700",
-            color: checked
-              ? tempCheck
-                ? blueGrey[900]
-                : youhaBlue[500]
-              : blueGrey[900],
-          }}
-        >
-          {value}
-        </Typography>
-      </Box>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr 1fr",
+              gridAutoColumn: "1fr",
+              gridTemplateRows: "auto",
+              gridGap: 8,
+              opacity: checked ? 1 : 0.4,
+            }}
+          >
+            {checkedPlaylists.length > 0 ? (
+              <>
+                {checkedPlaylists.map((item, index) => {
+                  return index < 5 ? (
+                    <Box
+                      key={index}
+                      sx={{
+                        flex: 1,
+                        borderRadius: 0.5,
+                        border: `1px solid ${youhaBlue[500]} !important`,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          position: "relative",
+                          width: "100%",
+                          pt: "56.25%",
+                        }}
+                      >
+                        <img
+                          src={item?.snippet?.thumbnails["maxres"]?.url}
+                          style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            objectFit: "cover",
+                          }}
+                        />
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            top: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: alpha(youhaBlue[500], 0.8),
+                            width: "50%",
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Typography
+                            sx={{
+                              fontSize: 10,
+                              lineHeight: "14px",
+                              color: "#ffffff",
+                              fontWeight: "700",
+                            }}
+                          >
+                            {item.count}
+                          </Typography>
+                          <Icon
+                            name="list-ul"
+                            prefix="fas"
+                            size={12}
+                            color="#ffffff"
+                            sx={{ mt: 0.25 }}
+                          />
+                        </Box>
+                        {!forceCheck && (
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              top: 4,
+                              left: 4,
+                              width: 20,
+                              height: 20,
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              borderRadius: 0.25,
+                              backgroundColor: youhaBlue[500],
+                            }}
+                          >
+                            <Icon name="check" color="#ffffff" size={10} />
+                          </Box>
+                        )}
+                      </Box>
+                    </Box>
+                  ) : null;
+                })}
+                {checkedPlaylists.length > 5 && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontSize: 12,
+                        lineHeight: "20px",
+                        fontWeight: "700",
+                        color: blueGrey[300],
+                      }}
+                    >
+                      더보기
+                    </Typography>
+                  </Box>
+                )}
+              </>
+            ) : (
+              <>
+                {playlists.map((item, index) => {
+                  return index < 5 ? (
+                    <Box
+                      key={index}
+                      sx={{
+                        flex: 1,
+                        borderRadius: 1,
+                        border: `1px solid ${
+                          checked
+                            ? tempCheck
+                              ? blueGrey[900]
+                              : youhaBlue[500]
+                            : blueGrey[100]
+                        } !important`,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          position: "relative",
+                          width: "100%",
+                          pt: "56.25%",
+                        }}
+                      >
+                        <img
+                          src={item?.snippet?.thumbnails["maxres"]?.url}
+                          style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            objectFit: "cover",
+                          }}
+                        />
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            top: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundColor: alpha("#000000", 0.8),
+                            width: "50%",
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Typography
+                            sx={{
+                              fontSize: 10,
+                              lineHeight: "14px",
+                              color: "#ffffff",
+                              fontWeight: "700",
+                            }}
+                          >
+                            {item.count}
+                          </Typography>
+                          <Icon
+                            name="list-ul"
+                            prefix="fas"
+                            size={12}
+                            color="#ffffff"
+                            sx={{ mt: 0.25 }}
+                          />
+                        </Box>
+                      </Box>
+                    </Box>
+                  ) : null;
+                })}
+                {playlists.length > 5 && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontSize: 12,
+                        lineHeight: "20px",
+                        fontWeight: "700",
+                        color: blueGrey[300],
+                      }}
+                    >
+                      더보기
+                    </Typography>
+                  </Box>
+                )}
+              </>
+            )}
+          </Box>
+          {!forceCheck && (
+            <Button
+              fullWidth
+              variant="outlined"
+              color={checked ? "primary" : "secondary"}
+              sx={{
+                height: 40,
+                minHeight: 40,
+                borderColor: checked
+                  ? youhaBlue[500]
+                  : `${blueGrey[100]} !important`,
+                color: checked ? youhaBlue[500] : blueGrey[300],
+                transition: "background-color 0.35s ease",
+              }}
+              onClick={handleClickPlaylist}
+            >
+              {checked && checkedPlaylists.length > 0
+                ? `${checkedPlaylists.length} / ${playlists.length}개의 기획안 선택중`
+                : checked
+                ? `${playlists.length}개의 기획안 선택가능`
+                : "먼저 크리에이터를 선택하세요!"}
+            </Button>
+          )}
+        </Stack>
+      )}
     </Box>
   );
 }

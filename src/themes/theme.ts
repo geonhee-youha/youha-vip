@@ -216,6 +216,13 @@ export const theme = createTheme({
         },
       },
     },
+    MuiPopover: {
+      styleOverrides: {
+        root: {
+          zIndex: 999999
+        }
+      }
+    },
     MuiButton: {
       defaultProps: {
         disableElevation: false,
@@ -225,6 +232,8 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           minWidth: 0,
+          fontSize: 14,
+          lineHeight: '20px',
           letterSpacing: "-0.4px",
           whiteSpace: "nowrap",
           textTransform: "none",
@@ -240,6 +249,7 @@ export const theme = createTheme({
           minHeight: 40,
           '&.MuiButton-containedPrimary.Mui-disabled': {
             // backgroundColor: youhaBlue[500],
+            backgroundColor: blueGrey[100],
             opacity: 0.4,
             cursor: "not-allowed !important",
           },

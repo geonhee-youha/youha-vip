@@ -356,12 +356,16 @@ const reset = css`
     height: calc(var(--vh, 1vh) * 100);
   }
   #__next {
-    position: fixed;
+    /* position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    overflow: auto;
+    overflow: auto; */
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: scroll;
     background-color: #eceff1;
     --sat: var(--sait);
     --sar: var(--sair);

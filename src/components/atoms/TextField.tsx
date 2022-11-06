@@ -252,12 +252,18 @@ export default function Textfield({
         {helperText && (
           <FormHelperText
             sx={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: -24,
               m: 0,
               // p: error ? "4px 0" : 0,
               p: "4px 0",
-              fontSize: 14,
-              lineHeight: "20px",
-              color: error ? `${red[500]} !important` : blueGrey[700],
+              fontSize: 12,
+              lineHeight: "16px",
+              fontWeight: '700',
+              textAlign: 'right',
+              color: error ? `${red[500]} !important` : blueGrey[500],
             }}
           >
             {helperText}

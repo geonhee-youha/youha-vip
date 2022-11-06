@@ -1,6 +1,7 @@
 import {
   Box,
   MenuItem,
+  Paper,
   Select,
   SelectChangeEvent,
   Stack,
@@ -11,12 +12,26 @@ import _ from "lodash";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import SwipeableViews from "react-swipeable-views";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import Panel from "../../components/atoms/Panel";
+import PaperHeader from "../../components/molecules/PaperHeader";
 import CreatorItem from "../../components/organisms/CreatorItem";
-import PlanItem from "../../components/organisms/PlanItem";
-import TabBar from "../../components/templates/TabBar";
+import {
+  Creators,
+  Playlists,
+  Slide,
+  Videos,
+} from "../../components/templetes/Dialog/CreatorDialog";
+import TabBar from "../../components/templetes/TabBar";
 import { creatorFilters, favoriteTabs, pages } from "../../constants";
-import { testCreators, testPlans } from "../../datas";
+import {
+  favoritedCreatorIdsState,
+  favoritedPlaylistIdsState,
+  favoritedVideoIdsState,
+  testCreators,
+  testPlaylists,
+  testVideos,
+} from "../../datas";
 import { theme } from "../../themes/theme";
 export default function Page() {
   const router = useRouter();
@@ -32,125 +47,96 @@ export default function Page() {
         }`
       : `${_.findLast(pages, (el) => el.pathName === currentPathName)?.title}`;
   const [tabIndex, setTabIndex] = useState<number>(0);
-  const [sort, setSort] = useState<string>("subscriberCount");
-  const creators = _.sortBy(testCreators, sort).reverse();
-  const plans = _.sortBy(testPlans, sort).reverse();
-  const handleChangeSort = (event: SelectChangeEvent) => {
-    setSort(event.target.value);
-  };
+  const favoritedCreatorIds = useRecoilValue(favoritedCreatorIdsState);
+  const favoritedPlaylistIds = useRecoilValue(favoritedPlaylistIdsState);
+  const favoritedVideoIds = useRecoilValue(favoritedVideoIdsState);
+  const id = `page-${currentPathName.replace("/", "")}`;
   return (
-    <Panel
+    <Paper
+      elevation={4}
       sx={{
+        position: "relative",
+        width: "100%",
+        height: "100%",
+        backgroundColor: "#ffffff",
+        borderRadius: 1,
+        boxShadow: `4px 4px 8px 4px rgba(0, 0, 0, 0.08)`,
         overflow: "hidden",
-        "& .react-swipeable-view-container": {
-          height: "100%",
-        },
       }}
     >
       <Box
         sx={{
-          mt: 0,
-          position: "sticky",
-          top: 0,
-          p: theme.spacing(2.25, 3, 0, 3),
-          backgroundColor: "#ffffff",
-          zIndex: 98,
+          width: "100%",
+          height: "100%",
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
         }}
-        className="Header"
+        className={`PaperTarget-${id}`}
       >
-        <Typography
+        <PaperHeader id={id} title={"즐겨찾기"}>
+          <Box
+            sx={{
+              p: theme.spacing(0, 2, 0, 2),
+            }}
+          >
+            <TabBar
+              color="secondary"
+              title="creatorDialog"
+              tabs={favoriteTabs}
+              index={tabIndex}
+              setIndex={setTabIndex}
+            />
+          </Box>
+        </PaperHeader>
+        <Box
           sx={{
-            fontSize: 24,
-            lineHeight: "36px",
-            fontWeight: "700",
-            mr: "auto",
+            flex: 1,
+            display: "flex",
+            overflow: "hidden",
+            "& .react-swipeable-view-container": {
+              flex: 1,
+              display: "flex",
+              height: "100%",
+            },
           }}
-          className="Title"
         >
-          {pageTitle}
-        </Typography>
-        <Box sx={{
-          ml: -1,
-          mr: -1,
-        }}>
-          <TabBar
-            tabs={favoriteTabs}
+          <SwipeableViews
             index={tabIndex}
-            setIndex={setTabIndex}
-            title="favorite"
-          />
+            onChangeIndex={setTabIndex}
+            style={{
+              overflow: "hidden",
+              height: "100%",
+            }}
+          >
+            <Slide>
+              <Creators
+                creators={_.filter(testCreators, (el) =>
+                  favoritedCreatorIds.includes(el.id)
+                )}
+                columns={3}
+              />
+            </Slide>
+            <Slide>
+              <Playlists
+                playlists={_.filter(
+                  testPlaylists.flatMap((el) => el.playlistItems),
+                  (el) => favoritedPlaylistIds.includes(el.id)
+                )}
+                columns={4}
+              />
+            </Slide>
+            <Slide>
+              <Videos
+                videos={_.filter(testVideos, (el) =>
+                  favoritedVideoIds.includes(el.id)
+                )}
+                columns={4}
+              />
+            </Slide>
+          </SwipeableViews>
         </Box>
       </Box>
-      <SwipeableViews
-        index={tabIndex}
-        onChangeIndex={setTabIndex}
-        style={{
-          // overflow: "hidden",
-          // height: "auto",
-          flex: 1,
-        }}
-        className="Swiper"
-      >
-        {favoriteTabs.map((item, index) => (
-          <Box key={index} sx={{ overflow: "auto" }} className="Slide">
-            <Box>
-              <Box
-                sx={{
-                  p: theme.spacing(2, 3, 2, 3),
-                }}
-              >
-                <Select
-                  value={sort}
-                  onChange={handleChangeSort}
-                  displayEmpty
-                  inputProps={{ "aria-label": "Without label" }}
-                  sx={{
-                    backgroundColor: `${"transparent"} !important`,
-                    height: 40,
-                    fontSize: 14,
-                    lineHeight: "20px",
-                    fontWeight: "700",
-                    color: blueGrey[700],
-                    "& fieldset": {
-                      borderColor: blueGrey[50],
-                      borderWidth: `1px !important`,
-                      boxShadow: "none !important",
-                    },
-                  }}
-                >
-                  <MenuItem value={"viewCount"}>구독자순</MenuItem>
-                  <MenuItem value={"standardCommercialPrice"}>
-                    예상 광고단가 순
-                  </MenuItem>
-                  <MenuItem value={"subscriberCount"}>예상 노출수 순</MenuItem>
-                  <MenuItem value={"CPV"}>예상 CPV</MenuItem>
-                </Select>
-              </Box>
-              <Box sx={{}}>
-                <Box
-                  sx={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr 1fr",
-                    gridAutoColumn: "1fr",
-                    gridTemplateRows: "auto auto",
-                    gridRowGap: 8,
-                    gridColumnGap: 8,
-                    p: theme.spacing(0, 3, 20, 3),
-                  }}
-                >
-                  {index === 0
-                    ? creators.map((item, index) => (
-                        <CreatorItem key={index} item={item} />
-                      ))
-                    : plans.map((item, index) => (
-                        <PlanItem key={index} item={item} />
-                      ))}
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-        ))}
-      </SwipeableViews>
-    </Panel>
+    </Paper>
   );
 }

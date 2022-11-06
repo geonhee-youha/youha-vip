@@ -4,6 +4,19 @@ export const homeTabWidth = (1200 - 16 * 5) / 4
 export const homeTabItemMaxHeight = 240
 export type AgeProps = '10대' | '20~30대' | '40~50대' | '60대 이상'
 export type SexProps = '남성' | '여성' | '성별무관'
+export const testPurposies = [
+    '인지도 상승',
+    '노출 상승',
+    '트래픽 증가',
+    '참여 증가',
+    '앱 설치',
+    '동영상 조회',
+    '잠재 고객 확보',
+    '메시지',
+    '전환',
+    '카탈로그 판매',
+    '매장방문'
+]
 export const testCategories = ["패션",
     "뷰티",
     "비건/친환경",
@@ -167,6 +180,28 @@ export const favoriteTabs: TabProps[] = [
     {
         id: 2,
         title: '기획안',
+        value: ''
+    },
+]
+export const creatorDialogTabs: TabProps[] = [
+    {
+        id: 0,
+        title: '채널 정보',
+        value: ''
+    },
+    {
+        id: 1,
+        title: '단가 정보',
+        value: ''
+    },
+    {
+        id: 2,
+        title: '기획안',
+        value: ''
+    },
+    {
+        id: 3,
+        title: '광고영상',
         value: ''
     },
 ]

@@ -1,6 +1,6 @@
 import { Backdrop } from "@mui/material";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { checkedCreatorIdsState } from "../../datas";
+import { checkedCreatorIdsState, checkedPlaylistIdsState } from "../../datas";
 import {
   alarmDrawerState,
   alertDialogState,
@@ -19,6 +19,7 @@ export default function BackDrop() {
   const [estimateDrawer, setEstimateDrawer] =
     useRecoilState(estimateDrawerState);
   const setCheckedCreatorIds = useSetRecoilState(checkedCreatorIdsState);
+  const setCheckedPlaylistIds = useSetRecoilState(checkedPlaylistIdsState);
   const setAlertDialog = useSetRecoilState(alertDialogState);
   const handleClick = () => {
     if (searchDrawer.open) {
@@ -89,6 +90,7 @@ export default function BackDrop() {
                   };
                 });
                 setCheckedCreatorIds([]);
+                setCheckedPlaylistIds([]);
               },
             },
             confirm: {

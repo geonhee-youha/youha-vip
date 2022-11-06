@@ -1,6 +1,7 @@
 import { atom } from "recoil";
 import { AgeProps, SexProps } from "../constants";
 import { v1 } from "uuid";
+import { CampaignProps } from "../datas";
 export type DrawerProps = {
   id?: string;
   open: boolean;
@@ -18,40 +19,45 @@ export const alarmDrawerState = atom<DrawerProps>({
     open: false
   },
 });
+export const campaignDrawerDefaultProps = {
+  id: `campaignDrawer`,
+  open: false,
+  selectedCampaignIds: []
+}
 export const campaignDrawerState = atom<DrawerProps & { selectedCampaignIds: any[] }>({
   key: `campaignDrawerState/${v1()}`,
-  default: {
-    id: `campaignDrawer`,
-    open: false,
-    selectedCampaignIds: []
-  },
+  default: campaignDrawerDefaultProps
 });
+export const creatorDrawerDefaultProps = {
+  id: `creatorDrawer`,
+  open: false,
+  selectedCreatorIds: [],
+  selectedPlanIds: [],
+  pass: false
+}
 export const creatorDrawerState = atom<DrawerProps & { selectedCreatorIds: any[], selectedPlanIds: any[], pass: boolean }>({
   key: `creatorDrawerState/${v1()}`,
-  default: {
-    id: `creatorDrawer`,
-    open: false,
-    selectedCreatorIds: [],
-    selectedPlanIds: [],
-    pass: false
-  },
+  default: creatorDrawerDefaultProps
 });
+export const estimateDrawerDefaultProps = {
+  id: `estimateDrawer`,
+  open: false,
+  mix: undefined
+}
 export const estimateDrawerState = atom<DrawerProps & { mix?: boolean }>({
   key: `estimateDrawerState/${v1()}`,
-  default: {
-    id: `estimateDrawer`,
-    open: false,
-    mix: undefined
-  },
+  default: estimateDrawerDefaultProps
 });
 export type PopupProps = DrawerProps & {
   title?: string;
   body?: string;
   cancel?: {
+    hide?: boolean;
     title?: string;
     onClick?: any
   },
   confirm?: {
+    hide?: boolean;
     title?: string;
     onClick?: any
   },
@@ -63,13 +69,6 @@ export const alertDialogState = atom<PopupProps>({
     open: false,
   },
 });
-export const creatorDialogState = atom<PopupProps>({
-  key: `creatorDialogState/${v1()}`,
-  default: {
-    id: 'creatorDialog',
-    open: false,
-  },
-});
 export const campaignDialogState = atom<PopupProps>({
   key: `campaignDialogState/${v1()}`,
   default: {
@@ -77,18 +76,65 @@ export const campaignDialogState = atom<PopupProps>({
     open: false,
   },
 });
-export const planDialogState = atom<PopupProps>({
-  key: `planDialogState/${v1()}`,
+export const creatorDialogState = atom<PopupProps & { creatorId?: string, tabIndex: number, checkMode?: boolean, forceCheck?: boolean }>({
+  key: `creatorDialogState/${v1()}`,
   default: {
-    id: 'planDialog',
+    id: 'playlist',
+    creatorId: '',
     open: false,
+    tabIndex: 0,
+    checkMode: undefined,
+    forceCheck: undefined
   },
 });
-export const estimateDialogState = atom<PopupProps>({
+export type EstimateInputProps = {
+  budget: string;
+  duration: string;
+  purposies: string[];
+  categories: string[];
+  channelCount: string;
+  keyword: string;
+  sellingPoint: string;
+  description: string;
+  request: string;
+  file: any;
+  target: {
+    ages?: AgeProps[],
+    sex?: SexProps,
+  },
+}
+export const estimateInputDefaultProps = {
+  budget: "",
+  duration: "",
+  purposies: [],
+  categories: [],
+  channelCount: "",
+  keyword: "",
+  sellingPoint: "",
+  description: "",
+  request: "",
+  file: "",
+  target: {
+    ages: [],
+    sex: undefined,
+  }
+}
+export const estimateDialogState = atom<PopupProps & {
+  temp?: boolean,
+  campaign?: CampaignProps,
+  creators?: any[],
+  input: EstimateInputProps,
+  mix?: boolean
+}>({
   key: `estimateDialogState/${v1()}`,
   default: {
     id: 'estimateDialog',
     open: false,
+    temp: undefined,
+    campaign: undefined,
+    creators: undefined,
+    input: estimateInputDefaultProps,
+    mix: undefined,
   },
 });
 export const adDialogState = atom<PopupProps>({

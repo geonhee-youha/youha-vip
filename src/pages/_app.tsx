@@ -36,24 +36,22 @@ import {
 } from "chart.js";
 import { blueGrey } from "@mui/material/colors";
 import { Box, Paper, Stack } from "@mui/material";
-import MainTab from "../components/templates/MainTab";
-import AlarmDrawer from "../components/templates/Drawer/AlarmDrawer";
+import MainTab from "../components/templetes/MainTab";
+import AlarmDrawer from "../components/templetes/Drawer/AlarmDrawer";
 import _ from "lodash";
 import { mainTabWidth, pages } from "../constants";
-import CampaignDrawer from "../components/templates/Drawer/CampaignDrawer";
-import SearchDrawer from "../components/templates/Drawer/SearchDrawer";
-import AlertDialog from "../components/templates/Dialog/AlertDialog";
+import CampaignDrawer from "../components/templetes/Drawer/CampaignDrawer";
+import SearchDrawer from "../components/templetes/Drawer/SearchDrawer";
+import AlertDialog from "../components/templetes/Dialog/AlertDialog";
 import BackDrop from "../components/atoms/Backdrop";
-import CampaignPopup from "../components/templates/Popup/CampaignPopup";
-import CreatorPopup from "../components/templates/Popup/CreatorPopup";
-import CampaignDialog from "../components/templates/Dialog/CampaignDialog";
-import CreatorDialog from "../components/templates/Dialog/CreatorDialog";
-import PlanDialog from "../components/templates/Dialog/PlanDialog";
-import CreatorDrawer from "../components/templates/Drawer/CreatorDrawer";
-import PlanPopup from "../components/templates/Popup/PlanPopup";
-import EstimateDialog from "../components/templates/Dialog/EstimateDialog";
-import AdDialog from "../components/templates/Dialog/AdDialog";
-import EstimateDrawer from "../components/templates/Drawer/EstimateDrawer";
+import CampaignPopup from "../components/templetes/Popup/CampaignPopup";
+import CreatorPopup from "../components/templetes/Popup/CreatorPopup";
+import CampaignDialog from "../components/templetes/Dialog/CampaignDialog";
+import CreatorDrawer from "../components/templetes/Drawer/CreatorDrawer";
+import EstimateDialog from "../components/templetes/Dialog/EstimateDialog";
+import AdDialog from "../components/templetes/Dialog/AdDialog";
+import EstimateDrawer from "../components/templetes/Drawer/EstimateDrawer";
+import CreatorDialog from "../components/templetes/Dialog/CreatorDialog";
 ChartJS.register(
   LineController,
   BarController,
@@ -250,7 +248,7 @@ function MyApp(props: MyAppProps) {
                   m: `0 auto`,
                   width: 1600,
                   height: "100%",
-                  overflow: "auto",
+                  // overflow: "auto",
                 }}
                 className="GlobalContainer"
               >
@@ -310,7 +308,8 @@ function MyApp(props: MyAppProps) {
                 </Stack>
                 <CampaignPopup />
                 <CreatorPopup />
-                <PlanPopup />
+                <EstimateDialog />
+                <CreatorDialog />
                 <AlertDialog />
               </Box>
             </>

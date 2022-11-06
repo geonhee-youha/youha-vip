@@ -9,9 +9,11 @@ import Icon from "../atoms/Icon";
 export default function CampaignItem({
   item,
   index,
+  checkMode,
 }: {
   item: CampaignProps;
   index?: number;
+  checkMode?: boolean;
 }) {
   const { id, title, description, categories, target } = item;
   const [campaignDrawer, setCampaignDrawer] =
@@ -38,31 +40,35 @@ export default function CampaignItem({
     <Box
       sx={{
         position: "relative",
-        width: "100%",
       }}
     >
-      <IconButton
-        sx={{
-          position: "absolute",
-          top: 16,
-          right: 16,
-          width: 32,
-          height: 32,
-          backgroundColor: `${checked ? youhaBlue[500] : "#ffffff"} !important`,
-          border: `1px solid ${checked ? youhaBlue[500] : blueGrey[100]}`,
-          boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
-          zIndex: 98,
-          borderRadius: 0.5,
-        }}
-        onClick={handleClickCheck}
-      >
-        <Icon
-          name="check"
-          prefix="fas"
-          size={16}
-          color={checked ? "#ffffff" : blueGrey[300]}
-        />
-      </IconButton>
+      {checkMode && (
+        <IconButton
+          sx={{
+            position: "absolute",
+            top: 16,
+            right: 16,
+            width: 32,
+            height: 32,
+            backgroundColor: `${
+              checked ? youhaBlue[500] : "#ffffff"
+            } !important`,
+            border: `1px solid ${checked ? youhaBlue[500] : blueGrey[100]}`,
+            boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
+            zIndex: 98,
+            borderRadius: 0.5,
+            transition: 'none'
+          }}
+          onClick={handleClickCheck}
+        >
+          <Icon
+            name="check"
+            prefix="fas"
+            size={16}
+            color={checked ? "#ffffff" : blueGrey[300]}
+          />
+        </IconButton>
+      )}
       <ButtonBase
         sx={{
           width: "100%",
@@ -77,7 +83,10 @@ export default function CampaignItem({
           boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, ${
             checked ? `0.08` : `0.08`
           })`,
-          transition: `all 0.35s ease`,
+          cursor: "pointer",
+          "& *": {
+            cursor: "pointer",
+          },
         }}
         onClick={handleClick}
         className={typeof index !== "undefined" ? `CampaignItem-${index}` : ""}

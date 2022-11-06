@@ -14,9 +14,8 @@ import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useState } from "react";
 import Icon from "../../components/atoms/Icon";
 import Panel from "../../components/atoms/Panel";
-import PlanItem from "../../components/organisms/PlanItem";
 import { creatorFilters, pages } from "../../constants";
-import { testPlans } from "../../datas";
+import { testPlaylists } from "../../datas";
 import { theme } from "../../themes/theme";
 import youhaBlue from "../../themes/youhaBlue";
 export default function Page() {
@@ -36,7 +35,7 @@ export default function Page() {
     구독: "전체",
   });
   const [sort, setSort] = useState<string>("subscriberCount");
-  const creators = _.sortBy(testPlans, sort).reverse();
+  const creators = _.sortBy(testPlaylists, sort).reverse();
   const handleChangeSort = (event: SelectChangeEvent) => {
     setSort(event.target.value);
   };
@@ -125,9 +124,7 @@ export default function Page() {
                 p: theme.spacing(0, 3, 20, 3),
               }}
             >
-              {creators.map((item, index) => (
-                <PlanItem key={index} item={item} />
-              ))}
+          
             </Box>
           </Box>
         </Box>
