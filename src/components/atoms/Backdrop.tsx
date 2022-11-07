@@ -7,6 +7,7 @@ import {
   campaignDrawerState,
   creatorDrawerState,
   estimateDrawerState,
+  estimateInputDefaultProps,
   searchDrawerState,
 } from "../../recoil";
 
@@ -86,6 +87,7 @@ export default function BackDrop() {
                 setEstimateDrawer((prev) => {
                   return {
                     open: false,
+                    input: estimateInputDefaultProps,
                     mix: undefined,
                   };
                 });

@@ -49,13 +49,19 @@ export default function Page() {
   const [opens, setOpens] = useState<boolean[]>([true, true]);
   const testCampaigns = useRecoilValue(testCampaignsState);
   const setCampaignPopup = useSetRecoilState(campaignPopupState);
-  const setCampaignDialog = useSetRecoilState(campaignDialogState);
-  const campaigns = [...testCampaigns];
+  const campaigns = [
+    ...testCampaigns,
+    ...testCampaigns,
+    ...testCampaigns,
+    ...testCampaigns,
+    ...testCampaigns,
+  ];
   const handleClickNewCampaign = () => {
     setCampaignPopup((prev) => {
       return {
         ...prev,
         open: true,
+        mode: "add",
       };
     });
   };
@@ -142,10 +148,12 @@ export default function Page() {
                 };
                 const handleClickEdit = (e: any) => {
                   e.preventDefault();
-                  setCampaignDialog((prev) => {
+                  setCampaignPopup((prev) => {
                     return {
                       ...prev,
                       open: true,
+                      mode: "edit",
+                      campaignId: item.id,
                     };
                   });
                 };
@@ -197,7 +205,7 @@ export default function Page() {
                           fontSize: 14,
                           lineHeight: "20px",
                           fontWeight: "700",
-                          color: focused ? blueGrey[800] : blueGrey[500],
+                          color: focused ? blueGrey[800] : blueGrey[300],
                           mr: 0.5,
                         }}
                       >
@@ -220,7 +228,7 @@ export default function Page() {
                         name="pen"
                         prefix="fas"
                         size={12}
-                        color={focused ? blueGrey[800] : blueGrey[500]}
+                        color={focused ? blueGrey[800] : blueGrey[300]}
                       />
                     </IconButton>
                   </Box>
@@ -248,7 +256,7 @@ export default function Page() {
                     name="plus"
                     prefix="fas"
                     size={16}
-                    color={blueGrey[500]}
+                    color={blueGrey[300]}
                   />
                 </IconButton>
               </Box>
@@ -260,10 +268,21 @@ export default function Page() {
             boxShadow: `4px 4px 8px 4px rgba(0, 0, 0, 0.08)`,
             borderTopLeftRadius: 0,
             borderTopRightRadius: 0,
+            display: "flex",
+            overflow: "hidden",
+            width: "100%",
+            height: "100%",
+            position: "relative",
             "& .react-swipeable-view-container": {
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              display: "flex",
               height: "100%",
+              width: "100%",
             },
-            overflow: "auto",
           }}
         >
           <SwipeableViews
@@ -289,7 +308,7 @@ export default function Page() {
                     top: 0,
                     p: theme.spacing(2.25, 3, 0, 3),
                     backgroundColor: "#ffffff",
-                    zIndex: 98,
+                    zIndex: 999,
                   }}
                 >
                   <Box
@@ -778,9 +797,7 @@ export default function Page() {
                   className="Container"
                 >
                   {testCreators.map((item, index) => {
-                    return (
-                      index < 5 && <CreatorItem key={index} item={item} small />
-                    );
+                    return index < 5 && <CreatorItem key={index} item={item} />;
                   })}
                 </Box>
                 <Box

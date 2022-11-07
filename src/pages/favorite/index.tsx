@@ -1,21 +1,10 @@
-import {
-  Box,
-  MenuItem,
-  Paper,
-  Select,
-  SelectChangeEvent,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { blueGrey } from "@mui/material/colors";
+import { Box, Paper } from "@mui/material";
 import _ from "lodash";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import SwipeableViews from "react-swipeable-views";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import Panel from "../../components/atoms/Panel";
+import { useRecoilValue } from "recoil";
 import PaperHeader from "../../components/molecules/PaperHeader";
-import CreatorItem from "../../components/organisms/CreatorItem";
 import {
   Creators,
   Playlists,
@@ -23,7 +12,7 @@ import {
   Videos,
 } from "../../components/templetes/Dialog/CreatorDialog";
 import TabBar from "../../components/templetes/TabBar";
-import { creatorFilters, favoriteTabs, pages } from "../../constants";
+import { favoriteTabs, pages } from "../../constants";
 import {
   favoritedCreatorIdsState,
   favoritedPlaylistIdsState,
@@ -74,7 +63,7 @@ export default function Page() {
         }}
         className={`PaperTarget-${id}`}
       >
-        <PaperHeader big id={id} title={"즐겨찾기"}>
+        <PaperHeader id={id} title={pageTitle} big>
           <Box
             sx={{
               p: theme.spacing(0, 2, 0, 2),
@@ -82,7 +71,7 @@ export default function Page() {
           >
             <TabBar
               color="secondary"
-              id={id}
+              title="creatorDialog"
               tabs={favoriteTabs}
               index={tabIndex}
               setIndex={setTabIndex}
@@ -94,10 +83,17 @@ export default function Page() {
             flex: 1,
             display: "flex",
             overflow: "hidden",
+            width: "100%",
+            position: "relative",
             "& .react-swipeable-view-container": {
-              flex: 1,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
               display: "flex",
               height: "100%",
+              width: "100%",
             },
           }}
         >

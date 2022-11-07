@@ -81,6 +81,7 @@ export function displayedAt(str: string | null, short?: boolean) {
   const hours = minutes / 60;
   if (hours < 24) return `${Math.floor(hours)}시간 전`;
   const days = hours / 24;
+  if (short) return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`
   return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일${
     short ? `` : ` ${date.getHours()}시 ${date.getMinutes()}분`
   }`;

@@ -2,9 +2,9 @@ import { Box, Paper } from "@mui/material";
 import _ from "lodash";
 import { useRouter } from "next/router";
 import PaperHeader from "../../components/molecules/PaperHeader";
-import { Creators } from "../../components/templetes/Dialog/CreatorDialog";
+import { Playlists } from "../../components/templetes/Dialog/CreatorDialog";
 import { pages } from "../../constants";
-import { testCreators } from "../../datas";
+import { testPlaylists } from "../../datas";
 export default function Page() {
   const router = useRouter();
   const currentPathName = `/${router.pathname.split("?")[0].split("/")[1]}`;
@@ -39,7 +39,6 @@ export default function Page() {
         className={`PaperTarget-${id}`}
       >
         <PaperHeader id={id} title={pageTitle} big />
-        <Creators creators={testCreators} columns={3} />
       </Box>
     </Paper>
   );

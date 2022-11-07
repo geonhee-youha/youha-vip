@@ -2,7 +2,10 @@ import { Box, ButtonBase, IconButton, Typography } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { CampaignProps } from "../../datas";
-import { campaignDialogState, campaignDrawerState } from "../../recoil";
+import {
+  campaignDrawerState,
+  campaignPopupState,
+} from "../../recoil";
 import { theme } from "../../themes/theme";
 import youhaBlue from "../../themes/youhaBlue";
 import Icon from "../atoms/Icon";
@@ -18,13 +21,15 @@ export default function CampaignItem({
   const { id, title, description, categories, target } = item;
   const [campaignDrawer, setCampaignDrawer] =
     useRecoilState(campaignDrawerState);
-  const setCampaignDialog = useSetRecoilState(campaignDialogState);
+  const setCreatorPopup = useSetRecoilState(campaignPopupState);
   const checked = campaignDrawer.selectedCampaignIds.includes(id);
   const handleClick = () => {
-    setCampaignDialog((prev) => {
+    setCreatorPopup((prev) => {
       return {
         ...prev,
         open: true,
+        campaignId: id,
+        mode: undefined
       };
     });
   };
@@ -57,7 +62,7 @@ export default function CampaignItem({
             boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
             zIndex: 98,
             borderRadius: 0.5,
-            transition: 'none'
+            transition: "none",
           }}
           onClick={handleClickCheck}
         >

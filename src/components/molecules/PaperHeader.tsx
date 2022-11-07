@@ -55,7 +55,20 @@ export default function PaperHeader({
         alignItems="center"
         spacing={-2}
         sx={{
-          p: theme.spacing(1.5, 2, 1.5, 2),
+          p: big
+            ? theme.spacing(3, 2, children ? 1 : 2, 2)
+            : theme.spacing(1.5, 2, 1.5, 2),
+          position: "realitve",
+          "&:after": {
+            position: "absolute",
+            left: 24,
+            right: 24,
+            bottom: 0,
+            height: `1px`,
+            backgroundColor: blueGrey[100],
+            content: '""',
+            display: big ? "block" : "none",
+          },
         }}
       >
         <Box

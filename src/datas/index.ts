@@ -1942,7 +1942,7 @@ export const campaignDefaultProps = {
 }
 export const testCampaigns: CampaignProps[] = [
     {
-        id: 0,
+        id: 1,
         title: '동원샘물 캠페인',
         description: '동원 F&B의 동원샘물, 미네마인을 마케팅',
         categories: ['패션'],
@@ -1953,7 +1953,7 @@ export const testCampaigns: CampaignProps[] = [
         },
     },
     {
-        id: 1,
+        id: 2,
         title: '네일 아트샵 방문 캠페인',
         description: '동원 F&B의 동원샘물, 미네마인을 마케팅',
         categories: ['패션'],

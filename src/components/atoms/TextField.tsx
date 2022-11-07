@@ -38,6 +38,7 @@ type TextfieldProps = {
   sx?: SxProps;
   error?: boolean;
   helperText?: string;
+  disabled?: boolean;
 };
 export default function Textfield({
   inputRef,
@@ -57,6 +58,7 @@ export default function Textfield({
   sx,
   error,
   helperText,
+  disabled,
 }: TextfieldProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -101,7 +103,7 @@ export default function Textfield({
           type={showPassword ? "text" : type}
           multiline={multiline}
           minRows={minRows}
-          disabled={uneditable}
+          disabled={uneditable || disabled}
           startAdornment={
             startAdornmentName && (
               <Icon
@@ -201,10 +203,20 @@ export default function Textfield({
                 "& input": {
                   color: `${blueGrey[400]} !important`,
                   WebkitTextFillColor: `${blueGrey[900]} !important`,
+                  cursor: "default !important",
+                },
+                "& textarea": {
+                  color: `${blueGrey[400]} !important`,
+                  WebkitTextFillColor: `${blueGrey[900]} !important`,
+                  cursor: "default !important",
                 },
               },
-              boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08), ${
-                error ? alpha(red[500], 1) : alpha(blueGrey[100], 1)
+              boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, ${
+                disabled ? 0 : 0.08
+              }), ${
+                error
+                  ? alpha(red[500], 1)
+                  : alpha(disabled ? blueGrey[50] : blueGrey[100], 1)
               } 0px 0px 0px 1px inset`,
               "&.Mui-focused": {
                 backgroundColor: `${alpha(blueGrey[50], 0)} !important`,
@@ -252,7 +264,7 @@ export default function Textfield({
         {helperText && (
           <FormHelperText
             sx={{
-              position: 'absolute',
+              position: "absolute",
               left: 0,
               right: 0,
               bottom: -24,
@@ -261,8 +273,8 @@ export default function Textfield({
               p: "4px 0",
               fontSize: 12,
               lineHeight: "16px",
-              fontWeight: '700',
-              textAlign: 'right',
+              fontWeight: "700",
+              textAlign: "right",
               color: error ? `${red[500]} !important` : blueGrey[500],
             }}
           >

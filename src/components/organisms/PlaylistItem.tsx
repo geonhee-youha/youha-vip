@@ -8,14 +8,17 @@ import {
 } from "@mui/material";
 import { blueGrey, pink } from "@mui/material/colors";
 import _ from "lodash";
-import { useRecoilState } from "recoil";
+import { useEffect, useState } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   checkedPlaylistIdsState,
   favoritedPlaylistIdsState,
+  testCreators,
 } from "../../datas";
+import { creatorDialogState } from "../../recoil";
 import { theme } from "../../themes/theme";
 import youhaBlue from "../../themes/youhaBlue";
-import { setKoNumber } from "../../utils";
+import { displayedAt, setKoNumber } from "../../utils";
 import Icon from "../atoms/Icon";
 import Typo from "../atoms/Typo";
 
@@ -23,21 +26,36 @@ export default function PlaylistItem({
   item,
   checkMode,
   forceCheck,
+  inCreator,
 }: {
   item: any;
   checkMode?: boolean;
   forceCheck?: boolean;
+  inCreator?: boolean;
 }) {
-  const { id, count } = item;
+  const { id, count, snippet } = item;
   const [checkedPlaylistIds, setCheckedPlaylistIds] = useRecoilState(
     checkedPlaylistIdsState
   );
   const [favoritedPlaylistIds, setFavoritedPlaylistIds] = useRecoilState(
     favoritedPlaylistIdsState
   );
+  const setCreatorDialog = useSetRecoilState(creatorDialogState);
   const checked =
     (forceCheck || checkMode) && checkedPlaylistIds.includes(item.id);
   const favorited = favoritedPlaylistIds.includes(id);
+  const [index, setIndex] = useState<number | null>(null);
+  useEffect(() => {
+    if (index === null) setIndex(Math.floor(Math.random() * 8));
+  }, [index]);
+  const creator =
+    index === null
+      ? {
+          title: "",
+          thumbnail: "",
+          subscriberCount: 0,
+        }
+      : testCreators[index];
   const handleClick = () => {};
   const handleClickCheck = () => {
     setCheckedPlaylistIds((prev) => {
@@ -61,10 +79,22 @@ export default function PlaylistItem({
       return prevList;
     });
   };
+  const handleClickCreator = () => {
+    setCreatorDialog((prev) => {
+      return {
+        ...prev,
+        open: true,
+        creatorId: id,
+      };
+    });
+  };
   return (
     <Box
       sx={{
+        display: "flex",
         position: "relative",
+        alignSelf: "stretch",
+        justifySelf: "stretch",
       }}
     >
       <ButtonBase
@@ -73,6 +103,8 @@ export default function PlaylistItem({
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
+          alignSelf: "stretch",
+          justifySelf: "stretch",
           borderRadius: 1,
           border: `1px solid ${
             checked ? youhaBlue[500] : blueGrey[100]
@@ -166,7 +198,7 @@ export default function PlaylistItem({
           sx={{
             flex: 1,
             alignSelf: "stretch",
-            p: theme.spacing(2, 2),
+            p: theme.spacing(2, 2, !inCreator && index !== null ? 11 : 2, 2),
           }}
         >
           <Typo
@@ -182,29 +214,118 @@ export default function PlaylistItem({
             {item.snippet.title}
           </Typo>
           <Typo
-            lines={1}
-            sx={{
-              mt: 0.5,
-              fontSize: 12,
-              lineHeight: "16px",
-              color: checked ? youhaBlue[500] : blueGrey[500],
-            }}
-          >
-            최근 게시일 2022.11.01
-          </Typo>
-          <Typo
             lines={2}
             sx={{
               mt: 0.5,
               fontSize: 14,
               lineHeight: "20px",
-              color: checked ? youhaBlue[500] : blueGrey[900],
+              color: checked ? youhaBlue[500] : blueGrey[500],
+              wordBreak: "break-all",
             }}
           >
-            {setKoNumber(32450000)}원
+            {item.snippet.description}
           </Typo>
+          <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Icon
+                prefix="fad"
+                name="money-bill"
+                size={14}
+                sx={{
+                  mr: 0.5,
+                  color: checked ? youhaBlue[500] : blueGrey[500],
+                }}
+              />
+              <Typo
+                lines={2}
+                sx={{
+                  fontSize: 14,
+                  lineHeight: "20px",
+                  color: checked ? youhaBlue[500] : blueGrey[500],
+                  fontWeight: "700",
+                }}
+              >
+                {setKoNumber(32450000)}원
+              </Typo>
+            </Box>
+          </Stack>
         </Box>
       </ButtonBase>
+      {!inCreator && index !== null && (
+        <ButtonBase
+          sx={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            borderTop: `1px solid ${blueGrey[100]}`,
+            p: theme.spacing(2),
+            display: "flex",
+            alignItems: "center",
+            borderBottomLeftRadius: 8,
+            borderBottomRightRadius: 8,
+          }}
+          onClick={handleClickCreator}
+        >
+          <Box
+            sx={{
+              position: "relative",
+              width: 40,
+              height: 40,
+              borderRadius: "50%",
+              border: `1px solid ${blueGrey[100]} !important`,
+              overflow: "hidden",
+            }}
+          >
+            <img
+              src={creator.thumbnail}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                objectFit: "cover",
+              }}
+            />
+          </Box>
+          <Box
+            sx={{
+              pl: 1,
+              flex: 1,
+            }}
+          >
+            <Typo
+              lines={1}
+              sx={{
+                fontSize: 14,
+                lineHeight: "20px",
+                fontWeight: "700",
+                color: blueGrey[900],
+                wordBreak: "break-all",
+              }}
+            >
+              {creator.title}
+            </Typo>
+            <Typography
+              sx={{
+                mt: 0.5,
+                fontSize: 12,
+                lineHeight: "16px",
+                color: blueGrey[700],
+                wordBreak: "break-all",
+              }}
+            >
+              구독자 {`${setKoNumber(creator.subscriberCount)}명`}
+            </Typography>
+          </Box>
+        </ButtonBase>
+      )}
       <Stack
         spacing={1}
         sx={{

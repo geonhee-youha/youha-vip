@@ -90,6 +90,10 @@ export const pages: PageProps[] = [
                 pathName: '/estimate'
             },
             {
+                title: '계약중인 광고',
+                pathName: '/contracting'
+            },
+            {
                 title: '진행중인 광고',
                 pathName: '/proceeding'
             },
@@ -110,12 +114,12 @@ export const pages: PageProps[] = [
                 pathName: '/creator'
             },
             {
-                title: '추천 광고영상',
-                pathName: '/video'
+                title: '추천 기획안',
+                pathName: '/playlist'
             },
             {
-                title: '추천 기획안',
-                pathName: '/plan'
+                title: '추천 광고영상',
+                pathName: '/video'
             },
             // {
             //     title: '추천 믹스',
