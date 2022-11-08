@@ -1,7 +1,7 @@
 import { Box, Button, Dialog, Typography } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import { Stack } from "@mui/system";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { alertDialogState } from "../../../recoil";
 import { theme } from "../../../themes/theme";
