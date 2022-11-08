@@ -166,20 +166,19 @@ export default function CreatorItem({
           cursor: "pointer",
           backgroundColor: "#ffffff",
           pb:
-            forceCheck || (!tempCheck && checkMode)
+            forceCheck ||
+            (!tempCheck && checkMode && checkedPlaylists.length > 0)
               ? `${
                   (checkedPlaylists.length > 3
                     ? forceCheck
                       ? 208.74 - 16 - 40
                       : 208.74 - 16
-                    : checkedPlaylists.length === 0 && playlists.length > 3
-                    ? forceCheck
-                      ? 208.74 - 8 - 16 - 40
-                      : 208.74 - 16
                     : forceCheck
                     ? 133.38 - 8 - 16 - 40
                     : 133.38 - 8) + 28
                 }px`
+              : !tempCheck && checkMode
+              ? `${208.74 - 133.38 - 16}px`
               : 0,
         }}
         onClick={handleClick}
@@ -439,22 +438,24 @@ export default function CreatorItem({
           }}
           onClick={handleClickPlaylist}
         >
-          <Typography
-            sx={{
-              fontSize: 14,
-              lineHeight: "20px",
-              fontWeight: "700",
-              opacity: checked ? 1 : 0.4,
-              mb: -1,
-              color: checked
-                ? tempCheck
-                  ? blueGrey[900]
-                  : youhaBlue[500]
-                : blueGrey[900],
-            }}
-          >
-            관련 기획안
-          </Typography>
+          {checkedPlaylists.length > 0 && (
+            <Typography
+              sx={{
+                fontSize: 14,
+                lineHeight: "20px",
+                fontWeight: "700",
+                opacity: checked ? 1 : 0.4,
+                mb: -1,
+                color: checked
+                  ? tempCheck
+                    ? blueGrey[900]
+                    : youhaBlue[500]
+                  : blueGrey[900],
+              }}
+            >
+              관련 기획안
+            </Typography>
+          )}
           <Box
             sx={{
               display: "grid",
@@ -575,105 +576,7 @@ export default function CreatorItem({
                   </Box>
                 )}
               </>
-            ) : (
-              <>
-                {playlists.map((item, index) => {
-                  return index < 5 ? (
-                    <Box
-                      key={index}
-                      sx={{
-                        flex: 1,
-                        borderRadius: 1,
-                        border: `1px solid ${
-                          checked
-                            ? tempCheck
-                              ? blueGrey[900]
-                              : youhaBlue[500]
-                            : blueGrey[100]
-                        } !important`,
-                        overflow: "hidden",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          position: "relative",
-                          width: "100%",
-                          pt: "56.25%",
-                        }}
-                      >
-                        <img
-                          src={item?.snippet?.thumbnails["maxres"]?.url}
-                          style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            objectFit: "cover",
-                          }}
-                        />
-                        {/* <Box
-                          sx={{
-                            position: "absolute",
-                            top: 0,
-                            right: 0,
-                            bottom: 0,
-                            backgroundColor: alpha("#000000", 0.8),
-                            width: "50%",
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "center",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              fontSize: 10,
-                              lineHeight: "14px",
-                              color: "#ffffff",
-                              fontWeight: "700",
-                            }}
-                          >
-                            {item.count}
-                          </Typography>
-                          <Icon
-                            name="list-ul"
-                            prefix="fas"
-                            size={12}
-                            color="#ffffff"
-                            sx={{ mt: 0.25 }}
-                          />
-                        </Box> */}
-                      </Box>
-                    </Box>
-                  ) : null;
-                })}
-                {playlists.length > 5 && (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: 12,
-                        lineHeight: "20px",
-                        fontWeight: "700",
-                        color: checked
-                          ? tempCheck
-                            ? blueGrey[900]
-                            : youhaBlue[500]
-                          : blueGrey[100],
-                      }}
-                    >
-                      더보기
-                    </Typography>
-                  </Box>
-                )}
-              </>
-            )}
+            ) : null}
           </Box>
           {!forceCheck && (
             <Button
@@ -693,9 +596,7 @@ export default function CreatorItem({
             >
               {checked && checkedPlaylists.length > 0
                 ? `${checkedPlaylists.length} / ${playlists.length}개의 기획안 선택중`
-                : checked
-                ? `${playlists.length}개의 기획안 선택가능`
-                : "먼저 크리에이터를 선택하세요!"}
+                : `${playlists.length}개의 기획안 선택가능`}
             </Button>
           )}
         </Stack>
