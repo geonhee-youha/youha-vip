@@ -4,15 +4,13 @@ import {
   Button,
   ButtonBase,
   Dialog,
-  DialogContent,
-  IconButton,
   Paper,
   Stack,
   Typography,
 } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
-import React, { useRef } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRef } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   checkedCreatorIdsState,
   checkedPlaylistIdsState,
@@ -23,6 +21,7 @@ import {
   campaignDrawerState,
   creatorDrawerDefaultProps,
   creatorDrawerState,
+  estimateDialogDefaultProps,
   estimateDialogState,
   estimateDrawerDefaultProps,
   estimateDrawerState,
@@ -36,6 +35,7 @@ import CampaignItem from "../../organisms/CampaignItem";
 import CreatorItem from "../../organisms/CreatorItem";
 
 export default function EstimateDialog() {
+  const boxRef = useRef<any>(null);
   const [estimateDialog, setEstimateDialog] =
     useRecoilState(estimateDialogState);
   const setCheckedCreatorIds = useSetRecoilState(checkedCreatorIdsState);
@@ -45,7 +45,7 @@ export default function EstimateDialog() {
   const setEstimateDrawer = useSetRecoilState(estimateDrawerState);
   const setAlertDialog = useSetRecoilState(alertDialogState);
   const {
-    id,
+    queryName,
     open,
     title,
     body,
@@ -65,15 +65,12 @@ export default function EstimateDialog() {
       };
     });
   };
-  const handleClickCancel = () => {
-    cancel?.onClick();
-    handleClose();
-  };
   const handleClickConfirm = () => {
     confirm?.onClick();
-    handleClose();
+    // handleClose();
     setCheckedCreatorIds([]);
     setCheckedPlaylistIds([]);
+    setEstimateDialog(estimateDialogDefaultProps);
     setCampaignDrawer(campaignDrawerDefaultProps);
     setCreatorDrawer(creatorDrawerDefaultProps);
     setEstimateDrawer(estimateDrawerDefaultProps);
@@ -83,35 +80,16 @@ export default function EstimateDialog() {
         open: true,
         title: "광고 견적요청이 완료되었습니다.",
         body: "조금만 기다려 주세요, 24시간 내 유하에서 견적 결과를 알려드립니다!",
-        children: (
-          <Box
-            sx={{
-              position: "relative",
-              width: 160,
-              height: 160,
-              mb: 2,
-            }}
-          >
-            <img
-              src="/image/alarm.png"
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                objectFit: "contain",
-              }}
-            />
-          </Box>
-        ),
+        lottie: "/lotties/71480-press-the-button.json",
         cancel: {
           ...prev.cancel,
           hide: true,
+          onClick: () => {},
         },
         confirm: {
           ...prev.confirm,
           title: "네 알겠어요!",
+          onClick: () => {},
         },
       };
     });
@@ -137,7 +115,6 @@ export default function EstimateDialog() {
         right: 0,
         overflow: "auto",
       }}
-      keepMounted
     >
       <Paper
         elevation={4}
@@ -160,10 +137,10 @@ export default function EstimateDialog() {
             flexDirection: "column",
             overflow: "hidden",
           }}
-          className={`PaperTarget-${id}`}
+          className={`PaperTarget-${queryName}`}
         >
           <PaperHeader
-            id={id}
+            queryName={queryName}
             title={temp ? "견적서 미리보기" : "견적서 정보"}
             onClose={handleClose}
           />
@@ -367,7 +344,47 @@ export default function EstimateDialog() {
                                 color: checked ? youhaBlue[500] : blueGrey[300],
                               }}
                             >
-                              {item}
+                              {item.title}
+                            </Typography>
+                          </Button>
+                        );
+                      })}
+                    </Box>
+                  </InputRow>
+                  <InputRow label="매체 활용" essential>
+                    <Box sx={{ mb: -1 }}>
+                      {input.medias.map((item, index) => {
+                        const checked = true;
+                        return (
+                          <Button
+                            key={index}
+                            variant="outlined"
+                            color={checked ? "primary" : "secondary"}
+                            sx={{
+                              p: theme.spacing(0, 1.25),
+                              height: 32,
+                              minHeight: 32,
+                              border: `1px solid ${
+                                checked ? youhaBlue[500] : blueGrey[100]
+                              } !important`,
+                              boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, ${
+                                checked ? `0.08` : `0.08`
+                              })`,
+                              borderRadius: 1,
+                              mr: 1,
+                              mb: 1,
+                            }}
+                            disabled
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: 14,
+                                lineHeight: "20px",
+                                fontWeight: "700",
+                                color: checked ? youhaBlue[500] : blueGrey[300],
+                              }}
+                            >
+                              {item.title}
                             </Typography>
                           </Button>
                         );
@@ -378,7 +395,7 @@ export default function EstimateDialog() {
                     <>
                       <InputRow label="카테고리" essential>
                         <Box sx={{ mb: -1 }}>
-                          {input.purposies.map((item, index) => {
+                          {input.categories.map((item, index) => {
                             const checked = true;
                             return (
                               <Button
@@ -411,7 +428,7 @@ export default function EstimateDialog() {
                                       : blueGrey[300],
                                   }}
                                 >
-                                  {item}
+                                  {item.title}
                                 </Typography>
                               </Button>
                             );
@@ -447,14 +464,14 @@ export default function EstimateDialog() {
                                 color: checked ? youhaBlue[500] : blueGrey[300],
                               }}
                             >
-                              {input.target.sex}
+                              {input.sex?.title}
                             </Typography>
                           </Button>
                         </Box>
                       </InputRow>
                       <InputRow label="타겟 연령대" essential>
                         <Box sx={{ mb: -1 }}>
-                          {(input.target.ages ?? []).map((item, index) => {
+                          {input.ages.map((item, index) => {
                             const checked = true;
                             return (
                               <Button
@@ -487,7 +504,7 @@ export default function EstimateDialog() {
                                       : blueGrey[300],
                                   }}
                                 >
-                                  {item}
+                                  {item.title}
                                 </Typography>
                               </Button>
                             );
@@ -517,6 +534,7 @@ export default function EstimateDialog() {
                     value={input.request}
                     minRows={3}
                   />
+                  <InputRow label="첨부파일" value={"유하용_제안서_최종.pdf"} />
                 </Stack>
               </Page>
             </Box>
@@ -583,7 +601,7 @@ export default function EstimateDialog() {
     </Dialog>
   );
 }
-function InputRow({
+export function InputRow({
   label,
   value,
   essential,
@@ -619,13 +637,10 @@ function InputRow({
       {children ?? (
         <Box
           sx={{
-            // p: theme.spacing(0, 0, 1, 0),
             display: "flex",
             alignItems: "center",
             borderRadius: 1,
             backgroundColor: alpha(blueGrey[50], 1),
-            // border: `1px solid ${value ? youhaBlue[500] : blueGrey[100]}`,
-            // boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
             p: theme.spacing(1.5, 2),
           }}
         >
@@ -634,8 +649,6 @@ function InputRow({
               minHeight: minRows * 24,
               fontSize: 16,
               lineHeight: "24px",
-              // color: blueGrey[800],
-              // color: youhaBlue[500],
             }}
           >
             {value}
@@ -645,7 +658,7 @@ function InputRow({
     </Box>
   );
 }
-function Page({ children }: { children?: React.ReactNode }) {
+export function Page({ children }: { children?: React.ReactNode }) {
   const boxRef = useRef<any>(null);
   const shadowRef = useRef<any>(null);
   const handleScroll = (e: any) => {

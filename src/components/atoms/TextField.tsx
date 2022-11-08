@@ -31,7 +31,7 @@ type TextfieldProps = {
   showButton?: boolean;
   startAdornmentName?: IconName;
   minRows?: number;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onReset?: () => void;
   onKeyPress?: (event: KeyboardEvent<HTMLInputElement>) => void;
   uneditable?: boolean;
@@ -62,7 +62,7 @@ export default function Textfield({
 }: TextfieldProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange(event);
+    if (typeof onChange !== "undefined") onChange(event);
   };
   const handleClickReset = () => {
     if (typeof onReset !== "undefined") onReset();

@@ -1,9 +1,10 @@
 import { Box, Paper } from "@mui/material";
 import _ from "lodash";
 import { useRouter } from "next/router";
+import List from "../../components/atoms/List";
 import PaperHeader from "../../components/molecules/PaperHeader";
-import { Playlists } from "../../components/templetes/Dialog/CreatorDialog";
-import { pages } from "../../constants";
+import PlaylistItem from "../../components/organisms/PlaylistItem";
+import { pages, playlistFilters, playlistSorts } from "../../constants";
 import { testPlaylists } from "../../datas";
 export default function Page() {
   const router = useRouter();
@@ -16,7 +17,8 @@ export default function Page() {
           (el) => el.pathName === currentSlugPathName
         )?.title
       : _.findLast(pages, (el) => el.pathName === currentPathName)?.title;
-  const id = `page-${currentPathName.replace("/", "")}`;
+  const queryName = `page-${currentPathName.replace("/", "")}`;
+  const data = testPlaylists.flatMap((el) => el.playlistItems).slice(0, 22);
   return (
     <Paper
       elevation={4}
@@ -36,14 +38,20 @@ export default function Page() {
           height: "100%",
           overflow: "auto",
         }}
-        className={`PaperTarget-${id}`}
+        className={`PaperTarget-${queryName}`}
       >
-        <PaperHeader id={id} title={pageTitle} big />
-        <Playlists
-          playlists={testPlaylists
-            .flatMap((el) => el.playlistItems)
-            .slice(0, 22)}
+        <PaperHeader queryName={queryName} title={pageTitle} big />
+        <List
+          data={data}
+          filters={playlistFilters}
+          sorts={playlistSorts}
           columns={4}
+          renderList={(data) => {
+            return data.map((item, index) => (
+              <PlaylistItem key={index} item={item} />
+            ));
+          }}
+          title="플레이리스트가"
         />
       </Box>
     </Paper>

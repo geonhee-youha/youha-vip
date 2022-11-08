@@ -62,7 +62,8 @@ export default function VideoItem({
       return {
         ...prev,
         open: true,
-        creatorId: id,
+        id: creator.id,
+        index: 3,
       };
     });
   };
@@ -131,7 +132,7 @@ export default function VideoItem({
           sx={{
             flex: 1,
             alignSelf: "stretch",
-            p: theme.spacing(2, 2, !inCreator && index !== null ? 11 : 2, 2),
+            p: theme.spacing(2, 2, !inCreator ? 11 : 2, 2),
           }}
         >
           <Typo

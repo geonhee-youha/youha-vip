@@ -4,15 +4,19 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import SwipeableViews from "react-swipeable-views";
 import { useRecoilValue } from "recoil";
+import List from "../../components/atoms/List";
+import Slide from "../../components/atoms/Slide";
 import PaperHeader from "../../components/molecules/PaperHeader";
+import CreatorItem from "../../components/organisms/CreatorItem";
+import PlaylistItem from "../../components/organisms/PlaylistItem";
+import VideoItem from "../../components/organisms/VideoItem";
+import TabBar from "../../components/molecules/TabBar";
 import {
-  Creators,
-  Playlists,
-  Slide,
-  Videos,
-} from "../../components/templetes/Dialog/CreatorDialog";
-import TabBar from "../../components/templetes/TabBar";
-import { favoriteTabs, pages } from "../../constants";
+  creatorFilters,
+  creatorSorts,
+  favoriteTabs,
+  pages,
+} from "../../constants";
 import {
   favoritedCreatorIdsState,
   favoritedPlaylistIdsState,
@@ -39,7 +43,17 @@ export default function Page() {
   const favoritedCreatorIds = useRecoilValue(favoritedCreatorIdsState);
   const favoritedPlaylistIds = useRecoilValue(favoritedPlaylistIdsState);
   const favoritedVideoIds = useRecoilValue(favoritedVideoIdsState);
-  const id = `page-${currentPathName.replace("/", "")}`;
+  const creators = _.filter(testCreators, (el) =>
+    favoritedCreatorIds.includes(el.id)
+  );
+  const playlists = _.filter(
+    testPlaylists.flatMap((el) => el.playlistItems),
+    (el) => favoritedPlaylistIds.includes(el.id)
+  );
+  const videos = _.filter(testVideos, (el) =>
+    favoritedVideoIds.includes(el.id)
+  );
+  const queryName = `page-${currentPathName.replace("/", "")}`;
   return (
     <Paper
       elevation={4}
@@ -61,9 +75,9 @@ export default function Page() {
           display: "flex",
           flexDirection: "column",
         }}
-        className={`PaperTarget-${id}`}
+        className={`PaperTarget-${queryName}`}
       >
-        <PaperHeader id={id} title={pageTitle} big>
+        <PaperHeader queryName={queryName} title={pageTitle} big>
           <Box
             sx={{
               p: theme.spacing(0, 2, 0, 2),
@@ -75,6 +89,17 @@ export default function Page() {
               tabs={favoriteTabs}
               index={tabIndex}
               setIndex={setTabIndex}
+              // counts={[
+              //   _.filter(testCreators, (el) =>
+              //     favoritedCreatorIds.includes(el.id)
+              //   ).length,
+              //   _.filter(
+              //     testPlaylists.flatMap((el) => el.playlistItems),
+              //     (el) => favoritedPlaylistIds.includes(el.id)
+              //   ).length,
+              //   _.filter(testVideos, (el) => favoritedVideoIds.includes(el.id))
+              //     .length,
+              // ]}
             />
           </Box>
         </PaperHeader>
@@ -94,6 +119,12 @@ export default function Page() {
               display: "flex",
               height: "100%",
               width: "100%",
+              "& > div": {
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+                overflow: "hidden",
+              },
             },
           }}
         >
@@ -102,32 +133,50 @@ export default function Page() {
             onChangeIndex={setTabIndex}
             style={{
               overflow: "hidden",
+              width: "100%",
               height: "100%",
             }}
           >
-            <Slide>
-              <Creators
-                creators={_.filter(testCreators, (el) =>
-                  favoritedCreatorIds.includes(el.id)
-                )}
+            <Slide sx={{height: 4000}}>
+              <List
+                data={creators}
+                filters={creatorFilters}
+                sorts={creatorSorts}
                 columns={3}
+                renderList={(data) => {
+                  return data.map((item, index) => (
+                    <CreatorItem key={index} item={item} />
+                  ));
+                }}
+                title="크리에이터가"
               />
             </Slide>
             <Slide>
-              <Playlists
-                playlists={_.filter(
-                  testPlaylists.flatMap((el) => el.playlistItems),
-                  (el) => favoritedPlaylistIds.includes(el.id)
-                )}
+              <List
+                data={playlists}
+                filters={creatorFilters}
+                sorts={creatorSorts}
                 columns={4}
+                renderList={(data) => {
+                  return data.map((item, index) => (
+                    <PlaylistItem key={index} item={item} />
+                  ));
+                }}
+                title="기획안이"
               />
             </Slide>
             <Slide>
-              <Videos
-                videos={_.filter(testVideos, (el) =>
-                  favoritedVideoIds.includes(el.id)
-                )}
+              <List
+                data={videos}
+                filters={creatorFilters}
+                sorts={creatorSorts}
                 columns={4}
+                renderList={(data) => {
+                  return data.map((item, index) => (
+                    <VideoItem key={index} item={item} />
+                  ));
+                }}
+                title="광고영상이"
               />
             </Slide>
           </SwipeableViews>

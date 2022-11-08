@@ -10,24 +10,21 @@ import {
 import { blueGrey } from "@mui/material/colors";
 import _ from "lodash";
 import { useRouter } from "next/router";
-import React, {
-  ChangeEvent,
-  KeyboardEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { ChangeEvent, KeyboardEvent, useEffect, useRef } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { ages, sexs, testCategories, testPurposies } from "../../../constants";
+import {
+  sexFilter,
+  ageFilter,
+  categoryFilter,
+  purposeFilter,
+  mediaFilter,
+} from "../../../constants";
 import { testCampaigns, testCreators } from "../../../datas";
 import {
   campaignDrawerState,
   creatorDrawerState,
   estimateDialogState,
   estimateDrawerState,
-  estimateInputDefaultProps,
-  estimateInputDialogState,
-  EstimateInputProps,
 } from "../../../recoil";
 import { theme } from "../../../themes/theme";
 import youhaBlue from "../../../themes/youhaBlue";
@@ -37,6 +34,7 @@ import Textfield from "../../atoms/Textfield";
 import PaperHeader from "../../molecules/PaperHeader";
 
 export default function EstimateDrawer() {
+  const boxRef = useRef<any>(null);
   const router = useRouter();
   const budgetRef = useRef<any>(null);
   const durationRef = useRef<any>(null);
@@ -55,20 +53,19 @@ export default function EstimateDrawer() {
   const [estimateDrawer, setEstimateDrawer] =
     useRecoilState(estimateDrawerState);
   const setEstimateDialog = useSetRecoilState(estimateDialogState);
-  const { id, open, mix, input } = estimateDrawer;
-  console.log(estimateDrawer);
-  
+  const { queryName, open, mix, input } = estimateDrawer;
   const confirmable =
     input.budget !== "" &&
     input.duration !== "" &&
+    input.medias.length > 0 &&
     input.purposies.length > 0 &&
     (mix === false ||
       (mix &&
         input.categories.length > 0 &&
         input.channelCount !== "" &&
-        input.target.sex !== undefined &&
-        input.target.ages &&
-        input.target.ages.length > 0));
+        input.sex !== undefined &&
+        input.ages &&
+        input.ages.length > 0));
   useEffect(() => {
     handleClose();
   }, [router]);
@@ -296,14 +293,19 @@ export default function EstimateDrawer() {
         ...prev,
         open: true,
         temp: true,
-        campaign: testCampaigns[campaignDrawer.selectedCampaignIds[0]],
+        campaign:
+          testCampaigns[
+            _.findIndex(
+              testCampaigns,
+              (el) => el.id === campaignDrawer.selectedCampaignIds[0]
+            )
+          ],
         creators: creatorDrawer.pass
           ? []
           : _.filter(testCreators, (el) =>
               creatorDrawer.selectedCreatorIds.includes(el.id)
             ),
         input: input,
-        mix: mix,
       };
     });
   };
@@ -333,18 +335,23 @@ export default function EstimateDrawer() {
         }}
       >
         <Box
+          ref={boxRef}
           sx={{
             width: "100%",
             height: "100%",
             overflow: "auto",
           }}
-          className={`PaperTarget-${id}`}
+          className={`PaperTarget-${queryName}`}
         >
-          <PaperHeader id={id} title="상세정보 작성" onClose={handleClose} />
+          <PaperHeader
+            queryName={queryName}
+            title="상세정보 작성"
+            onClose={handleClose}
+          />
           <Stack
             spacing={3}
             sx={{
-              p: theme.spacing(0, 3, 2 + 16, 3),
+              p: theme.spacing(0, 3, 2 + 18, 3),
             }}
           >
             <Textfield
@@ -377,7 +384,7 @@ export default function EstimateDrawer() {
             <Box>
               <Typography
                 sx={{
-                  mb: 0.5,
+                  mb: 1,
                   fontSize: 14,
                   lineHeight: "20px",
                   fontWeight: "700",
@@ -397,13 +404,20 @@ export default function EstimateDrawer() {
                   mb: -1,
                 }}
               >
-                {testPurposies.map((item, index) => {
-                  const checked = input.purposies.includes(item);
+                {purposeFilter.map((item, index) => {
+                  const checked = input.purposies
+                    .flatMap((el) => el.value)
+                    .includes(item.value);
                   const handleClick = () => {
                     setEstimateDrawer((prev) => {
                       let prevList = _.cloneDeep(prev.input.purposies);
-                      if (prevList.includes(item)) {
-                        prevList = _.filter(prevList, (el) => el !== item);
+                      if (
+                        prevList.flatMap((el) => el.value).includes(item.value)
+                      ) {
+                        prevList = _.filter(
+                          prevList,
+                          (el) => el.value !== item.value
+                        );
                       } else {
                         prevList = [...prevList, item];
                       }
@@ -446,7 +460,93 @@ export default function EstimateDrawer() {
                           color: checked ? youhaBlue[500] : blueGrey[300],
                         }}
                       >
-                        {item}
+                        {item.title}
+                      </Typography>
+                    </Button>
+                  );
+                })}
+              </Box>
+            </Box>
+            <Box>
+              <Typography
+                sx={{
+                  mb: 1,
+                  fontSize: 14,
+                  lineHeight: "20px",
+                  fontWeight: "700",
+                  "& span": {
+                    color: youhaBlue[500],
+                  },
+                }}
+              >
+                매체 활용 (최소 1개)
+                <span>*</span>
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  mt: 1,
+                  mb: -1,
+                }}
+              >
+                {mediaFilter.map((item, index) => {
+                  const checked = input.medias
+                    .flatMap((el) => el.value)
+                    .includes(item.value);
+                  const handleClick = () => {
+                    setEstimateDrawer((prev) => {
+                      let prevList = _.cloneDeep(prev.input.medias);
+                      if (
+                        prevList.flatMap((el) => el.value).includes(item.value)
+                      ) {
+                        prevList = _.filter(
+                          prevList,
+                          (el) => el.value !== item.value
+                        );
+                      } else {
+                        prevList = [...prevList, item];
+                      }
+                      return {
+                        ...prev,
+                        input: {
+                          ...prev.input,
+                          medias: prevList,
+                        },
+                      };
+                    });
+                  };
+                  return (
+                    <Button
+                      key={index}
+                      ref={index === 0 ? categoryRef : null}
+                      variant="outlined"
+                      color={checked ? "primary" : "secondary"}
+                      sx={{
+                        p: theme.spacing(0, 1.25),
+                        height: 32,
+                        minHeight: 32,
+                        border: `1px solid ${
+                          checked ? youhaBlue[500] : blueGrey[100]
+                        } !important`,
+                        boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, ${
+                          checked ? `0.08` : `0.08`
+                        })`,
+                        borderRadius: 1,
+                        mr: 1,
+                        mb: 1,
+                      }}
+                      onClick={handleClick}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: 14,
+                          lineHeight: "20px",
+                          fontWeight: "700",
+                          color: checked ? youhaBlue[500] : blueGrey[300],
+                        }}
+                      >
+                        {item.title}
                       </Typography>
                     </Button>
                   );
@@ -458,7 +558,7 @@ export default function EstimateDrawer() {
                 <Box>
                   <Typography
                     sx={{
-                      mb: 0.5,
+                      mb: 1,
                       fontSize: 14,
                       lineHeight: "20px",
                       fontWeight: "700",
@@ -478,13 +578,22 @@ export default function EstimateDrawer() {
                       mb: -1,
                     }}
                   >
-                    {testCategories.map((item, index) => {
-                      const checked = input.categories.includes(item);
+                    {categoryFilter.map((item, index) => {
+                      const checked = input.categories
+                        .flatMap((el) => el.value)
+                        .includes(item.value);
                       const handleClick = () => {
                         setEstimateDrawer((prev) => {
                           let prevList = _.cloneDeep(prev.input.categories);
-                          if (prevList.includes(item)) {
-                            prevList = _.filter(prevList, (el) => el !== item);
+                          if (
+                            prevList
+                              .flatMap((el) => el.value)
+                              .includes(item.value)
+                          ) {
+                            prevList = _.filter(
+                              prevList,
+                              (el) => el.value !== item.value
+                            );
                           } else {
                             prevList = [...prevList, item];
                           }
@@ -527,7 +636,7 @@ export default function EstimateDrawer() {
                               color: checked ? youhaBlue[500] : blueGrey[300],
                             }}
                           >
-                            {item}
+                            {item.title}
                           </Typography>
                         </Button>
                       );
@@ -537,7 +646,7 @@ export default function EstimateDrawer() {
                 <Box>
                   <Typography
                     sx={{
-                      mb: 0.5,
+                      mb: 1,
                       fontSize: 14,
                       lineHeight: "20px",
                       fontWeight: "700",
@@ -550,21 +659,18 @@ export default function EstimateDrawer() {
                     <span>*</span>
                   </Typography>
                   <Stack direction="row" spacing={0.5} sx={{ mt: 1 }}>
-                    {sexs.map((item, index) => {
-                      const checked = input.target.sex === item;
+                    {sexFilter.map((item, index) => {
+                      const checked = input.sex?.value === item.value;
                       const handleClick = () => {
                         setEstimateDrawer((prev) => {
                           return {
                             ...prev,
                             input: {
                               ...prev.input,
-                              target: {
-                                ...prev.input.target,
-                                sex:
-                                  prev.input.target.sex === item
-                                    ? undefined
-                                    : item,
-                              },
+                              sex:
+                                prev.input.sex?.value === item.value
+                                  ? undefined
+                                  : item,
                             },
                           };
                         });
@@ -597,7 +703,7 @@ export default function EstimateDrawer() {
                               color: checked ? youhaBlue[500] : blueGrey[300],
                             }}
                           >
-                            {item}
+                            {item.title}
                           </Typography>
                         </Button>
                       );
@@ -607,7 +713,7 @@ export default function EstimateDrawer() {
                 <Box>
                   <Typography
                     sx={{
-                      mb: 0.5,
+                      mb: 1,
                       fontSize: 14,
                       lineHeight: "20px",
                       fontWeight: "700",
@@ -626,16 +732,19 @@ export default function EstimateDrawer() {
                       mt: 1,
                     }}
                   >
-                    {ages.map((item, index) => {
-                      const checked =
-                        input.target.ages && input.target.ages.includes(item);
+                    {ageFilter.map((item, index) => {
+                      const checked = input.ages
+                        .flatMap((el) => el.value)
+                        .includes(item.value);
                       const handleClick = () => {
                         setEstimateDrawer((prev) => {
-                          let prevList: any = _.cloneDeep(
-                            prev.input.target.ages
-                          );
-                          if (prevList.includes(item)) {
-                            prevList = _.filter(prevList, (el) => el !== item);
+                          let prevList = _.cloneDeep(prev.input.ages);
+                          if (
+                            prevList
+                              .flatMap((el) => el.value)
+                              .includes(item.value)
+                          ) {
+                            prevList = _.filter(prevList, (el) => el.value !== item.value);
                           } else {
                             prevList = [...prevList, item];
                           }
@@ -643,10 +752,7 @@ export default function EstimateDrawer() {
                             ...prev,
                             input: {
                               ...prev.input,
-                              target: {
-                                ...prev.input.target,
-                                ages: prevList,
-                              },
+                              ages: prevList,
                             },
                           };
                         });
@@ -679,7 +785,7 @@ export default function EstimateDrawer() {
                               color: checked ? youhaBlue[500] : blueGrey[300],
                             }}
                           >
-                            {item}
+                            {item.title}
                           </Typography>
                         </Button>
                       );
@@ -741,6 +847,51 @@ export default function EstimateDrawer() {
               multiline
               minRows={3}
             />
+            <Box>
+              <Typography
+                sx={{
+                  mb: 1,
+                  fontSize: 14,
+                  lineHeight: "20px",
+                  fontWeight: "700",
+                  "& span": {
+                    color: youhaBlue[500],
+                  },
+                }}
+              >
+                첨부파일 (최대 30MB)
+              </Typography>
+              <Button
+                color="secondary"
+                variant="outlined"
+                fullWidth
+                sx={{
+                  minHeight: 40,
+                  height: 40,
+                  boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
+                }}
+              >
+                <Icon
+                  name="upload"
+                  size={16}
+                  color="inherit"
+                  prefix="fas"
+                  sx={{
+                    mr: 1,
+                  }}
+                />
+                <Typography
+                  sx={{
+                    fontSize: 14,
+                    lineHeight: "20px",
+                    fontWeight: "700",
+                    color: "inherit",
+                  }}
+                >
+                  파일 첨부하기
+                </Typography>
+              </Button>
+            </Box>
           </Stack>
         </Box>
         {mix === undefined && (

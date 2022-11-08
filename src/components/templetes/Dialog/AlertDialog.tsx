@@ -1,19 +1,30 @@
 import { Box, Button, Dialog, Typography } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import { Stack } from "@mui/system";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { alertDialogState } from "../../../recoil";
 import { theme } from "../../../themes/theme";
 
 export default function AlertDialog() {
   const [alertDialog, setAlertDialog] = useRecoilState(alertDialogState);
-  const { open, title, body, cancel, confirm, children } = alertDialog;
+  const { open, title, body, cancel, confirm, lottie } = alertDialog;
+  useEffect(() => {
+    import("@lottiefiles/lottie-player");
+  });
   const handleClose = () => {
     setAlertDialog((prev) => {
       return {
         ...prev,
         open: false,
-        children: undefined
+        cancel: {
+          ...prev.cancel,
+          onClick: () => {},
+        },
+        confirm: {
+          ...prev.confirm,
+          onClick: () => {},
+        },
       };
     });
   };
@@ -34,20 +45,54 @@ export default function AlertDialog() {
       aria-describedby="alert-dialog-description"
       sx={{
         "& .MuiDialog-paper": {
+          position: "relative",
           maxWidth: 400,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
         },
         position: "fixed",
-        zIndex: 99999,
+        zIndex: 9999999,
         right: 0,
         overflow: "auto",
       }}
     >
+      {lottie && (
+        <Box
+          sx={{
+            position: "relative",
+            height: "100%",
+          }}
+        >
+          <lottie-player
+            autoplay
+            loop
+            mode="normal"
+            src={lottie}
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
+          />
+          <Box
+            sx={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: 48,
+              background: `linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1))`,
+            }}
+          />
+        </Box>
+      )}
       <Box
         sx={{
           p: theme.spacing(2, 3),
           height: 64,
           display: "flex",
           alignItems: "center",
+          zIndex: 1,
         }}
       >
         <Typography
@@ -66,9 +111,9 @@ export default function AlertDialog() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          zIndex: 1,
         }}
       >
-        {children && children}
         <Typography
           sx={{
             fontSize: 16,

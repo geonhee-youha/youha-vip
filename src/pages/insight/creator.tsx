@@ -1,9 +1,10 @@
 import { Box, Paper } from "@mui/material";
 import _ from "lodash";
 import { useRouter } from "next/router";
+import List from "../../components/atoms/List";
 import PaperHeader from "../../components/molecules/PaperHeader";
-import { Creators } from "../../components/templetes/Dialog/CreatorDialog";
-import { pages } from "../../constants";
+import CreatorItem from "../../components/organisms/CreatorItem";
+import { creatorFilters, creatorSorts, pages } from "../../constants";
 import { testCreators } from "../../datas";
 export default function Page() {
   const router = useRouter();
@@ -16,7 +17,8 @@ export default function Page() {
           (el) => el.pathName === currentSlugPathName
         )?.title
       : _.findLast(pages, (el) => el.pathName === currentPathName)?.title;
-  const id = `page-${currentPathName.replace("/", "")}`;
+  const queryName = `page-${currentPathName.replace("/", "")}`;
+  const data = testCreators;
   return (
     <Paper
       elevation={4}
@@ -36,10 +38,21 @@ export default function Page() {
           height: "100%",
           overflow: "auto",
         }}
-        className={`PaperTarget-${id}`}
+        className={`PaperTarget-${queryName}`}
       >
-        <PaperHeader id={id} title={pageTitle} big />
-        <Creators creators={testCreators} columns={3} />
+        <PaperHeader queryName={queryName} title={pageTitle} big />
+        <List
+          data={data}
+          filters={creatorFilters}
+          sorts={creatorSorts}
+          columns={3}
+          renderList={(data) => {
+            return data.map((item, index) => (
+              <CreatorItem key={index} item={item} />
+            ));
+          }}
+          title="크리에이터가"
+        />
       </Box>
     </Paper>
   );

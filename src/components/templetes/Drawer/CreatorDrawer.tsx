@@ -20,9 +20,9 @@ import {
   alertDialogState,
   creatorDrawerState,
   creatorPopupState,
+  estimateDrawerDefaultProps,
   estimateDrawerState,
   estimateInputDefaultProps,
-  planPopupState,
 } from "../../../recoil";
 import { theme } from "../../../themes/theme";
 import Icon from "../../atoms/Icon";
@@ -35,11 +35,10 @@ export default function CreatorDrawer() {
   const [checkedCreatorIds, setCheckedCreatorIds] = useRecoilState(
     checkedCreatorIdsState
   );
-  const { id, open, selectedCreatorIds, pass } = creatorDrawer;
+  const { queryName, open, selectedCreatorIds, pass } = creatorDrawer;
   const creators = testCreators;
   const plans = testPlaylists;
   const setCreatorPopup = useSetRecoilState(creatorPopupState);
-  const setPlanPopup = useSetRecoilState(planPopupState);
   const [estimateDrawer, setEstimateDrawer] =
     useRecoilState(estimateDrawerState);
   const setAlertDialog = useSetRecoilState(alertDialogState);
@@ -82,7 +81,7 @@ export default function CreatorDrawer() {
       };
     });
   };
-  const handleClickCheck = () =>
+  const handleClickCheck = () => {
     setCreatorDrawer((prev) => {
       return {
         ...prev,
@@ -90,6 +89,7 @@ export default function CreatorDrawer() {
         pass: !prev.pass,
       };
     });
+  };
   const handleClickConfirm = () => {
     if (!estimateDrawer.open) {
       if (estimateDrawer.mix === undefined) {
@@ -99,11 +99,13 @@ export default function CreatorDrawer() {
             open: true,
             title: "크리에이터 추천",
             body: "선택하신 크리에이터 이외에 크리에이터 추천이 필요하신가요? 추천받기를 클릭하시면 유하가 더 많은 크리에이터를 포함해서 제안서를 드려요.",
+            lottie: "/lotties/112689-3d-family-intro.json",
             cancel: {
               title: "괜찮아요",
               onClick: () => {
                 setEstimateDrawer((prev) => {
                   return {
+                    ...estimateDrawerDefaultProps,
                     open: true,
                     input: estimateInputDefaultProps,
                     mix: false,
@@ -116,6 +118,7 @@ export default function CreatorDrawer() {
               onClick: () => {
                 setEstimateDrawer((prev) => {
                   return {
+                    ...estimateDrawerDefaultProps,
                     open: true,
                     input: estimateInputDefaultProps,
                     mix: true,
@@ -174,10 +177,10 @@ export default function CreatorDrawer() {
               height: "100%",
               overflow: "auto",
             }}
-            className={`PaperTarget-${id}`}
+            className={`PaperTarget-${queryName}`}
           >
             <PaperHeader
-              id={id}
+              queryName={queryName}
               title="크리에이터 선택"
               onClose={handleClose}
             />

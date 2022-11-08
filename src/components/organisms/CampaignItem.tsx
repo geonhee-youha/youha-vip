@@ -2,10 +2,7 @@ import { Box, ButtonBase, IconButton, Typography } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { CampaignProps } from "../../datas";
-import {
-  campaignDrawerState,
-  campaignPopupState,
-} from "../../recoil";
+import { campaignDialogState, campaignDrawerState } from "../../recoil";
 import { theme } from "../../themes/theme";
 import youhaBlue from "../../themes/youhaBlue";
 import Icon from "../atoms/Icon";
@@ -13,23 +10,24 @@ export default function CampaignItem({
   item,
   index,
   checkMode,
+  inHome,
 }: {
   item: CampaignProps;
   index?: number;
   checkMode?: boolean;
+  inHome?: boolean;
 }) {
-  const { id, title, description, categories, target } = item;
+  const { id, title, description, categories, sex, ages } = item;
   const [campaignDrawer, setCampaignDrawer] =
     useRecoilState(campaignDrawerState);
-  const setCreatorPopup = useSetRecoilState(campaignPopupState);
+  const setCampaignDialog = useSetRecoilState(campaignDialogState);
   const checked = campaignDrawer.selectedCampaignIds.includes(id);
   const handleClick = () => {
-    setCreatorPopup((prev) => {
+    setCampaignDialog((prev) => {
       return {
         ...prev,
         open: true,
-        campaignId: id,
-        mode: undefined
+        id: id,
       };
     });
   };
@@ -43,11 +41,21 @@ export default function CampaignItem({
   };
   return (
     <Box
-      sx={{
-        position: "relative",
-      }}
+      sx={
+        inHome
+          ? {
+              position: "sticky",
+              top: 0,
+              zIndex: 9999,
+              backgroundColor: "#ffffff",
+              borderBottom: `1px solid ${blueGrey[100]}`,
+            }
+          : {
+              position: "relative",
+            }
+      }
     >
-      {checkMode && (
+      {checkMode && !inHome && (
         <IconButton
           sx={{
             position: "absolute",
@@ -75,24 +83,35 @@ export default function CampaignItem({
         </IconButton>
       )}
       <ButtonBase
-        sx={{
-          width: "100%",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          borderRadius: 1,
-          p: theme.spacing(2),
-          border: `1px solid ${
-            checked ? youhaBlue[500] : blueGrey[100]
-          } !important`,
-          boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, ${
-            checked ? `0.08` : `0.08`
-          })`,
-          cursor: "pointer",
-          "& *": {
-            cursor: "pointer",
-          },
-        }}
+        sx={
+          inHome
+            ? {
+                width: "100%",
+                flexDirection: "column",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+                p: theme.spacing(4, 3, 3, 3),
+              }
+            : {
+                width: "100%",
+                flexDirection: "column",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+                borderRadius: 1,
+                p: theme.spacing(2),
+                border: `1px solid ${
+                  checked ? youhaBlue[500] : blueGrey[100]
+                } !important`,
+                boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, ${
+                  checked ? `0.08` : `0.08`
+                })`,
+                cursor: "pointer",
+                "& *": {
+                  cursor: "pointer",
+                },
+              }
+        }
+        disabled={inHome}
         onClick={handleClick}
         className={typeof index !== "undefined" ? `CampaignItem-${index}` : ""}
       >
@@ -102,7 +121,7 @@ export default function CampaignItem({
             flexWrap: "wrap",
           }}
         >
-          {[...categories, target.sex, ...(target.ages ?? [])].map(
+          {(sex ? [categories[0], sex, ages[0]] : [categories[0], ages[0]]).map(
             (item, index) => (
               <Box
                 key={index}
@@ -124,20 +143,29 @@ export default function CampaignItem({
                     color: checked ? youhaBlue[500] : blueGrey[500],
                   }}
                 >
-                  {item}
+                  {item.title}
                 </Typography>
               </Box>
             )
           )}
         </Box>
         <Typography
-          sx={{
-            mt: 0.5,
-            fontSize: 20,
-            lineHeight: "32px",
-            fontWeight: "700",
-            color: checked ? youhaBlue[500] : blueGrey[900],
-          }}
+          sx={
+            inHome
+              ? {
+                  mt: 1,
+                  fontSize: 24,
+                  lineHeight: "36px",
+                  fontWeight: "700",
+                }
+              : {
+                  mt: 0.5,
+                  fontSize: 20,
+                  lineHeight: "32px",
+                  fontWeight: "700",
+                  color: checked ? youhaBlue[500] : blueGrey[900],
+                }
+          }
         >
           {title}
         </Typography>

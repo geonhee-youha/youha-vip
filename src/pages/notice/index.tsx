@@ -9,7 +9,7 @@ import { testNotices } from "../../datas";
 import { theme } from "../../themes/theme";
 export default function Page() {
   const router = useRouter();
-  const id = router.pathname;
+  const queryName = router.pathname;
   const currentPathName = `/${router.pathname.split("?")[0].split("/")[1]}`;
   const currentSlugPathName = `/${router.pathname.split("?")[0].split("/")[2]}`;
   const pageTitle =
@@ -36,7 +36,7 @@ export default function Page() {
           height: "100%",
           overflow: "auto",
         }}
-        className={`PaperTarget-${id}`}
+        className={`PaperTarget-${queryName}`}
       >
         <Box
           sx={{

@@ -1,11 +1,13 @@
-import { Box, Paper } from "@mui/material";
+import { alpha, Box, Paper } from "@mui/material";
+import { blueGrey } from "@mui/material/colors";
 import _ from "lodash";
 import { useRouter } from "next/router";
 import List from "../../components/atoms/List";
 import PaperHeader from "../../components/molecules/PaperHeader";
-import VideoItem from "../../components/organisms/VideoItem";
-import { pages, videoFilters, videoSorts } from "../../constants";
-import { testVideos } from "../../datas";
+import AdSetItem from "../../components/organisms/AdSetItem";
+import { adSetFilters, adSetSorts, pages } from "../../constants";
+import { testAdSets } from "../../datas";
+
 export default function Page() {
   const router = useRouter();
   const currentPathName = `/${router.pathname.split("?")[0].split("/")[1]}`;
@@ -18,7 +20,7 @@ export default function Page() {
         )?.title
       : _.findLast(pages, (el) => el.pathName === currentPathName)?.title;
   const queryName = `page-${currentPathName.replace("/", "")}`;
-  const data = testVideos;
+  const data = testAdSets;
   return (
     <Paper
       elevation={4}
@@ -37,21 +39,29 @@ export default function Page() {
           width: "100%",
           height: "100%",
           overflow: "auto",
+          display: "flex",
+          flexDirection: "column",
         }}
         className={`PaperTarget-${queryName}`}
       >
-        <PaperHeader queryName={queryName} title={pageTitle} big />
+        <PaperHeader queryName={queryName} title={<>{pageTitle}</>} big />
         <List
           data={data}
-          filters={videoFilters}
-          sorts={videoSorts}
-          columns={4}
+          filters={adSetFilters}
+          sorts={adSetSorts}
+          spacing={0}
           renderList={(data) => {
             return data.map((item, index) => (
-              <VideoItem key={index} item={item} />
+              <AdSetItem key={index} item={item} index={index} />
             ));
           }}
-          title="광고영상이"
+          title="광고세트가"
+          sx={{
+            borderRadius: 1,
+            border: `1px solid ${blueGrey[100]}`,
+            boxShadow: `2px 2px 4px 0px ${alpha("#000000", 0.08)}`,
+            overflow: "hidden",
+          }}
         />
       </Box>
     </Paper>

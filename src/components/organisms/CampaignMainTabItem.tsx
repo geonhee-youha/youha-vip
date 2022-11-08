@@ -16,7 +16,7 @@ export default function CampaignRightTabItem({
   opens: boolean[];
   setOpens: Dispatch<SetStateAction<boolean[]>>;
 }) {
-  const id = `home-${index}`;
+  const queryName = `home-${index}`;
   const handleClickClose = () => {
     setOpens((prev) => {
       let prevList = _.cloneDeep(prev);
@@ -31,7 +31,7 @@ export default function CampaignRightTabItem({
       sx={{
         flex: 1,
         boxShadow: `4px 4px 8px 4px rgba(0, 0, 0, 0.08)`,
-        // border: `1px solid ${blueGrey[400]}`,
+        border: `1px solid ${blueGrey[100]}`,
         backgroundColor: "#ffffff",
         borderRadius: 1,
         overflow: "hidden",
@@ -48,9 +48,9 @@ export default function CampaignRightTabItem({
           height: "100%",
           overflow: "auto",
         }}
-        className={`PaperTarget-${id}`}
+        className={`PaperTarget-${queryName}`}
       >
-        <PaperHeader id={id} title={title} onClose={handleClickClose} />
+        <PaperHeader queryName={queryName} title={title} onClose={handleClickClose} />
         {children}
       </Box>
     </Paper>

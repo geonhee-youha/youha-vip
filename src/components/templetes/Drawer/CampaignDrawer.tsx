@@ -1,10 +1,4 @@
-import {
-  Box,
-  ButtonBase,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, ButtonBase, Paper, Stack, Typography } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -24,7 +18,7 @@ import CampaignItem from "../../organisms/CampaignItem";
 
 export default function CampaignDrawer() {
   const router = useRouter();
-  const testCampaigns = useRecoilValue(testCampaignsState);  
+  const testCampaigns = useRecoilValue(testCampaignsState);
   const [campaignDrawer, setCampaignDrawer] =
     useRecoilState(campaignDrawerState);
   const setCreatorDrawer = useSetRecoilState(creatorDrawerState);
@@ -32,7 +26,7 @@ export default function CampaignDrawer() {
   const setCheckedCreatorIds = useSetRecoilState(checkedCreatorIdsState);
   const setAlertDialog = useSetRecoilState(alertDialogState);
   const setCampaignPopup = useSetRecoilState(campaignPopupState);
-  const { id, open, selectedCampaignIds } = campaignDrawer;
+  const {queryName, open, selectedCampaignIds } = campaignDrawer;
   useEffect(() => {
     handleClose();
   }, [router]);
@@ -77,6 +71,7 @@ export default function CampaignDrawer() {
           open: true,
           title: "잠깐, 창을 닫기 전에...",
           body: "현재 진행내용을 저장하시겠습니까? 저장하기를 선택하시면 현재 상태가 저장됩니다.",
+          lottie: undefined,
           cancel: {
             title: "삭제하기",
             onClick: () => {
@@ -132,6 +127,7 @@ export default function CampaignDrawer() {
       return {
         ...prev,
         open: true,
+        mode: "add",
       };
     });
   };
@@ -166,12 +162,16 @@ export default function CampaignDrawer() {
             height: "100%",
             overflow: "auto",
           }}
-          className={`PaperTarget-${id}`}
+          className={`PaperTarget-${queryName}`}
         >
-          <PaperHeader id={id} title="캠페인 선택" onClose={handleClickClose} />
+          <PaperHeader
+            queryName={queryName}
+            title="캠페인 선택"
+            onClose={handleClickClose}
+          />
           <Stack spacing={1} sx={{ p: theme.spacing(0, 3, 2, 3) }}>
             {testCampaigns.map((item, index) => {
-              return <CampaignItem key={index} item={item} checkMode/>;
+              return <CampaignItem key={index} item={item} checkMode />;
             })}
             <ButtonBase
               sx={{

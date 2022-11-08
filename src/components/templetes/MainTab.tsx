@@ -10,13 +10,14 @@ import {
 import { blueGrey, pink } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { pages, mainTabWidth } from "../../constants";
+import { pages } from "../../constants";
 import { checkedCreatorIdsState, checkedPlaylistIdsState, testNotices, testUser } from "../../datas";
 import {
   alarmDrawerState,
   alertDialogState,
   campaignDrawerState,
   creatorDrawerState,
+  estimateDrawerDefaultProps,
   estimateDrawerState,
   searchDrawerState,
 } from "../../recoil";
@@ -26,8 +27,9 @@ import Icon from "../atoms/Icon";
 import MainTabItem from "../organisms/MainTabItem";
 import NoticeItem from "../organisms/NoticeItem";
 import UserItem from "../organisms/UserItem";
+
 export default function MainTab() {
-  const id = "MainTab";
+  const queryName = "MainTab";
   const router = useRouter();
   const [searchDrawer, setSearchDrawer] = useRecoilState(searchDrawerState);
   const [alarmDrawer, setAlarmDrawer] = useRecoilState(alarmDrawerState);
@@ -77,6 +79,7 @@ export default function MainTab() {
             open: true,
             title: "잠깐, 창을 닫기 전에...",
             body: "현재 진행내용을 저장하시겠습니까? 저장하기를 선택하시면 현재 상태가 저장됩니다.",
+            lottie: undefined,
             cancel: {
               title: "삭제하기",
               onClick: () => {
@@ -96,6 +99,7 @@ export default function MainTab() {
                 });
                 setEstimateDrawer((prev) => {
                   return {
+                    ...estimateDrawerDefaultProps,
                     open: false,
                     mix: undefined,
                   };
@@ -136,6 +140,7 @@ export default function MainTab() {
             open: true,
             title: "진행중인 견적이 있습니다!",
             body: "저장된 진행내용을 이어하시겠습니까? 새로하기를 누르시면 기존 진행내용은 삭제됩니다.",
+            lottie: undefined,
             cancel: {
               title: "새로하기",
               onClick: () => {
@@ -193,8 +198,8 @@ export default function MainTab() {
     });
   };
   const handleScroll = () => {
-    var paperTargetEl: any = document.querySelector(`.PaperTarget-${id}`);
-    var headerEl: any = document.querySelector(`.PaperHeader-${id}`);
+    var paperTargetEl: any = document.querySelector(`.PaperTarget-${name}`);
+    var headerEl: any = document.querySelector(`.PaperHeader-${name}`);
     if (paperTargetEl.scrollTop > 0) {
       headerEl.style.boxShadow = `4px 4px 8px 4px rgba(0, 0, 0, 0.08)`;
     } else {
@@ -220,6 +225,7 @@ export default function MainTab() {
           backgroundColor: "#ffffff",
           borderRadius: 1,
           boxShadow: `4px 4px 8px 4px rgba(0, 0, 0, 0.08)`,
+          border: `1px solid ${blueGrey[100]}`,
           overflow: "hidden",
         }}
       >
@@ -231,8 +237,8 @@ export default function MainTab() {
             display: "flex",
             flexDirection: "column",
           }}
-          className={`PaperTarget-${id}`}
-          onScroll={handleScroll}
+          className={`PaperTarget-${queryName}`}
+          // onScroll={handleScroll}
         >
           <Stack
             direction="row"
@@ -246,7 +252,7 @@ export default function MainTab() {
               p: theme.spacing(1.5, 2, 1.5, 2),
               transition: `all 0.35s ease`,
             }}
-            className={`PaperHeader-${id}`}
+            className={`PaperHeader-${queryName}`}
           >
             <Box
               sx={{
@@ -255,7 +261,7 @@ export default function MainTab() {
               }}
             >
               <img
-                src="/image/logo/youha_logo-black.png"
+                src="/images/logo/youha_logo-black.png"
                 style={{
                   height: 24,
                   cursor: "pointer",
@@ -324,7 +330,7 @@ export default function MainTab() {
                   color: "#ffffff",
                 }}
               >
-                광고 견적내기
+                광고 집행하기
               </Typography>
               {campaignDrawer.open === false &&
                 campaignDrawer.selectedCampaignIds.length > 0 && (

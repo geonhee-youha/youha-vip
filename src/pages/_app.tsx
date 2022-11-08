@@ -39,7 +39,7 @@ import { Box, Paper, Stack } from "@mui/material";
 import MainTab from "../components/templetes/MainTab";
 import AlarmDrawer from "../components/templetes/Drawer/AlarmDrawer";
 import _ from "lodash";
-import { mainTabWidth, pages } from "../constants";
+import { pages } from "../constants";
 import CampaignDrawer from "../components/templetes/Drawer/CampaignDrawer";
 import SearchDrawer from "../components/templetes/Drawer/SearchDrawer";
 import AlertDialog from "../components/templetes/Dialog/AlertDialog";
@@ -52,6 +52,8 @@ import EstimateDialog from "../components/templetes/Dialog/EstimateDialog";
 import AdDialog from "../components/templetes/Dialog/AdDialog";
 import EstimateDrawer from "../components/templetes/Drawer/EstimateDrawer";
 import CreatorDialog from "../components/templetes/Dialog/CreatorDialog";
+import AdSetDialog from "../components/templetes/Dialog/AdSetDialog";
+import PlaylistDialog from "../components/templetes/Dialog/PlaylistDialog";
 ChartJS.register(
   LineController,
   BarController,
@@ -108,10 +110,10 @@ function MyApp(props: MyAppProps) {
           property="og:description"
           content="유하에서 국내 모든 유튜버에게 광고를 제안하고 답장을 100% 받아보세요. 광고주와 유튜버의 인플루언서 마케팅 커뮤니티 (브랜디드 콘텐츠, PPL 등)"
         />
-        <meta property="og:image" content="/image/favicon/share.png" />
+        <meta property="og:image" content="/images/favicon/share.png" />
         <meta property="og:image:width" content="200" />
         <meta property="og:image:height" content="200" />
-        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:type" content="images/png" />
         <meta property="og:url" content="https://youha.info" />
         <meta name="twitter:card" content="summary" data-react-helmet="true" />
         <meta name="twitter:creator" content="" data-react-helmet="true" />
@@ -125,89 +127,89 @@ function MyApp(props: MyAppProps) {
           content="유하에서 국내 모든 유튜버에게 광고를 제안하고 답장을 100% 받아보세요. 광고주와 유튜버의 인플루언서 마케팅 커뮤니티 (브랜디드 콘텐츠, PPL 등)"
           data-react-helmet="true"
         />
-        <meta name="twitter:image" content="/image/share.png" />
+        <meta name="twitter:image" content="/images/share.png" />
         <meta name="HandheldFriendly" content="true" />
         <link
           rel="shortcut icon"
-          href="/image/favicon/favicon.ico"
-          type="image/x-icon"
+          href="/images/favicon/favicon.ico"
+          type="images/x-icon"
         />
         <link
           rel="apple-touch-icon"
           sizes="57x57"
-          href="/image/favicon/apple-icon-57x57.png"
+          href="/images/favicon/apple-icon-57x57.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="60x60"
-          href="/image/favicon/apple-icon-60x60.png"
+          href="/images/favicon/apple-icon-60x60.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="72x72"
-          href="/image/favicon/apple-icon-72x72.png"
+          href="/images/favicon/apple-icon-72x72.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="76x76"
-          href="/image/favicon/apple-icon-76x76.png"
+          href="/images/favicon/apple-icon-76x76.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="114x114"
-          href="/image/favicon/apple-icon-114x114.png"
+          href="/images/favicon/apple-icon-114x114.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="120x120"
-          href="/image/favicon/apple-icon-120x120.png"
+          href="/images/favicon/apple-icon-120x120.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="144x144"
-          href="/image/favicon/apple-icon-144x144.png"
+          href="/images/favicon/apple-icon-144x144.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="152x152"
-          href="/image/favicon/apple-icon-152x152.png"
+          href="/images/favicon/apple-icon-152x152.png"
         />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href="/image/favicon/apple-icon-180x180.png"
+          href="/images/favicon/apple-icon-180x180.png"
         />
         <link
           rel="icon"
-          type="image/png"
+          type="images/png"
           sizes="144x144"
           href="/favicon/android-icon-144x144.png"
         />
         <link
           rel="icon"
-          type="image/png"
+          type="images/png"
           sizes="192x192"
-          href="/image/favicon/android-icon-192x192.png"
+          href="/images/favicon/android-icon-192x192.png"
         />
         <link
           rel="icon"
-          type="image/png"
+          type="images/png"
           sizes="32x32"
-          href="/image/favicon/favicon-32x32.png"
+          href="/images/favicon/favicon-32x32.png"
         />
         <link
           rel="icon"
-          type="image/png"
+          type="images/png"
           sizes="96x96"
-          href="/image/favicon/favicon-96x96.png"
+          href="/images/favicon/favicon-96x96.png"
         />
         <link
           rel="icon"
-          type="image/png"
+          type="images/png"
           sizes="16x16"
-          href="/image/favicon/favicon-16x16.png"
+          href="/images/favicon/favicon-16x16.png"
         />
-        <link rel="manifest" href="/image/favicon/manifest.json" />
+        <link rel="manifest" href="/images/favicon/manifest.json" />
         <meta name="theme-color" content="#ffffff" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta
@@ -217,7 +219,7 @@ function MyApp(props: MyAppProps) {
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta
           name="msapplication-TileImage"
-          content="/image/favicon/ms-icon-144x144.png"
+          content="/images/favicon/ms-icon-144x144.png"
         />
         <script src="https://js.pusher.com/3.2/pusher.min.js" />
         {/* <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" /> */}
@@ -285,8 +287,13 @@ function MyApp(props: MyAppProps) {
                       borderRadius: 1,
                       boxShadow: `4px 4px 8px 4px rgba(0, 0, 0, 0.08)`,
                       // border: `1px solid ${blueGrey[300]}`
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
-                  ></Paper>
+                  >
+                    배너
+                  </Paper>
                   <Box
                     sx={{
                       position: "relative",
@@ -309,8 +316,12 @@ function MyApp(props: MyAppProps) {
                 <CampaignPopup />
                 <CreatorPopup />
                 <EstimateDialog />
+                <CampaignDialog />
                 <CreatorDialog />
+                <PlaylistDialog />
                 <AlertDialog />
+                <AdDialog />
+                <AdSetDialog />
               </Box>
             </>
           )}

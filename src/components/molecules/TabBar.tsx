@@ -1,5 +1,5 @@
 import { Box, ButtonBase, Typography } from "@mui/material";
-import { blueGrey } from "@mui/material/colors";
+import { blueGrey, pink } from "@mui/material/colors";
 import _ from "lodash";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -12,12 +12,14 @@ export default function TabBar({
   index,
   setIndex,
   title,
+  counts,
 }: {
   color?: string;
   tabs: TabProps[];
   index?: number;
   setIndex?: Dispatch<SetStateAction<number>>;
   title?: string;
+  counts?: any[];
 }) {
   const router = useRouter();
   const currentPathName = `/${router.pathname.split("?")[0].split("/")[1]}`;
@@ -76,15 +78,15 @@ export default function TabBar({
         display: "flex",
         height: 40,
         mt: 1,
-        "&:before": {
-          position: "absolute",
-          content: '""',
-          left: 8,
-          right: 8,
-          bottom: 0,
-          height: `1px`,
-          backgroundColor: blueGrey[100],
-        },
+        // "&:before": {
+        //   position: "absolute",
+        //   content: '""',
+        //   left: 8,
+        //   right: 8,
+        //   bottom: 0,
+        //   height: `1px`,
+        //   backgroundColor: blueGrey[100],
+        // },
       }}
       className={title ?? ""}
     >
@@ -105,6 +107,7 @@ export default function TabBar({
             focused={focused}
             onClick={handleClick}
             color={color}
+            count={counts ? counts[index] : undefined}
           />
         );
       })}
@@ -130,12 +133,14 @@ function TabItem({
   index,
   focused,
   onClick,
+  count,
 }: {
   color?: string;
   item: TabProps;
   index: number;
   focused: boolean;
   onClick: () => void;
+  count?: any;
 }) {
   const { title, value } = item;
   return (
@@ -161,9 +166,14 @@ function TabItem({
               ? blueGrey[900]
               : youhaBlue[500]
             : blueGrey[200],
+          "span": {
+            color: pink[500],
+            ml: 0.5,
+          },
         }}
       >
         {title}
+        {count && count > 0 ? <span>{count}</span> : null}
       </Typography>
     </ButtonBase>
   );

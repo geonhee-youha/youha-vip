@@ -1,21 +1,22 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
-import {
-  Box,
-  ButtonBase,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
-import { Stack } from "@mui/system";
 import _ from "lodash";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import Icon from "../../components/atoms/Icon";
-import Panel from "../../components/atoms/Panel";
+import List from "../../components/atoms/List";
+import PaperHeader from "../../components/molecules/PaperHeader";
 import CreatorItem from "../../components/organisms/CreatorItem";
-import { creatorFilters, pages } from "../../constants";
+import {
+  ageFilter,
+  creatorFilters,
+  creatorSorts,
+  FilterProps,
+  pages,
+  sexFilter,
+  subscriberFilter,
+} from "../../constants";
 import { testCreators } from "../../datas";
 import { theme } from "../../themes/theme";
 import youhaBlue from "../../themes/youhaBlue";
@@ -30,244 +31,284 @@ export default function Page() {
           (el) => el.pathName === currentSlugPathName
         )?.title
       : _.findLast(pages, (el) => el.pathName === currentPathName)?.title;
-  const [filter, setFilter] = useState<{ [key: string]: string }>({
-    성별: "전체",
-    연령: "전체",
-    구독: "전체",
-  });
-  const [sort, setSort] = useState<string>("subscriberCount");
-  const creators = _.sortBy(testCreators, sort).reverse();
-  const handleChangeSort = (event: SelectChangeEvent) => {
-    setSort(event.target.value);
-  };
+  const queryName = `page-${currentPathName.replace("/", "")}`;
+  const [sexFilters, setSexFilters] = useState<FilterProps[]>([]);
+  const [ageFilters, setAgeFilters] = useState<FilterProps[]>([]);
+  const [subscriberFilters, setSubscriberFilters] = useState<FilterProps[]>([]);
+  const data = testCreators;
   return (
-    <Panel
+    <Paper
+      elevation={4}
       sx={{
-        overflow: "auto !important",
+        position: "relative",
+        width: "100%",
+        height: "100%",
+        backgroundColor: "#ffffff",
+        borderRadius: 1,
+        boxShadow: `4px 4px 8px 4px rgba(0, 0, 0, 0.08)`,
+        overflow: "hidden",
       }}
     >
       <Box
         sx={{
-          mt: 0,
-          position: "sticky",
-          top: 0,
-          p: theme.spacing(2.25, 3, 0, 3),
-          backgroundColor: "#ffffff",
-          zIndex: 98,
+          width: "100%",
+          height: "100%",
+          overflow: "auto",
         }}
+        className={`PaperTarget-${queryName}`}
       >
-        <Box
-          sx={{
-            display: "flex",
-            borderBottom: `1px solid ${blueGrey[50]}`,
-            pb: 2,
-          }}
-        >
-          <Typography
-            sx={{
-              fontSize: 24,
-              lineHeight: "36px",
-              fontWeight: "700",
-              mr: "auto",
-            }}
-          >
-            {pageTitle}
-          </Typography>
-        </Box>
-      </Box>
-      <Box sx={{}}>
+        <PaperHeader queryName={queryName} title={pageTitle} big />
         <Stack
-          spacing={1}
           sx={{
-            p: theme.spacing(2, 2, 0, 2),
+            p: theme.spacing(2, 2, 1, 2),
           }}
         >
-          {creatorFilters.map((item, index) => (
-            <FilterItem
-              key={index}
-              item={item}
-              filter={filter}
-              setFilter={setFilter}
-            />
-          ))}
+          <Filter iconName="people" title="성별">
+            {[{ value: "", title: "전체" }, ...sexFilter].map((item, index) => {
+              const checked =
+                item.value === ""
+                  ? sexFilters.length === 0
+                  : sexFilters.flatMap((el) => el.value).includes(item.value);
+              const handleClick = () => {
+                if (item.value === "") {
+                  setSexFilters([]);
+                } else {
+                  setSexFilters((prev) => {
+                    let prevList = _.cloneDeep(prev);
+                    if (
+                      prevList.flatMap((el) => el.value).includes(item.value)
+                    ) {
+                      prevList = _.filter(
+                        prevList,
+                        (el) => el.value !== item.value
+                      );
+                    } else {
+                      prevList = [...prevList, item];
+                    }
+                    return prevList;
+                  });
+                }
+              };
+              return (
+                <Button
+                  key={index}
+                  variant="outlined"
+                  color={checked ? "primary" : "secondary"}
+                  sx={{
+                    p: theme.spacing(0, 1.25),
+                    height: 32,
+                    minHeight: 32,
+                    border: `1px solid ${
+                      checked ? youhaBlue[500] : blueGrey[100]
+                    } !important`,
+                    boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, ${
+                      checked ? `0.08` : `0.08`
+                    })`,
+                    borderRadius: 1,
+                  }}
+                  onClick={handleClick}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: 14,
+                      lineHeight: "20px",
+                      fontWeight: "700",
+                      color: checked ? youhaBlue[500] : blueGrey[300],
+                    }}
+                  >
+                    {item.title}
+                  </Typography>
+                </Button>
+              );
+            })}
+          </Filter>
+          <Filter iconName="calendar" title="연령">
+            {[{ value: "", title: "전체" }, ...ageFilter].map((item, index) => {
+              const checked =
+                item.value === ""
+                  ? ageFilters.length === 0
+                  : ageFilters.flatMap((el) => el.value).includes(item.value);
+              const handleClick = () => {
+                if (item.value === "") {
+                  setAgeFilters([]);
+                } else {
+                  setAgeFilters((prev) => {
+                    let prevList = _.cloneDeep(prev);
+                    if (
+                      prevList.flatMap((el) => el.value).includes(item.value)
+                    ) {
+                      prevList = _.filter(
+                        prevList,
+                        (el) => el.value !== item.value
+                      );
+                    } else {
+                      prevList = [...prevList, item];
+                    }
+                    return prevList;
+                  });
+                }
+              };
+              return (
+                <Button
+                  key={index}
+                  variant="outlined"
+                  color={checked ? "primary" : "secondary"}
+                  sx={{
+                    p: theme.spacing(0, 1.25),
+                    height: 32,
+                    minHeight: 32,
+                    border: `1px solid ${
+                      checked ? youhaBlue[500] : blueGrey[100]
+                    } !important`,
+                    boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, ${
+                      checked ? `0.08` : `0.08`
+                    })`,
+                    borderRadius: 1,
+                  }}
+                  onClick={handleClick}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: 14,
+                      lineHeight: "20px",
+                      fontWeight: "700",
+                      color: checked ? youhaBlue[500] : blueGrey[300],
+                    }}
+                  >
+                    {item.title}
+                  </Typography>
+                </Button>
+              );
+            })}
+          </Filter>
+          <Filter iconName="users" title="구독자">
+            {[{ value: "", title: "전체" }, ...subscriberFilter].map(
+              (item, index) => {
+                const checked =
+                  item.value === ""
+                    ? subscriberFilters.length === 0
+                    : subscriberFilters
+                        .flatMap((el) => el.value)
+                        .includes(item.value);
+                const handleClick = () => {
+                  if (item.value === "") {
+                    setSubscriberFilters([]);
+                  } else {
+                    setSubscriberFilters((prev) => {
+                      let prevList = _.cloneDeep(prev);
+                      if (
+                        prevList.flatMap((el) => el.value).includes(item.value)
+                      ) {
+                        prevList = _.filter(
+                          prevList,
+                          (el) => el.value !== item.value
+                        );
+                      } else {
+                        prevList = [...prevList, item];
+                      }
+                      return prevList;
+                    });
+                  }
+                };
+                return (
+                  <Button
+                    key={index}
+                    variant="outlined"
+                    color={checked ? "primary" : "secondary"}
+                    sx={{
+                      p: theme.spacing(0, 1.25),
+                      height: 32,
+                      minHeight: 32,
+                      border: `1px solid ${
+                        checked ? youhaBlue[500] : blueGrey[100]
+                      } !important`,
+                      boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, ${
+                        checked ? `0.08` : `0.08`
+                      })`,
+                      borderRadius: 1,
+                    }}
+                    onClick={handleClick}
+                  >
+                    <Typography
+                      sx={{
+                        fontSize: 14,
+                        lineHeight: "20px",
+                        fontWeight: "700",
+                        color: checked ? youhaBlue[500] : blueGrey[300],
+                      }}
+                    >
+                      {item.title}
+                    </Typography>
+                  </Button>
+                );
+              }
+            )}
+          </Filter>
         </Stack>
-        <Box>
-          <Box
-            sx={{
-              p: theme.spacing(2, 3, 2, 3),
-            }}
-          >
-            <Select
-              value={sort}
-              onChange={handleChangeSort}
-              displayEmpty
-              inputProps={{ "aria-label": "Without label" }}
-              sx={{
-                backgroundColor: `${"transparent"} !important`,
-                height: 40,
-                fontSize: 14,
-                lineHeight: "20px",
-                fontWeight: "700",
-                color: blueGrey[700],
-                "& fieldset": {
-                  borderColor: blueGrey[50],
-                  borderWidth: `1px !important`,
-                  boxShadow: "none !important",
-                },
-              }}
-            >
-              <MenuItem value={"viewCount"}>구독자순</MenuItem>
-              <MenuItem value={"standardCommercialPrice"}>
-                예상 광고단가 순
-              </MenuItem>
-              <MenuItem value={"subscriberCount"}>예상 노출수 순</MenuItem>
-              <MenuItem value={"CPV"}>예상 CPV</MenuItem>
-            </Select>
-          </Box>
-          <Box
-            sx={{
-              overflow: "auto",
-            }}
-          >
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr 1fr",
-                gridAutoColumn: "1fr",
-                gridTemplateRows: "auto auto",
-                gridRowGap: 16,
-                gridColumnGap: 16,
-                p: theme.spacing(0, 3, 20, 3),
-              }}
-            >
-              {creators.map((item, index) => (
-                <CreatorItem key={index} item={item} />
-              ))}
-            </Box>
-          </Box>
-        </Box>
+        <List
+          data={data}
+          filters={creatorFilters}
+          sorts={creatorSorts}
+          columns={3}
+          renderList={(data) => {
+            return data.map((item, index) => (
+              <CreatorItem key={index} item={item} />
+            ));
+          }}
+          title="크리에이터가"
+        />
       </Box>
-    </Panel>
+    </Paper>
   );
 }
-
-function FilterItem({
-  item,
-  filter,
-  setFilter,
+function Filter({
+  iconName,
+  title,
+  children,
 }: {
-  item: { title: string; iconName: IconName; tags: string[] };
-  filter: { [key: string]: string };
-  setFilter: Dispatch<SetStateAction<{ [key: string]: string }>>;
+  iconName: IconName;
+  title: string;
+  children?: React.ReactNode;
 }) {
-  const { title, iconName, tags } = item;
   return (
     <Box
       sx={{
-        p: theme.spacing(0, 1),
+        p: 1,
+        display: "flex",
+        alignItems: "center",
       }}
     >
       <Box
         sx={{
+          minWidth: 200,
           display: "flex",
           alignItems: "center",
         }}
       >
-        <Box
+        <Icon
+          prefix="fad"
+          name={iconName}
+          size={20}
           sx={{
-            width: 200,
-            display: "flex",
-            alignItems: "center",
+            maxWidth: 24,
+            mr: 2,
+            color: blueGrey[900],
+          }}
+        />
+        <Typography
+          sx={{
+            fontSize: 16,
+            lineHeight: "24px",
+            fontWeight: "700",
+            color: blueGrey[900],
           }}
         >
-          <Icon
-            prefix="fad"
-            size={20}
-            name={iconName}
-            color={blueGrey[700]}
-            sx={{
-              maxWidth: 24,
-              mr: 2,
-            }}
-          />
-          <Typography
-            sx={{
-              fontSize: 16,
-              lineHeight: "24px",
-              fontWeight: "700",
-              color: blueGrey[700],
-            }}
-          >
-            {title}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            mb: -1,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          {["전체", ...tags].map((item, index) => (
-            <TagItem
-              key={index}
-              item={item}
-              title={title}
-              filter={filter}
-              setFilter={setFilter}
-            />
-          ))}
-        </Box>
+          {title}
+        </Typography>
       </Box>
+      <Stack direction="row" spacing={1} justifyContent="flex-end">
+        {children}
+      </Stack>
     </Box>
-  );
-}
-
-function TagItem({
-  item,
-  title,
-  filter,
-  setFilter,
-}: {
-  item: string;
-  title: string;
-  filter: { [key: string]: string };
-  setFilter: Dispatch<SetStateAction<{ [key: string]: string }>>;
-}) {
-  const checked = filter[title] === item;
-  const handleClick = () => {
-    setFilter((prev) => {
-      let prevFilter = _.cloneDeep(prev);
-      if (prevFilter[title] === item) {
-        prevFilter[title] = "전체";
-      } else {
-        prevFilter[title] = item;
-      }
-      return prevFilter;
-    });
-  };
-  return (
-    <ButtonBase
-      sx={{
-        p: theme.spacing(0, 1.5),
-        height: 32,
-        border: `1px solid ${checked ? youhaBlue[500] : blueGrey[50]}`,
-        borderRadius: 1,
-        mr: 1,
-        mb: 1,
-      }}
-      onClick={handleClick}
-    >
-      <Typography
-        sx={{
-          fontSize: 14,
-          lineHeight: "20px",
-          fontWeight: "700",
-          color: checked ? youhaBlue[500] : blueGrey[300],
-        }}
-      >
-        {item}
-      </Typography>
-    </ButtonBase>
   );
 }

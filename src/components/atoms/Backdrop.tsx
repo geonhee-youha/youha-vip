@@ -6,6 +6,7 @@ import {
   alertDialogState,
   campaignDrawerState,
   creatorDrawerState,
+  estimateDrawerDefaultProps,
   estimateDrawerState,
   estimateInputDefaultProps,
   searchDrawerState,
@@ -67,6 +68,7 @@ export default function BackDrop() {
             open: true,
             title: "잠깐, 창을 닫기 전에...",
             body: "현재 진행내용을 저장하시겠습니까? 저장하기를 선택하시면 현재 상태가 저장됩니다.",
+            lottie: undefined,
             cancel: {
               title: "삭제하기",
               onClick: () => {
@@ -86,6 +88,7 @@ export default function BackDrop() {
                 });
                 setEstimateDrawer((prev) => {
                   return {
+                    ...estimateDrawerDefaultProps,
                     open: false,
                     input: estimateInputDefaultProps,
                     mix: undefined,

@@ -30,12 +30,14 @@ export default function CreatorItem({
   checkMode,
   tempCheck,
   forceCheck,
+  inHome,
 }: {
   item: any;
   big?: boolean;
   checkMode?: boolean;
   tempCheck?: boolean;
   forceCheck?: boolean;
+  inHome?: boolean;
 }) {
   const { id, thumbnail, title, subscriberCount, CPV } = item;
   const [creatorDrawer, setCreatorDrawer] = useRecoilState(creatorDrawerState);
@@ -70,8 +72,8 @@ export default function CreatorItem({
       return {
         ...prev,
         open: true,
-        creatorId: id,
-        tabIndex: 0,
+        id: id,
+        index: 0,
         checkMode: !tempCheck && checkMode ? true : false,
         forceCheck: forceCheck,
       };
@@ -122,8 +124,8 @@ export default function CreatorItem({
       return {
         ...prev,
         open: true,
-        creatorId: id,
-        tabIndex: 2,
+        id: id,
+        index: 2,
         checkMode: true,
       };
     });
@@ -278,69 +280,71 @@ export default function CreatorItem({
             구독자 {`${setKoNumber(subscriberCount)}명`}
           </Typography>
         </Box>
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            p: theme.spacing(0, 2, 2, 2),
-          }}
-        >
+        {!inHome && (
           <Box
             sx={{
               width: "100%",
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr",
-              gridAutoColumn: "1fr",
-              gridTemplateRows: "auto auto",
-              gridRowGap: 0,
-              backgroundColor: checked
-                ? tempCheck
-                  ? blueGrey[50]
-                  : youhaBlue[50]
-                : blueGrey[50],
-              borderRadius: 1,
-              p: 1,
+              display: "flex",
+              flexDirection: "column",
+              p: theme.spacing(0, 2, 2, 2),
             }}
           >
-            <DataCell
-              tempCheck={tempCheck}
-              checked={checked}
-              label="영향력 지수"
-              value={`높음`}
-            />
-            <DataCell
-              tempCheck={tempCheck}
-              checked={checked}
-              label="트렌드 지수"
-              value={`56점`}
-            />
-            <DataCell
-              tempCheck={tempCheck}
-              checked={checked}
-              label="타겟 적합도"
-              value={`${98}%`}
-            />
-            <DataCell
-              tempCheck={tempCheck}
-              checked={checked}
-              label="예상 CPV"
-              value={CPV ? `${CPV.toFixed(0)}원/회` : "집계중"}
-            />
-            <DataCell
-              tempCheck={tempCheck}
-              checked={checked}
-              label="평균 단가"
-              value={`3,230만원`}
-            />
-            <DataCell
-              tempCheck={tempCheck}
-              checked={checked}
-              label="집행가능일"
-              value={`11월 1일~`}
-            />
+            <Box
+              sx={{
+                width: "100%",
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1fr",
+                gridAutoColumn: "1fr",
+                gridTemplateRows: "auto auto",
+                gridRowGap: 0,
+                backgroundColor: checked
+                  ? tempCheck
+                    ? blueGrey[50]
+                    : youhaBlue[50]
+                  : blueGrey[50],
+                borderRadius: 1,
+                p: 1,
+              }}
+            >
+              <DataCell
+                tempCheck={tempCheck}
+                checked={checked}
+                label="영향력 지수"
+                value={`높음`}
+              />
+              <DataCell
+                tempCheck={tempCheck}
+                checked={checked}
+                label="트렌드 지수"
+                value={`56점`}
+              />
+              <DataCell
+                tempCheck={tempCheck}
+                checked={checked}
+                label="타겟 적합도"
+                value={`${98}%`}
+              />
+              <DataCell
+                tempCheck={tempCheck}
+                checked={checked}
+                label="예상 CPV"
+                value={CPV ? `${CPV.toFixed(0)}원/회` : "집계중"}
+              />
+              <DataCell
+                tempCheck={tempCheck}
+                checked={checked}
+                label="평균 단가"
+                value={`3,230만원`}
+              />
+              <DataCell
+                tempCheck={tempCheck}
+                checked={checked}
+                label="집행가능일"
+                value={`11월 1일~`}
+              />
+            </Box>
           </Box>
-        </Box>
+        )}
       </ButtonBase>
       {checkMode && (
         <Stack

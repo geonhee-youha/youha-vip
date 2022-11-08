@@ -1,10 +1,10 @@
-import { Box, Button, Drawer, Paper, Typography } from "@mui/material";
+import { Box, Button, Dialog, Paper, Typography } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import { Stack } from "@mui/system";
 import _ from "lodash";
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { ages, sexs, testCategories } from "../../../constants";
+import { useRecoilState } from "recoil";
+import { ageFilter, sexFilter, categoryFilter } from "../../../constants";
 import {
   campaignDefaultProps,
   CampaignProps,
@@ -26,34 +26,22 @@ export default function CampaignPopup() {
   const ageRef = useRef<any>(null);
   const [testCampaigns, setTestCampaigns] = useRecoilState(testCampaignsState);
   const [campaignPopup, setCampaignPopup] = useRecoilState(campaignPopupState);
-  const { id, open, mode, campaignId } = campaignPopup;
+  const { queryName, open, mode, id } = campaignPopup;
   const [input, setInput] = useState<CampaignProps>(campaignDefaultProps);
   const confirmable =
     input.title !== "" &&
     input.description !== "" &&
     input.categories.length > 0 &&
     input.keyword !== "" &&
-    input.target?.sex !== undefined &&
-    input.target?.ages !== undefined &&
-    input.target?.ages.length > 0;
-  const title =
-    mode === "add"
-      ? "신규 캠페인 등록"
-      : mode === "edit"
-      ? "캠페인 수정"
-      : "캠페인 정보";
+    input.sex?.value !== undefined &&
+    input.ages.length > 0;
+  const title = mode === "add" ? "신규 캠페인 등록" : "캠페인 수정";
   const buttonTitle =
-    mode === "add"
-      ? "위 내용으로 등록하기"
-      : mode === "edit"
-      ? "위 내용으로 수정하기"
-      : "캠페인 수정하기";
+    mode === "add" ? "위 내용으로 등록하기" : "위 내용으로 수정하기";
   const disabled = mode === undefined;
   useEffect(() => {
-    if (open && mode !== "add" && campaignId !== undefined && input.id === 0)
-      setInput(
-        testCampaigns[_.findIndex(testCampaigns, (el) => el.id === campaignId)]
-      );
+    if (open && mode !== "add" && id !== undefined && input.id === 0)
+      setInput(testCampaigns[_.findIndex(testCampaigns, (el) => el.id === id)]);
     if (!open) setInput(campaignDefaultProps);
   }, [open]);
   const handleClose = () => {
@@ -121,24 +109,15 @@ export default function CampaignPopup() {
   };
   const handleKeyPressDescription = () => {};
   const handleClickConfirm = () => {
-    if (mode === undefined) {
-      setCampaignPopup((prev) => {
-        return {
-          ...prev,
-          mode: "edit",
-        };
-      });
-    } else if (mode === "edit") {
+    if (mode === "edit") {
+      handleClose();
       setTestCampaigns((prev) => {
         let prevList = _.cloneDeep(prev);
-        prevList[_.findIndex(prevList, (el) => el.id === campaignId)] = input;
-        return prevList;
-      });
-      setCampaignPopup((prev) => {
-        return {
-          ...prev,
-          mode: undefined,
+        prevList[_.findIndex(prevList, (el) => el.id === id)] = {
+          ...input,
+          createdAt: new Date(),
         };
+        return prevList;
       });
     } else {
       handleClose();
@@ -154,34 +133,31 @@ export default function CampaignPopup() {
     }
   };
   return (
-    <Drawer
-      anchor="bottom"
+    <Dialog
       open={open}
       onClose={handleClose}
+      onBackdropClick={handleClose}
+      aria-labelledby="playlist-dialog-title"
+      aria-describedby="playlist-dialog-description"
       sx={{
-        "& .MuiDrawer-paper": {
+        "& .MuiDialog-paper": {
           position: "absolute",
           top: 24,
-          bottom: 24,
-          left: 376 + 16 + 24,
+          left: `${376 + 16 + 24}px`,
           "@media(min-width: 1600px)": {
             left: `calc((100vw - 1600px) / 2 + ${376 + 16 + 24}px)`,
           },
-          width: 376,
-          backgroundColor: "transparent !important",
-          boxShadow: "none !important",
+          bottom: 24,
+          width: 376 + 16,
+          minWidth: 376 + 16,
+          maxWidth: 376 + 16,
+          maxHeight: `initial`,
+          m: 0,
         },
         position: "fixed",
-        zIndex: 99999,
+        zIndex: 999999,
         right: 0,
         overflow: "auto",
-      }}
-      ModalProps={{
-        container:
-          typeof document !== "undefined"
-            ? document.querySelector("#_next")
-            : null,
-        keepMounted: true,
       }}
     >
       <Paper
@@ -201,9 +177,13 @@ export default function CampaignPopup() {
             height: "100%",
             overflow: "auto",
           }}
-          className={`PaperTarget-${id}`}
+          className={`PaperTarget-${queryName}`}
         >
-          <PaperHeader id={id} title={title} onClose={handleClose} />
+          <PaperHeader
+            queryName={queryName}
+            title={title}
+            onClose={handleClose}
+          />
           <Stack
             spacing={3}
             sx={{
@@ -256,21 +236,25 @@ export default function CampaignPopup() {
                   mb: -1,
                 }}
               >
-                {testCategories.map((item, index) => {
-                  const checked = input.categories.includes(item);
+                {categoryFilter.map((item, index) => {
+                  const checked = input.categories
+                    .flatMap((el) => el.value)
+                    .includes(item.value);
                   const handleClick = () => {
                     if (disabled) return;
                     setInput((prev) => {
-                      let prevCategories = _.cloneDeep(prev.categories);
-                      if (prevCategories.includes(item)) {
-                        prevCategories = _.filter(
-                          prevCategories,
-                          (el) => el !== item
+                      let prevList = _.cloneDeep(prev.categories);
+                      if (
+                        prevList.flatMap((el) => el.value).includes(item.value)
+                      ) {
+                        prevList = _.filter(
+                          prevList,
+                          (el) => el.value !== item.value
                         );
                       } else {
-                        prevCategories = [...prevCategories, item];
+                        prevList = [...prevList, item];
                       }
-                      return { ...prev, categories: prevCategories };
+                      return { ...prev, categories: prevList };
                     });
                   };
                   return (
@@ -304,7 +288,7 @@ export default function CampaignPopup() {
                           color: checked ? youhaBlue[500] : blueGrey[300],
                         }}
                       >
-                        {item}
+                        {item.title}
                       </Typography>
                     </Button>
                   );
@@ -337,17 +321,14 @@ export default function CampaignPopup() {
                 <span>*</span>
               </Typography>
               <Stack direction="row" spacing={0.5} sx={{ mt: 1 }}>
-                {sexs.map((item, index) => {
-                  const checked = input.target.sex === item;
+                {sexFilter.map((item, index) => {
+                  const checked = input.sex?.value === item.value;
                   const handleClick = () => {
                     if (disabled) return;
                     setInput((prev) => {
                       return {
                         ...prev,
-                        target: {
-                          ...prev.target,
-                          sex: prev.target.sex === item ? undefined : item,
-                        },
+                        sex: prev.sex?.value === item.value ? undefined : item,
                       };
                     });
                   };
@@ -380,7 +361,7 @@ export default function CampaignPopup() {
                           color: checked ? youhaBlue[500] : blueGrey[300],
                         }}
                       >
-                        {item}
+                        {item.title}
                       </Typography>
                     </Button>
                   );
@@ -409,24 +390,27 @@ export default function CampaignPopup() {
                   mt: 1,
                 }}
               >
-                {ages.map((item, index) => {
-                  const checked =
-                    input.target.ages && input.target.ages.includes(item);
+                {ageFilter.map((item, index) => {
+                  const checked = input.ages
+                    .flatMap((el) => el.value)
+                    .includes(item.value);
                   const handleClick = () => {
                     if (disabled) return;
                     setInput((prev) => {
-                      let prevList: any = _.cloneDeep(prev.target.ages);
-                      if (prevList.includes(item)) {
-                        prevList = _.filter(prevList, (el) => el !== item);
+                      let prevList = _.cloneDeep(prev.ages);
+                      if (
+                        prevList.flatMap((el) => el.value).includes(item.value)
+                      ) {
+                        prevList = _.filter(
+                          prevList,
+                          (el) => el.value !== item.value
+                        );
                       } else {
                         prevList = [...prevList, item];
                       }
                       return {
                         ...prev,
-                        target: {
-                          ...prev.target,
-                          ages: prevList,
-                        },
+                        ages: prevList,
                       };
                     });
                   };
@@ -459,7 +443,7 @@ export default function CampaignPopup() {
                           color: checked ? youhaBlue[500] : blueGrey[300],
                         }}
                       >
-                        {item}
+                        {item.title}
                       </Typography>
                     </Button>
                   );
@@ -513,6 +497,6 @@ export default function CampaignPopup() {
           </Button>
         </Box>
       </Paper>
-    </Drawer>
+    </Dialog>
   );
 }

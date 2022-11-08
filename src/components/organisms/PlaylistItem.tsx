@@ -15,10 +15,10 @@ import {
   favoritedPlaylistIdsState,
   testCreators,
 } from "../../datas";
-import { creatorDialogState } from "../../recoil";
+import { creatorDialogState, playlistDialogState } from "../../recoil";
 import { theme } from "../../themes/theme";
 import youhaBlue from "../../themes/youhaBlue";
-import { displayedAt, setKoNumber } from "../../utils";
+import { setKoNumber } from "../../utils";
 import Icon from "../atoms/Icon";
 import Typo from "../atoms/Typo";
 
@@ -41,6 +41,7 @@ export default function PlaylistItem({
     favoritedPlaylistIdsState
   );
   const setCreatorDialog = useSetRecoilState(creatorDialogState);
+  const setPlaylistDialog = useSetRecoilState(playlistDialogState);
   const checked =
     (forceCheck || checkMode) && checkedPlaylistIds.includes(item.id);
   const favorited = favoritedPlaylistIds.includes(id);
@@ -51,12 +52,21 @@ export default function PlaylistItem({
   const creator =
     index === null
       ? {
+          id: "",
           title: "",
           thumbnail: "",
           subscriberCount: 0,
         }
       : testCreators[index];
-  const handleClick = () => {};
+  const handleClick = () => {
+    setPlaylistDialog((prev) => {
+      return {
+        ...prev,
+        open: true,
+        id: id,
+      };
+    });
+  };
   const handleClickCheck = () => {
     setCheckedPlaylistIds((prev) => {
       let prevList = _.cloneDeep(prev);
@@ -84,7 +94,8 @@ export default function PlaylistItem({
       return {
         ...prev,
         open: true,
-        creatorId: id,
+        id: creator.id,
+        index: 2,
       };
     });
   };
@@ -146,7 +157,7 @@ export default function PlaylistItem({
               }}
             >
               <img
-                src={item?.snippet?.thumbnails["maxres"]?.url}
+                src={snippet?.thumbnails["maxres"]?.url}
                 style={{
                   position: "absolute",
                   top: 0,
@@ -198,7 +209,7 @@ export default function PlaylistItem({
           sx={{
             flex: 1,
             alignSelf: "stretch",
-            p: theme.spacing(2, 2, !inCreator && index !== null ? 11 : 2, 2),
+            p: theme.spacing(2, 2, !inCreator ? 11 : 2, 2),
           }}
         >
           <Typo
