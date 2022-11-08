@@ -31,17 +31,14 @@ import {
   testPlaylists,
   testVideos,
 } from "../../datas";
-import { campaignDialogState, campaignPopupState } from "../../recoil";
+import { campaignPopupState } from "../../recoil";
 import PlaylistItem from "../../components/organisms/PlaylistItem";
 import { theme } from "../../themes/theme";
 import { Chart } from "react-chartjs-2";
-import youhaBlue from "../../themes/youhaBlue";
 import CampaignRightTabItem from "../../components/organisms/CampaignMainTabItem";
 import VideoItem from "../../components/organisms/VideoItem";
 import { ageFilter, pages } from "../../constants";
 import Slide from "../../components/atoms/Slide";
-import PaperHeader from "../../components/molecules/PaperHeader";
-import { Page } from "../../components/templetes/Dialog/EstimateConfirmDialog";
 import CampaignItem from "../../components/organisms/CampaignItem";
 
 export default function Index() {
