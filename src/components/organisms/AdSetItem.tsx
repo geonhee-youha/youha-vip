@@ -103,7 +103,6 @@ export default function AdSetItem({
                   fontSize: 12,
                   lineHeight: "16px",
                   fontWeight: "700",
-                  // color: colors[adSet.id][500],
                   color: pre
                     ? cyan[500]
                     : completed

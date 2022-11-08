@@ -166,7 +166,7 @@ export default function List({
         }}
       >
         <Stack
-          spacing={columns ? 0 : spacing ?? 2}
+          spacing={spacing !== undefined ? spacing : 0}
           sx={
             spacing !== undefined
               ? {

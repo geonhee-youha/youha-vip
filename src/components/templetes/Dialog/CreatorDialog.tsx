@@ -313,6 +313,7 @@ export default function CreatorDialog() {
               flexDirection: "column",
               overflow: "hidden",
               width: "100%",
+              position: "relative",
             }}
           >
             <SwipeableViews

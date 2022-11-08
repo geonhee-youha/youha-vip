@@ -22,6 +22,8 @@ export default function Page() {
       : _.findLast(pages, (el) => el.pathName === currentPathName)?.title;
   const queryName = `page-${currentPathName.replace("/", "")}`;
   const data = testEstimates;
+  const arrivedData = _.filter(testEstimates, (el) => el.status.value !== "0");
+  const waitingData = _.filter(testEstimates, (el) => el.status.value === "0");
   return (
     <Paper
       elevation={4}
@@ -63,10 +65,10 @@ export default function Page() {
           </Typography>
         </Box>
         <List
-          data={data}
+          data={arrivedData}
           filters={estimateFilters}
           sorts={estimateSorts}
-          columns={4}
+          columns={3}
           renderList={(data) => {
             return data.map((item, index) => (
               <EstimateItem key={index} item={item} />
@@ -91,16 +93,22 @@ export default function Page() {
           </Typography>
         </Box>
         <List
-          data={data}
+          data={waitingData}
           filters={estimateFilters}
           sorts={estimateSorts}
-          columns={4}
+          spacing={0}
           renderList={(data) => {
             return data.map((item, index) => (
-              <EstimateItem key={index} item={item} />
+              <EstimateItem key={index} item={item} index={index} />
             ));
           }}
           title="견적서가"
+          sx={{
+            borderRadius: 1,
+            border: `1px solid ${blueGrey[100]}`,
+            boxShadow: `2px 2px 4px 0px ${alpha("#000000", 0.08)}`,
+            overflow: "hidden",
+          }}
         />
       </Box>
     </Paper>

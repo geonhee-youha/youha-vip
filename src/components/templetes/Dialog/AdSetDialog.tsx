@@ -35,7 +35,7 @@ import youhaBlue from "../../../themes/youhaBlue";
 import { setKoNumber } from "../../../utils";
 import Icon from "../../atoms/Icon";
 import Slide from "../../atoms/Slide";
-import Textfield from "../../atoms/Textfield";
+import Textfeld from "../../atoms/Textfield";
 import Typo from "../../atoms/Typo";
 import AdBoard from "../../molecules/AdBoard";
 import PaperHeader from "../../molecules/PaperHeader";
