@@ -154,6 +154,18 @@ export const favoriteTabs: TabProps[] = [
         value: ''
     },
 ]
+export const estimateDialogTabs: TabProps[] = [
+    {
+        id: 0,
+        title: '상세정보',
+        value: ''
+    },
+    {
+        id: 1,
+        title: '견적 내용',
+        value: ''
+    },
+]
 export const creatorDialogTabs: TabProps[] = [
     {
         id: 0,

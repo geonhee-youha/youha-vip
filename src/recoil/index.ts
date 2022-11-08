@@ -117,15 +117,15 @@ export const campaignDialogState = atom<PopupProps & { id?: any }>({
   },
 });
 
-export type EstimateDialogProps = PopupProps & {
+export type EstimateConfirmDialogProps = PopupProps & {
   temp?: boolean;
   campaign?: CampaignProps;
   creators?: any[];
   input: EstimateInputProps;
   mix?: boolean;
 }
-export const estimateDialogDefaultProps = {
-  queryName: "estimateDialog",
+export const estimateConfirmDialogDefaultProps = {
+  queryName: "estimateConfirmDialog",
   open: false,
   temp: undefined,
   campaign: undefined,
@@ -133,11 +133,11 @@ export const estimateDialogDefaultProps = {
   input: estimateInputDefaultProps,
   mix: undefined,
 }
-export const estimateDialogState = atom<
-  EstimateDialogProps
+export const estimateConfirmDialogState = atom<
+  EstimateConfirmDialogProps
 >({
-  key: `estimateDialogState/${v1()}`,
-  default: estimateDialogDefaultProps
+  key: `estimateConfirmDialogState/${v1()}`,
+  default: estimateConfirmDialogDefaultProps
 });
 export const adDialogState = atom<PopupProps & {
   id?: any
@@ -171,7 +171,10 @@ export const creatorPopupState = atom<DrawerProps>({
     open: false,
   },
 });
-
+//
+//
+//
+//
 //공통
 export type DialogProps = {
   queryName: string;
@@ -179,14 +182,14 @@ export type DialogProps = {
   open: boolean;
   index?: number;
 }
-//광고세트 다이얼로그
-export type AdSetDialogProps = DialogProps
 export const dialogDefaultProps = {
   queryName: "",
   id: '',
   open: false,
   index: 0,
 }
+//광고세트 다이얼로그
+export type AdSetDialogProps = DialogProps
 export const adSetDialogDefaultProps = {
   ...dialogDefaultProps,
   queryName: "playlistDialog",
@@ -224,4 +227,16 @@ export const playlistDialogState = atom<
 >({
   key: `playlistDialogState/${v1()}`,
   default: playlistDialogDefaultProps
+});
+//견적서 다이얼로그
+export type EstimateDialogProps = DialogProps
+export const estimateDialogDefaultProps = {
+  ...dialogDefaultProps,
+  queryName: "creatorDialog",
+}
+export const estimateDialogState = atom<
+  EstimateDialogProps
+>({
+  key: `creatorDialogState/${v1()}`,
+  default: estimateDialogDefaultProps
 });

@@ -17,7 +17,7 @@ import { blueGrey, cyan, pink } from "@mui/material/colors";
 import _ from "lodash";
 import React, { useEffect, useRef, useState } from "react";
 import SwipeableViews from "react-swipeable-views";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { adSetDialogTabs } from "../../../constants";
 import {
   testAdSets,
@@ -44,7 +44,7 @@ import AdItem from "../../organisms/AdItem";
 import AdSetItem from "../../organisms/AdSetItem";
 import CampaignItem from "../../organisms/CampaignItem";
 import CreatorItem from "../../organisms/CreatorItem";
-import { InputRow, Page } from "./EstimateDialog";
+import { InputRow, Page } from "./EstimateConfirmDialog";
 export default function AdSetDialog() {
   const [adSetDialog, setAdSetDialog] = useRecoilState(adSetDialogState);
   const { queryName, open, id: adSetId, index } = adSetDialog;
@@ -77,12 +77,12 @@ function Pager() {
       };
     });
   };
+  const estimate = testEstimates[6];
   const checked = true;
   const disabled = true;
-  const estimate = testEstimates[6];
   const input = estimate.input;
   const mix = estimate.mix;
-  const [testCampaigns, setTestCampaigns] = useRecoilState(testCampaignsState);
+  const testCampaigns = useRecoilValue(testCampaignsState);
   const campaign =
     testCampaigns[
       _.findIndex(testCampaigns, (el) => el.id === estimate.campaignId)

@@ -111,7 +111,6 @@ export default function CampaignItem({
                 },
               }
         }
-        disabled={inHome}
         onClick={handleClick}
         className={typeof index !== "undefined" ? `CampaignItem-${index}` : ""}
       >

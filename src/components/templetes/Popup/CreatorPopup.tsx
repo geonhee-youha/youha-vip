@@ -22,7 +22,7 @@ import _ from "lodash";
 import PaperHeader from "../../molecules/PaperHeader";
 import { useRouter } from "next/router";
 import List from "../../atoms/List";
-import { Page } from "../Dialog/EstimateDialog";
+import { Page } from "../Dialog/EstimateConfirmDialog";
 
 export default function CreatorPopup() {
   const router = useRouter();

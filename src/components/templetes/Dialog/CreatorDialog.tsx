@@ -313,23 +313,6 @@ export default function CreatorDialog() {
               flexDirection: "column",
               overflow: "hidden",
               width: "100%",
-              position: "relative",
-              "& .react-swipeable-view-container": {
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                display: "flex",
-                height: "100%",
-                width: "100%",
-                "& > div": {
-                  display: "flex",
-                  flexDirection: "column",
-                  height: "100%",
-                  overflow: "hidden",
-                },
-              },
             }}
           >
             <SwipeableViews

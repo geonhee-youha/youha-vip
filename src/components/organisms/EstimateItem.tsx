@@ -1,14 +1,26 @@
 import { alpha, ButtonBase } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import _ from "lodash";
+import { useRecoilState } from "recoil";
 import { EstimateProps, testCampaigns } from "../../datas";
+import { estimateDialogState } from "../../recoil";
 import Typo from "../atoms/Typo";
 
 export default function EstimateItem({ item }: { item: EstimateProps }) {
-  const { campaignId } = item;
+  const [estimateDialog, setEstimateDialog] =
+    useRecoilState(estimateDialogState);
+  const { id, campaignId } = item;
   const campaign =
     testCampaigns[_.findIndex(testCampaigns, (el) => el.id === campaignId)];
-  const handleClick = () => {};
+  const handleClick = () => {
+    setEstimateDialog((prev) => {
+      return {
+        ...prev,
+        open: true,
+        id: id,
+      };
+    });
+  };
   return (
     <ButtonBase
       sx={{

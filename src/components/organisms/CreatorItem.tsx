@@ -15,6 +15,7 @@ import {
   checkedCreatorIdsState,
   checkedPlaylistIdsState,
   favoritedCreatorIdsState,
+  PlaylistProps,
   testPlaylists,
 } from "../../datas";
 import { creatorDialogState, creatorDrawerState } from "../../recoil";
@@ -27,12 +28,14 @@ import Typo from "../atoms/Typo";
 
 export default function CreatorItem({
   item,
+  playlists : playlistsOrigin,
   checkMode,
   tempCheck,
   forceCheck,
   inHome,
 }: {
   item: any;
+  playlists?: PlaylistProps[];
   big?: boolean;
   checkMode?: boolean;
   tempCheck?: boolean;
@@ -65,7 +68,7 @@ export default function CreatorItem({
   const checkedPlaylists = _.filter(
     testPlaylists.flatMap((el) => el.playlistItems),
     (el: any) =>
-      el.snippet.channelTitle === title && checkedPlaylistIds.includes(el.id)
+      el.snippet.channelTitle === title && (playlistsOrigin ?? checkedPlaylistIds).includes(el.id)
   );
   const handleClick = () => {
     setCreatorDialog((prev) => {

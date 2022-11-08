@@ -11,7 +11,7 @@ import youhaBlue from "../../../themes/youhaBlue";
 import Icon from "../../atoms/Icon";
 import Textfield from "../../atoms/Textfield";
 import PaperHeader from "../../molecules/PaperHeader";
-import { Page } from "./EstimateDialog";
+import { Page } from "./EstimateConfirmDialog";
 
 export default function CampaignDialog() {
   const titleRef = useRef<any>(null);

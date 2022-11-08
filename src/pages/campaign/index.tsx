@@ -41,7 +41,7 @@ import VideoItem from "../../components/organisms/VideoItem";
 import { ageFilter, pages } from "../../constants";
 import Slide from "../../components/atoms/Slide";
 import PaperHeader from "../../components/molecules/PaperHeader";
-import { Page } from "../../components/templetes/Dialog/EstimateDialog";
+import { Page } from "../../components/templetes/Dialog/EstimateConfirmDialog";
 import CampaignItem from "../../components/organisms/CampaignItem";
 
 export default function Index() {

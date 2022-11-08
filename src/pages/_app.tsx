@@ -48,12 +48,13 @@ import CampaignPopup from "../components/templetes/Popup/CampaignPopup";
 import CreatorPopup from "../components/templetes/Popup/CreatorPopup";
 import CampaignDialog from "../components/templetes/Dialog/CampaignDialog";
 import CreatorDrawer from "../components/templetes/Drawer/CreatorDrawer";
-import EstimateDialog from "../components/templetes/Dialog/EstimateDialog";
+import EstimateConfirmDialog from "../components/templetes/Dialog/EstimateConfirmDialog";
 import AdDialog from "../components/templetes/Dialog/AdDialog";
 import EstimateDrawer from "../components/templetes/Drawer/EstimateDrawer";
 import CreatorDialog from "../components/templetes/Dialog/CreatorDialog";
 import AdSetDialog from "../components/templetes/Dialog/AdSetDialog";
 import PlaylistDialog from "../components/templetes/Dialog/PlaylistDialog";
+import EstimateDialog from "../components/templetes/Dialog/EstimateDialog";
 ChartJS.register(
   LineController,
   BarController,
@@ -262,7 +263,7 @@ function MyApp(props: MyAppProps) {
               <CampaignDrawer />
               <CampaignDialog />
               <CreatorDialog />
-              <EstimateDialog />
+              <EstimateConfirmDialog />
               <AdDialog />
               <PlanDialog />
               <EstimateInputDialog />
@@ -315,13 +316,14 @@ function MyApp(props: MyAppProps) {
                 </Stack>
                 <CampaignPopup />
                 <CreatorPopup />
-                <EstimateDialog />
+                <EstimateConfirmDialog />
                 <CampaignDialog />
                 <CreatorDialog />
                 <PlaylistDialog />
                 <AlertDialog />
                 <AdDialog />
                 <AdSetDialog />
+                <EstimateDialog/>
               </Box>
             </>
           )}

@@ -23,7 +23,7 @@ import { testCampaigns, testCreators } from "../../../datas";
 import {
   campaignDrawerState,
   creatorDrawerState,
-  estimateDialogState,
+  estimateConfirmDialogState,
   estimateDrawerState,
 } from "../../../recoil";
 import { theme } from "../../../themes/theme";
@@ -52,7 +52,7 @@ export default function EstimateDrawer() {
   const creatorDrawer = useRecoilValue(creatorDrawerState);
   const [estimateDrawer, setEstimateDrawer] =
     useRecoilState(estimateDrawerState);
-  const setEstimateDialog = useSetRecoilState(estimateDialogState);
+  const setEstimateConfirmDialog = useSetRecoilState(estimateConfirmDialogState);
   const { queryName, open, mix, input } = estimateDrawer;
   const confirmable =
     input.budget !== "" &&
@@ -288,7 +288,7 @@ export default function EstimateDrawer() {
     }
   };
   const handleClickConfirm = () => {
-    setEstimateDialog((prev) => {
+    setEstimateConfirmDialog((prev) => {
       return {
         ...prev,
         open: true,
