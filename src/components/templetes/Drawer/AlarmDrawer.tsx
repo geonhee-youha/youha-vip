@@ -3,11 +3,11 @@ import { blueGrey } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { mainTabWidth } from "../../../constants";
 import { alarmDrawerState } from "../../../recoil";
 import { theme } from "../../../themes/theme";
 import Icon from "../../atoms/Icon";
 import EmptyItem from "../../organisms/EmptyItem";
+const mainTabWidth = 376;
 export default function AlarmDrawer() {
   const router = useRouter();
   const [alarmDrawer, setAlarmDrawer] = useRecoilState(alarmDrawerState);

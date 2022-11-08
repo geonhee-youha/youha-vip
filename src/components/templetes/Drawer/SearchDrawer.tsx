@@ -3,11 +3,12 @@ import { blueGrey } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { mainTabWidth } from "../../../constants";
+// import { mainTabWidth } from "../../../constants";
 import { searchDrawerState } from "../../../recoil";
 import { theme } from "../../../themes/theme";
 import Icon from "../../atoms/Icon";
-import EmptyItem from "../../molecules/EmptyItem";
+// import EmptyItem from "../../molecules/EmptyItem";
+const mainTabWidth = 376;
 export default function SearchDrawer() {
   const router = useRouter();
   const [searchDrawer, setSearchDrawer] = useRecoilState(searchDrawerState);
