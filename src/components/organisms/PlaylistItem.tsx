@@ -18,7 +18,7 @@ import {
 import { creatorDialogState, playlistDialogState } from "../../recoil";
 import { theme } from "../../themes/theme";
 import youhaBlue from "../../themes/youhaBlue";
-import { setKoNumber } from "../../utils";
+import { comma, setKoNumber } from "../../utils";
 import Icon from "../atoms/Icon";
 import Typo from "../atoms/Typo";
 
@@ -167,7 +167,7 @@ export default function PlaylistItem({
                   objectFit: "cover",
                 }}
               />
-              <Box
+              {/* <Box
                 sx={{
                   position: "absolute",
                   top: 0,
@@ -201,7 +201,7 @@ export default function PlaylistItem({
                   color="#ffffff"
                   sx={{ mt: 0.5 }}
                 />
-              </Box>
+              </Box> */}
             </Box>
           </Box>
         </Box>
@@ -212,9 +212,65 @@ export default function PlaylistItem({
             p: theme.spacing(2, 2, !inCreator ? 11 : 2, 2),
           }}
         >
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+            }}
+          >
+            {!count && (
+              <Box
+                sx={{
+                  borderRadius: 0.5,
+                  mr: 0.5,
+                  height: 24,
+                  p: theme.spacing(0, 1),
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: pink[50],
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: 12,
+                    lineHeight: "16px",
+                    fontWeight: "700",
+                    // color: colors[adSet.id][500],
+                    color: pink[500],
+                  }}
+                >
+                  런칭 예정
+                </Typography>
+              </Box>
+            )}
+            <Box
+              sx={{
+                borderRadius: 0.5,
+                mr: 0.5,
+                height: 24,
+                p: theme.spacing(0, 1),
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: youhaBlue[50],
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: 12,
+                  lineHeight: "16px",
+                  fontWeight: "700",
+                  // color: colors[adSet.id][500],
+                  color: youhaBlue[500],
+                }}
+              >
+                2022년 11월 31일~
+              </Typography>
+            </Box>
+          </Box>
           <Typo
             lines={1}
             sx={{
+              mt: 1,
               fontSize: 16,
               lineHeight: "24px",
               fontWeight: "700",
@@ -236,8 +292,84 @@ export default function PlaylistItem({
           >
             {item.snippet.description}
           </Typo>
-          <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
-            <Box
+          <Stack spacing={2} sx={{ mt: 2 }}>
+            <Box sx={{}}>
+              <Typography
+                sx={{
+                  fontSize: 12,
+                  lineHeight: "16px",
+                  fontWeight: "700",
+                  color: blueGrey[700]
+                  // "@media(max-width: 1023px)": {
+                  //     fontSize: 10,
+                  //     lineHeight: "14px",
+                  // },
+                }}
+              >
+                예상 조회수
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: 16,
+                  lineHeight: "24px",
+                  fontWeight: "700",
+                  "& .won": {
+                    fontSize: 12,
+                    lineHeight: "16px",
+                    ml: 0.25,
+                  },
+                  "& .ratio": {
+                    mr: 0.5,
+                    color: pink[500],
+                  },
+                }}
+              >
+                <>
+                  {/* <span className="ratio">30%</span> */}
+                  {setKoNumber(3204000)}
+                  <span className="won">회</span>
+                </>
+              </Typography>
+            </Box>
+            <Box sx={{}}>
+              <Typography
+                sx={{
+                  fontSize: 12,
+                  lineHeight: "16px",
+                  fontWeight: "700",
+                  color: blueGrey[700]
+                  // "@media(max-width: 1023px)": {
+                  //     fontSize: 10,
+                  //     lineHeight: "14px",
+                  // },
+                }}
+              >
+                브랜디드 기준 최소단가
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: 16,
+                  lineHeight: "24px",
+                  fontWeight: "700",
+                  "& .won": {
+                    fontSize: 12,
+                    lineHeight: "16px",
+                    ml: 0.25,
+                  },
+                  "& .ratio": {
+                    mr: 0.5,
+                    color: pink[500],
+                  },
+                }}
+              >
+                <>
+                  <span className="ratio">30%</span>
+                  {comma(24000000)}
+                  <span className="won">원</span>
+                </>
+              </Typography>
+            </Box>
+            {/* <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -245,7 +377,7 @@ export default function PlaylistItem({
             >
               <Icon
                 prefix="fad"
-                name="money-bill"
+                name="eye"
                 size={14}
                 sx={{
                   mr: 0.5,
@@ -261,9 +393,9 @@ export default function PlaylistItem({
                   fontWeight: "700",
                 }}
               >
-                {setKoNumber(32450000)}원
+                {setKoNumber(3204000)}회 예상
               </Typo>
-            </Box>
+            </Box> */}
           </Stack>
         </Box>
       </ButtonBase>

@@ -28,6 +28,7 @@ export default function EstimateItem({
         ...prev,
         open: true,
         id: id,
+        index: arrived ? 1 : 0
       };
     });
   };
@@ -73,8 +74,7 @@ export default function EstimateItem({
           sx={{
             display: "flex",
             flexWrap: "wrap",
-            width: 100,
-            justifyContent: "center",
+            mb: 1,
           }}
         >
           <Box
@@ -96,7 +96,7 @@ export default function EstimateItem({
                 color: read ? blueGrey[500] : pink[500],
               }}
             >
-             
+             {read ? '열람' : '미열람'}
             </Typography>
           </Box>
         </Box>

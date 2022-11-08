@@ -28,7 +28,7 @@ import Typo from "../atoms/Typo";
 
 export default function CreatorItem({
   item,
-  playlists : playlistsOrigin,
+  playlists: playlistsOrigin,
   checkMode,
   tempCheck,
   forceCheck,
@@ -68,7 +68,8 @@ export default function CreatorItem({
   const checkedPlaylists = _.filter(
     testPlaylists.flatMap((el) => el.playlistItems),
     (el: any) =>
-      el.snippet.channelTitle === title && (playlistsOrigin ?? checkedPlaylistIds).includes(el.id)
+      el.snippet.channelTitle === title &&
+      (playlistsOrigin ?? checkedPlaylistIds).includes(el.id)
   );
   const handleClick = () => {
     setCreatorDialog((prev) => {
@@ -167,7 +168,7 @@ export default function CreatorItem({
           pb:
             forceCheck || (!tempCheck && checkMode)
               ? `${
-                  checkedPlaylists.length > 3
+                  (checkedPlaylists.length > 3
                     ? forceCheck
                       ? 208.74 - 16 - 40
                       : 208.74 - 16
@@ -177,7 +178,7 @@ export default function CreatorItem({
                       : 208.74 - 16
                     : forceCheck
                     ? 133.38 - 8 - 16 - 40
-                    : 133.38 - 8
+                    : 133.38 - 8) + 28
                 }px`
               : 0,
         }}
@@ -438,6 +439,22 @@ export default function CreatorItem({
           }}
           onClick={handleClickPlaylist}
         >
+          <Typography
+            sx={{
+              fontSize: 14,
+              lineHeight: "20px",
+              fontWeight: "700",
+              opacity: checked ? 1 : 0.4,
+              mb: -1,
+              color: checked
+                ? tempCheck
+                  ? blueGrey[900]
+                  : youhaBlue[500]
+                : blueGrey[900],
+            }}
+          >
+            관련 기획안
+          </Typography>
           <Box
             sx={{
               display: "grid",
@@ -479,7 +496,7 @@ export default function CreatorItem({
                             objectFit: "cover",
                           }}
                         />
-                        <Box
+                        {/* <Box
                           sx={{
                             position: "absolute",
                             top: 0,
@@ -510,7 +527,7 @@ export default function CreatorItem({
                             color="#ffffff"
                             sx={{ mt: 0.25 }}
                           />
-                        </Box>
+                        </Box> */}
                         {!forceCheck && (
                           <Box
                             sx={{
@@ -546,7 +563,11 @@ export default function CreatorItem({
                         fontSize: 12,
                         lineHeight: "20px",
                         fontWeight: "700",
-                        color: blueGrey[300],
+                        color: checked
+                          ? tempCheck
+                            ? blueGrey[900]
+                            : youhaBlue[500]
+                          : blueGrey[300],
                       }}
                     >
                       더보기
@@ -591,7 +612,7 @@ export default function CreatorItem({
                             objectFit: "cover",
                           }}
                         />
-                        <Box
+                        {/* <Box
                           sx={{
                             position: "absolute",
                             top: 0,
@@ -622,7 +643,7 @@ export default function CreatorItem({
                             color="#ffffff"
                             sx={{ mt: 0.25 }}
                           />
-                        </Box>
+                        </Box> */}
                       </Box>
                     </Box>
                   ) : null;
@@ -640,7 +661,11 @@ export default function CreatorItem({
                         fontSize: 12,
                         lineHeight: "20px",
                         fontWeight: "700",
-                        color: blueGrey[300],
+                        color: checked
+                          ? tempCheck
+                            ? blueGrey[900]
+                            : youhaBlue[500]
+                          : blueGrey[100],
                       }}
                     >
                       더보기

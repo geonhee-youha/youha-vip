@@ -14,7 +14,7 @@ import {
 import { creatorPopupState } from "../../../recoil";
 import { theme } from "../../../themes/theme";
 import Icon from "../../atoms/Icon";
-import TextField from "../../atoms/Textfield";
+import TextField from "../../atoms/TextInput";
 import CreatorItem from "../../organisms/CreatorItem";
 import TabBar from "../../molecules/TabBar";
 import SwipeableViews from "react-swipeable-views";
@@ -23,6 +23,7 @@ import PaperHeader from "../../molecules/PaperHeader";
 import { useRouter } from "next/router";
 import List from "../../atoms/List";
 import { Page } from "../Dialog/EstimateConfirmDialog";
+import Slide from "../../atoms/Slide";
 
 export default function CreatorPopup() {
   const router = useRouter();
@@ -159,12 +160,9 @@ export default function CreatorPopup() {
             sx={{
               flex: 1,
               display: "flex",
+              flexDirection: "column",
               overflow: "hidden",
-              "& .react-swipeable-view-container": {
-                flex: 1,
-                display: "flex",
-                height: "100%",
-              },
+              position: "relative",
             }}
           >
             <SwipeableViews
@@ -172,10 +170,11 @@ export default function CreatorPopup() {
               onChangeIndex={setTabIndex}
               style={{
                 overflow: "hidden",
+                width: "100%",
                 height: "100%",
               }}
             >
-              <Page>
+              <Slide>
                 <List
                   data={creators}
                   filters={creatorFilters}
@@ -193,8 +192,8 @@ export default function CreatorPopup() {
                   }}
                   title="크리에이터가"
                 />
-              </Page>
-              <Page>
+              </Slide>
+              <Slide>
                 <List
                   data={favoritedCreators}
                   filters={creatorFilters}
@@ -212,7 +211,7 @@ export default function CreatorPopup() {
                   }}
                   title="크리에이터가"
                 />
-              </Page>
+              </Slide>
             </SwipeableViews>
           </Box>
         </Box>

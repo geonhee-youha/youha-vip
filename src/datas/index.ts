@@ -1975,6 +1975,20 @@ export const testPlaylists: PlaylistProps[] = [
         "youtubeChannelId": "UCOmHUn--16B90oW2L6FRR3A",
         "playlistItems": [
             {
+                'snippet': {
+                    "channelId": "UCOmHUn--16B90oW2L6FRR3A",
+                    "title": "군벤져스",
+                    "description": "남자들의 향수를 자극하는 본격 리얼 밀리터리 토크쇼 ‘군벤져스’",
+                    "thumbnails": {
+                        "maxres": {
+                            "url": "https://youhasharosu-s3-for-funding-storage-production.s3.amazonaws.com/projectUploadedFiles%2Fcaeb68e3-ef2a-42f6-87fe-70161dfcca77%2Fyouha-fastbooking_project_thumbnail-rectangle-05.png",
+                            "width": 1280,
+                            "height": 720
+                        }
+                    }
+                }
+            },
+            {
                 "kind": "youtube#playlist",
                 "etag": "q808n4ZQNM0lZD3W8YSsU1k8tnc",
                 "id": "PLNF8K9Ddz0kLX1niy_IAFTV1YKeSBhVsD",

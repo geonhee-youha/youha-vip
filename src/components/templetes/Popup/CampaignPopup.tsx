@@ -14,7 +14,7 @@ import { campaignPopupState } from "../../../recoil";
 import { theme } from "../../../themes/theme";
 import youhaBlue from "../../../themes/youhaBlue";
 import Icon from "../../atoms/Icon";
-import Textfield from "../../atoms/Textfield";
+import TextInput from "../../atoms/TextInput";
 import PaperHeader from "../../molecules/PaperHeader";
 
 export default function CampaignPopup() {
@@ -190,7 +190,7 @@ export default function CampaignPopup() {
               p: theme.spacing(0, 3, 2 + 16, 3),
             }}
           >
-            <Textfield
+            <TextInput
               inputRef={titleRef}
               onKeyPress={handleKeyPressTitle}
               label="캠페인 제목"
@@ -201,7 +201,7 @@ export default function CampaignPopup() {
               type="text"
               disabled={disabled}
             />
-            <Textfield
+            <TextInput
               inputRef={descriptionRef}
               onKeyPress={handleKeyPressDescription}
               label="캠페인 설명"
@@ -295,7 +295,7 @@ export default function CampaignPopup() {
                 })}
               </Box>
             </Box>
-            <Textfield
+            <TextInput
               inputRef={keywordRef}
               onKeyPress={handleKeyPressKeyword}
               label="핵심 키워드 (1개)"

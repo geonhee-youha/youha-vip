@@ -35,7 +35,7 @@ import youhaBlue from "../../../themes/youhaBlue";
 import { setKoNumber } from "../../../utils";
 import Icon from "../../atoms/Icon";
 import Slide from "../../atoms/Slide";
-import Textfeld from "../../atoms/Textfield";
+import TextInput from "../../atoms/TextInput";
 import Typo from "../../atoms/Typo";
 import AdBoard from "../../molecules/AdBoard";
 import PaperHeader from "../../molecules/PaperHeader";
@@ -477,22 +477,6 @@ function Pager() {
               overflow: "hidden",
               width: "100%",
               position: "relative",
-              "& .react-swipeable-view-container": {
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                display: "flex",
-                height: "100%",
-                width: "100%",
-                "& > div": {
-                  display: "flex",
-                  flexDirection: "column",
-                  height: "100%",
-                  overflow: "hidden",
-                },
-              },
             }}
           >
             <SwipeableViews

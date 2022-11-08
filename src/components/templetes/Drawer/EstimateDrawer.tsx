@@ -30,7 +30,7 @@ import { theme } from "../../../themes/theme";
 import youhaBlue from "../../../themes/youhaBlue";
 import { setKoNumber } from "../../../utils";
 import Icon from "../../atoms/Icon";
-import Textfield from "../../atoms/Textfield";
+import TextInput from "../../atoms/TextInput";
 import PaperHeader from "../../molecules/PaperHeader";
 
 export default function EstimateDrawer() {
@@ -354,7 +354,7 @@ export default function EstimateDrawer() {
               p: theme.spacing(0, 3, 2 + 18, 3),
             }}
           >
-            <Textfield
+            <TextInput
               inputRef={budgetRef}
               onKeyPress={handleKeyPressBudget}
               label="총 예산"
@@ -370,7 +370,7 @@ export default function EstimateDrawer() {
                   : `${setKoNumber(Number(input.budget))}원`
               }
             />
-            <Textfield
+            <TextInput
               inputRef={durationRef}
               onKeyPress={handleKeyPressDuration}
               label="광고 일정"
@@ -792,7 +792,7 @@ export default function EstimateDrawer() {
                     })}
                   </Stack>
                 </Box>
-                <Textfield
+                <TextInput
                   inputRef={channelCountRef}
                   onKeyPress={handleKeyPressChannelCount}
                   label="희망 채널 갯수"
@@ -805,7 +805,7 @@ export default function EstimateDrawer() {
                 />
               </>
             )}
-            <Textfield
+            <TextInput
               inputRef={keywordRef}
               onKeyPress={handleKeyPressKeyword}
               label="핵심 키워드"
@@ -814,7 +814,7 @@ export default function EstimateDrawer() {
               onReset={handleResetKeyword}
               type="text"
             />
-            <Textfield
+            <TextInput
               inputRef={sellingPointRef}
               onKeyPress={handleKeyPressSellingPoint}
               label="셀링 포인트"
@@ -825,7 +825,7 @@ export default function EstimateDrawer() {
               multiline
               minRows={3}
             />
-            <Textfield
+            <TextInput
               inputRef={descriptionRef}
               onKeyPress={handleKeyPressDescription}
               label="광고 기획의도 상세"
@@ -836,7 +836,7 @@ export default function EstimateDrawer() {
               multiline
               minRows={3}
             />
-            <Textfield
+            <TextInput
               inputRef={requestRef}
               onKeyPress={handleKeyPressRequest}
               label="기타 요청사항"

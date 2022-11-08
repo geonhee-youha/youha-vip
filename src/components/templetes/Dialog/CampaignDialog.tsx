@@ -9,7 +9,7 @@ import { campaignDialogState, campaignPopupState } from "../../../recoil";
 import { theme } from "../../../themes/theme";
 import youhaBlue from "../../../themes/youhaBlue";
 import Icon from "../../atoms/Icon";
-import Textfield from "../../atoms/Textfield";
+import TextInput from "../../atoms/TextInput";
 import PaperHeader from "../../molecules/PaperHeader";
 import { Page } from "./EstimateConfirmDialog";
 
@@ -174,7 +174,7 @@ export default function CampaignDialog() {
                         캠페인 정보 수정하기
                       </Typography>
                     </Button>
-                    <Textfield
+                    <TextInput
                       inputRef={titleRef}
                       label="캠페인 제목"
                       essential
@@ -182,7 +182,7 @@ export default function CampaignDialog() {
                       type="text"
                       disabled={disabled}
                     />
-                    <Textfield
+                    <TextInput
                       inputRef={descriptionRef}
                       label="캠페인 설명"
                       essential
@@ -260,7 +260,7 @@ export default function CampaignDialog() {
                         })}
                       </Box>
                     </Box>
-                    <Textfield
+                    <TextInput
                       inputRef={keywordRef}
                       label="핵심 키워드 (1개)"
                       value={input.keyword}

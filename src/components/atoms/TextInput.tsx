@@ -20,7 +20,7 @@ import {
 } from "react";
 import youhaBlue from "../../themes/youhaBlue";
 import Icon from "./Icon";
-type TextfieldProps = {
+type TextInputProps = {
   inputRef?: any;
   value: string;
   type?: string;
@@ -40,7 +40,7 @@ type TextfieldProps = {
   helperText?: string;
   disabled?: boolean;
 };
-export default function Textfield({
+export default function TextInput({
   inputRef,
   value,
   type,
@@ -59,7 +59,7 @@ export default function Textfield({
   error,
   helperText,
   disabled,
-}: TextfieldProps) {
+}: TextInputProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (typeof onChange !== "undefined") onChange(event);

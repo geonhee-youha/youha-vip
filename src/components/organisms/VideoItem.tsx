@@ -194,7 +194,7 @@ export default function VideoItem({
                 {setKoNumber(viewCount)}회
               </Typo>
             </Box>
-            <Box
+            {/* <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -221,7 +221,7 @@ export default function VideoItem({
               >
                 {displayedAt(publishedAt, true)}
               </Typo>
-            </Box>
+            </Box> */}
           </Stack>
         </Box>
       </ButtonBase>
