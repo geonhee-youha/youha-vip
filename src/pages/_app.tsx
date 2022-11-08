@@ -324,7 +324,6 @@ function MyApp(props: MyAppProps) {
                 <AdDialog />
                 <AdSetDialog />
                 <EstimateDialog/>
-                <AlarmDrawer />
               </Box>
             </>
           )}
