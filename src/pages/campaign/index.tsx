@@ -61,13 +61,7 @@ export default function Index() {
   const [opens, setOpens] = useState<boolean[]>([true, true]);
   const testCampaigns = useRecoilValue(testCampaignsState);
   const setCampaignPopup = useSetRecoilState(campaignPopupState);
-  const campaigns = [
-    ...testCampaigns,
-    ...testCampaigns,
-    ...testCampaigns,
-    ...testCampaigns,
-    ...testCampaigns,
-  ];
+  const campaigns = [...testCampaigns];
   const handleClickNewCampaign = () => {
     setCampaignPopup((prev) => {
       return {
