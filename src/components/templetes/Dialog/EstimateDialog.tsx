@@ -1586,6 +1586,7 @@ function Inner() {
                         // alignItems="center"
                         alignItems="flex-start"
                         sx={{
+                          display: "none",
                           p: theme.spacing(2, 2, 2, 3),
                           // borderBottom: `1px solid ${
                           //   checked ? youhaBlue[500] : blueGrey[100]
@@ -1637,10 +1638,11 @@ function Inner() {
                         <Box
                           sx={{
                             p: theme.spacing(0, 3, 3, 3),
+                            display: "none",
                           }}
                         >
-                          <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-                            <Box sx={{ flex: 1 }}>
+                          <Stack direction="row" spacing={2} sx={{ mt: 2,  }}>
+                            <Box sx={{ flex: 1, }}>
                               <Typography
                                 sx={{
                                   fontSize: 12,
@@ -1737,8 +1739,7 @@ function Inner() {
                             const handleClickCheck = () => {
                               setChecks((prev) => {
                                 let prevList = _.cloneDeep(prev);
-    
-                                
+
                                 if (prevList[index][i] === true) {
                                   prevList[index][i] = false;
                                 } else {
@@ -1758,7 +1759,9 @@ function Inner() {
                                   sx={{
                                     borderRadius: 1,
                                     border: `1px solid ${
-                                      innerChecked ? youhaBlue[500] : blueGrey[100]
+                                      innerChecked
+                                        ? youhaBlue[500]
+                                        : blueGrey[100]
                                     }`,
                                     p: 2,
                                     boxShadow: `2px 2px 4px 0px ${alpha(
@@ -1773,10 +1776,14 @@ function Inner() {
                                       height: 32,
                                       mb: 2,
                                       backgroundColor: `${
-                                        innerChecked ? youhaBlue[500] : "#ffffff"
+                                        innerChecked
+                                          ? youhaBlue[500]
+                                          : "#ffffff"
                                       } !important`,
                                       border: `1px solid ${
-                                        innerChecked ? youhaBlue[500] : blueGrey[100]
+                                        innerChecked
+                                          ? youhaBlue[500]
+                                          : blueGrey[100]
                                       }`,
                                       boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
                                       zIndex: 98,
