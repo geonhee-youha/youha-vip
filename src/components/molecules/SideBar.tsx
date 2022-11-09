@@ -40,18 +40,29 @@ export default function SideBar({
       spacing={1}
       sx={{
         position: "absolute",
-        top: 24,
-        left: 24,
-        // p: theme.spacing(2),
-        borderRadius: 1,
-        // border: `1px solid ${blueGrey[100]}`,
+        top: 0,
+        left: 0,
+        bottom: 0,
+        backgroundColor: "#ffffff",
+        p: theme.spacing(2, 3),
+        borderRight: `1px solid ${blueGrey[100]}`,
         // backgroundColor: blueGrey[50],
         // boxShadow: `2px 2px 4px 0px ${alpha("#000000", 0.08)}`,
-        width: 376 - 48,
+        width: 376,
         zIndex: 9999,
         // backgroundColor: "#ffffff",
       }}
     >
+      <Typography
+        sx={{
+          fontSize: 18,
+          lineHeight: "28px",
+          fontWeight: "700",
+          mb: 1,
+        }}
+      >
+        진행 프로세스
+      </Typography>
       {tabs.map((item, index) => {
         const focused = tabIndex === index;
         const disabled = disables && disables.includes(index);

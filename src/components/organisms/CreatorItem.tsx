@@ -129,7 +129,7 @@ export default function CreatorItem({
         ...prev,
         open: true,
         id: id,
-        index: 2,
+        index: 0,
         checkMode: true,
       };
     });

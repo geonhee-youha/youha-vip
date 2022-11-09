@@ -1,4 +1,11 @@
-import { Box, Dialog, IconButton, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Dialog,
+  IconButton,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { blueGrey, pink } from "@mui/material/colors";
 import _ from "lodash";
 import { useEffect, useState } from "react";
@@ -326,70 +333,6 @@ export default function CreatorDialog() {
               }}
             >
               <Slide>
-                <Box
-                  sx={{
-                    p: theme.spacing(4, 3, 2, 3),
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontSize: 18,
-                      lineHeight: "28px",
-                      fontWeight: "700",
-                      mb: 1,
-                    }}
-                  >
-                    채널 스코어 분석
-                  </Typography>
-                  <Box
-                    sx={{
-                      width: 400,
-                      height: 360,
-                      borderRadius: 1,
-                      backgroundColor: blueGrey[50],
-                      p: theme.spacing(2, 4),
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        width: "100%",
-                        height: "100%",
-                      }}
-                    >
-                      <Chart
-                        type="radar"
-                        data={totalChartData}
-                        options={totalChartOptions}
-                      />
-                    </Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      ml: -7.5,
-                      mr: -7.5,
-                    }}
-                  >
-                    <img src="/images/creator-0.png" />
-                  </Box>
-                </Box>
-              </Slide>
-              <Slide>
-                <Box
-                  sx={{
-                    p: theme.spacing(4, 3, 2, 3),
-                  }}
-                >
-                  <Box
-                    sx={{
-                      ml: -7.5,
-                      mr: -7.5,
-                    }}
-                  >
-                    <img src="/images/creator-1.png" />
-                  </Box>
-                </Box>
-              </Slide>
-              <Slide>
                 <List
                   data={playlists}
                   filters={playlistFilters}
@@ -414,14 +357,156 @@ export default function CreatorDialog() {
                   data={videos}
                   filters={videoFilters}
                   sorts={videoSorts}
-                  columns={3}
+                  spacing={1}
                   renderList={(data) => {
                     return data.map((item, index) => (
                       <VideoItem key={index} item={item} inCreator />
                     ));
                   }}
-                  title="플레이리스트가"
+                  title="광고영상이"
                 />
+              </Slide>
+              <Slide>
+                <Box
+                  sx={{
+                    p: theme.spacing(4, 3, 2, 3),
+                  }}
+                >
+                  <Box
+                    sx={{
+                      ml: -7.5,
+                      mr: -7.5,
+                    }}
+                  >
+                    <img src="/images/creator-0.png" />
+                    <img src="/images/creator-1.png" />
+                  </Box>
+                </Box>
+              </Slide>
+              <Slide>
+                <Box
+                  sx={{
+                    p: theme.spacing(4, 3, 2, 3),
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: 18,
+                      lineHeight: "28px",
+                      fontWeight: "700",
+                      mb: 1,
+                    }}
+                  >
+                    채널 스코어 분석
+                  </Typography>
+                  <Box
+                    sx={{
+                      m: `0 auto`,
+                      width: 320,
+                      height: 280,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    >
+                      <Chart
+                        type="radar"
+                        data={totalChartData}
+                        options={totalChartOptions}
+                      />
+                    </Box>
+                  </Box>
+                  <Stack
+                    // direction="row"
+                    spacing={0}
+                    sx={{
+                      mt: 4,
+                      width: "100%",
+                      display: "grid",
+                      gridTemplateColumns: `repeat(${2}, 1fr)`,
+                      gridAutoColumn: "1fr",
+                      gridTemplateRows: "auto",
+                      gridRowGap: 16,
+                      gridColumnGap: 16,
+                    }}
+                  >
+                    {[
+                      {
+                        title: "트렌드 지수",
+                        value: "56점",
+                        reason: '설명이 들어갈 예정입니다.'
+                      },
+                      {
+                        title: "광고 기획력",
+                        value: "56점",
+                        reason: '설명이 들어갈 예정입니다.'
+                      },
+                      {
+                        title: "이행 지수",
+                        value: "95점",
+                        reason: '설명이 들어갈 예정입니다.'
+                      },
+                      {
+                        title: "영향력 지수",
+                        value: "74점",
+                        reason: '설명이 들어갈 예정입니다.'
+                      },
+                      {
+                        title: "광고 지수",
+                        value: "16점",
+                        reason: '설명이 들어갈 예정입니다.'
+                      },
+                      {
+                        title: "클린 지수",
+                        value: "8점",
+                        reason: '설명이 들어갈 예정입니다.'
+                      },
+                    ].map((item, index) => (
+                      <Box
+                        key={index}
+                        sx={{
+                          borderRadius: 1,
+                          border: `1px solid ${blueGrey[100]}`,
+                          p: 2,
+                          flex: 1,
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            fontSize: 14,
+                            lineHeight: "20px",
+                          }}
+                        >
+                          {item.title}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            fontSize: 16,
+                            lineHeight: "24px",
+                            fontWeight: "700",
+                          }}
+                        >
+                          {item.value}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            fontSize: 14,
+                            lineHeight: "20px",
+                            p: 2,
+                            borderRadius: 1,
+                            backgroundColor: blueGrey[50],
+                            mt: 2,
+                          }}
+                        >
+                          {item.reason}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Stack>
+                </Box>
               </Slide>
             </SwipeableViews>
           </Box>

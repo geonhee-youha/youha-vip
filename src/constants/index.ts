@@ -169,22 +169,22 @@ export const estimateDialogTabs: TabProps[] = [
 export const creatorDialogTabs: TabProps[] = [
     {
         id: 0,
-        title: '채널 정보',
-        value: ''
-    },
-    {
-        id: 1,
-        title: '단가 정보',
-        value: ''
-    },
-    {
-        id: 2,
         title: '기획안',
         value: ''
     },
     {
-        id: 3,
+        id: 1,
         title: '광고영상',
+        value: ''
+    },
+    {
+        id: 2,
+        title: '채널정보',
+        value: ''
+    },
+    {
+        id: 3,
+        title: '채널 스코어',
         value: ''
     },
 ]

@@ -95,7 +95,7 @@ export default function PlaylistItem({
         ...prev,
         open: true,
         id: creator.id,
-        index: 2,
+        index: 0,
       };
     });
   };

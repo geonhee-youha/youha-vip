@@ -63,7 +63,7 @@ export default function VideoItem({
         ...prev,
         open: true,
         id: creator.id,
-        index: 3,
+        index: 0,
       };
     });
   };
@@ -72,18 +72,18 @@ export default function VideoItem({
       sx={{
         display: "flex",
         position: "relative",
-        alignSelf: "stretch",
-        justifySelf: "stretch",
+        alignSelf: inCreator ? "initial" : "stretch",
+        justifySelf: inCreator ? "initial" : "stretch",
       }}
     >
       <ButtonBase
         sx={{
           width: "100%",
           display: "flex",
-          flexDirection: "column",
+          flexDirection: inCreator ? "row" : "column",
           alignItems: "flex-start",
-          alignSelf: "stretch",
-          justifySelf: "stretch",
+          alignSelf: inCreator ? "initial" : "stretch",
+          justifySelf: inCreator ? "initial" : "stretch",
           borderRadius: 1,
           border: `1px solid ${blueGrey[100]} !important`,
           overflow: "hidden",
@@ -98,9 +98,9 @@ export default function VideoItem({
         <Box
           sx={{
             position: "relative",
-            overflow: "hidden",
-            width: "100%",
-            pt: "56.25%",
+            // overflow: "hidden",
+            width: inCreator ? 160 / 0.5625 : "100%",
+            pt: inCreator ? `${160}px` : "56.25%",
           }}
         >
           <Box
@@ -113,6 +113,7 @@ export default function VideoItem({
               borderRadius: 1,
               overflow: "hidden",
               border: `1px solid ${blueGrey[100]} !important`,
+              zIndex: 9
             }}
           >
             <img
@@ -131,7 +132,7 @@ export default function VideoItem({
         <Box
           sx={{
             flex: 1,
-            alignSelf: "stretch",
+            alignSelf: inCreator ? "initial" : "stretch",
             p: theme.spacing(2, 2, !inCreator ? 11 : 2, 2),
           }}
         >

@@ -16,6 +16,7 @@ import {
 import { blueGrey, cyan, pink } from "@mui/material/colors";
 import _ from "lodash";
 import React, { useEffect, useRef, useState } from "react";
+import { Chart } from "react-chartjs-2";
 import SwipeableViews from "react-swipeable-views";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { adSetDialogTabs } from "../../../constants";
@@ -29,6 +30,7 @@ import {
   testCampaignsState,
   testEstimates,
 } from "../../../datas";
+import { ageChartData, ageChartOptions, issueChartData, issueChartOptions, keywordChartData, keywordChartOptions, sexChartData, sexChartOptions, totalChartData, totalChartOptions, trendChartData, trendChartOptions } from "../../../pages/campaign";
 import { adSetDialogState } from "../../../recoil";
 import { theme } from "../../../themes/theme";
 import youhaBlue from "../../../themes/youhaBlue";
@@ -923,7 +925,72 @@ function Pager() {
                   pl: 40 + (448 - 375) / 8,
                 }}
               >
-                계약서 에디터 혹은 계약서 파일 다운 기능
+                <Box
+                  sx={{
+                    p: theme.spacing(2, 3, 1, 3),
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: 18,
+                      lineHeight: "28px",
+                      fontWeight: "700",
+                      mb: 1,
+                    }}
+                  >
+                    계약서
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    p: theme.spacing(0, 3, 3, 3),
+                  }}
+                >
+                  {/* <Typography
+                    sx={{
+                      mb: 1,
+                      fontSize: 14,
+                      lineHeight: "20px",
+                      fontWeight: "700",
+                      "& span": {
+                        color: youhaBlue[500],
+                      },
+                    }}
+                  >
+                    첨부파일 (최대 30MB)
+                  </Typography> */}
+                  <Button
+                    color="secondary"
+                    variant="outlined"
+                    // fullWidth
+                    sx={{
+                      width: 300,
+                      minHeight: 40,
+                      height: 40,
+                      boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
+                    }}
+                  >
+                    <Icon
+                      name="download"
+                      size={16}
+                      color="inherit"
+                      prefix="fas"
+                      sx={{
+                        mr: 1,
+                      }}
+                    />
+                    <Typography
+                      sx={{
+                        fontSize: 14,
+                        lineHeight: "20px",
+                        fontWeight: "700",
+                        color: "inherit",
+                      }}
+                    >
+                      최종 계약서 다운로드
+                    </Typography>
+                  </Button>
+                </Box>
               </Slide>
               <Slide>
                 <Box
@@ -949,7 +1016,453 @@ function Pager() {
                   pl: 40 + (448 - 375) / 8,
                 }}
               >
-                게시된 광고 현황 및 인사이트
+                <Box
+                  sx={{
+                    p: theme.spacing(2, 2, 1, 2),
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      flex: 1,
+                      p: theme.spacing(1),
+                      fontSize: 18,
+                      lineHeight: "28px",
+                      fontWeight: "700",
+                    }}
+                  >
+                    트렌드 인사이트
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    p: theme.spacing(0, 3, 3, 3),
+                  }}
+                >
+                  <Box
+                    sx={{
+                      borderRadius: 1,
+                      display: "grid",
+                      gridTemplateColumns: `repeat(${2}, 1fr)`,
+                      gridAutoColumn: "1fr",
+                      gridTemplateRows: "auto auto",
+                      gridGap: 8,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        flex: 1,
+                        position: "relative",
+                        width: "100%",
+                        backgroundColor: blueGrey[50],
+                        p: 2,
+                        borderRadius: 1,
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          lineHeight: "24px",
+                          fontWeight: "700",
+                          color: blueGrey[900],
+                        }}
+                      >
+                        종합 성과 지수
+                      </Typography>
+                      <Box
+                        sx={{
+                          mt: 1,
+                          mb: 1,
+                          ml: "auto",
+                          mr: "auto",
+                          width: 120,
+                          height: 120,
+                          position: "relative",
+                        }}
+                      >
+                        <Chart
+                          type="pie"
+                          data={totalChartData}
+                          options={totalChartOptions}
+                        />
+                        <Stack
+                          spacing={0}
+                          sx={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "flex-end",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: 32,
+                                lineHeight: "40px",
+                                fontWeight: "700",
+                                color: blueGrey[700],
+                                textAlign: "center",
+                              }}
+                            >
+                              96
+                            </Typography>
+                            <Typography
+                              sx={{
+                                fontSize: 14,
+                                lineHeight: "28px",
+                                fontWeight: "700",
+                                color: blueGrey[700],
+                                textAlign: "center",
+                                ml: 0.25,
+                              }}
+                            >
+                              점
+                            </Typography>
+                          </Box>
+                          <Typography
+                            sx={{
+                              fontSize: 12,
+                              lineHeight: "16px",
+                              fontWeight: "700",
+                              color: blueGrey[700],
+                              textAlign: "center",
+                            }}
+                          >
+                            아주 좋아요!
+                          </Typography>
+                        </Stack>
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: "100%",
+                        backgroundColor: blueGrey[50],
+                        p: 2,
+                        borderRadius: 1,
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          lineHeight: "24px",
+                          fontWeight: "700",
+                          color: blueGrey[900],
+                        }}
+                      >
+                        구글/네이버 키워드 지수
+                      </Typography>
+                      <Box
+                        sx={{
+                          mt: 2,
+                          mb: 0,
+                          ml: "auto",
+                          mr: "auto",
+                          // width: 120,
+                          height: 120,
+                          position: "relative",
+                        }}
+                      >
+                        <Chart
+                          type="line"
+                          data={trendChartData}
+                          options={trendChartOptions}
+                        />
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: "100%",
+                        backgroundColor: blueGrey[50],
+                        p: 2,
+                        borderRadius: 1,
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: 16,
+                          lineHeight: "24px",
+                          fontWeight: "700",
+                          color: blueGrey[900],
+                        }}
+                      >
+                        SNS 바이럴 지수
+                      </Typography>
+                      <Box
+                        sx={{
+                          mt: 2,
+                          mb: 0,
+                          ml: "auto",
+                          mr: "auto",
+                          // width: 120,
+                          height: 120,
+                          position: "relative",
+                        }}
+                      >
+                        <Chart
+                          type="bar"
+                          data={keywordChartData}
+                          options={keywordChartOptions}
+                        />
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: "100%",
+                        backgroundColor: blueGrey[50],
+                        p: 2,
+                        borderRadius: 1,
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          lineHeight: "24px",
+                          fontWeight: "700",
+                          color: blueGrey[900],
+                        }}
+                      >
+                        성별 지수
+                      </Typography>
+                      <Box
+                        sx={{
+                          mt: 1,
+                          mb: 1,
+                          ml: "auto",
+                          mr: "auto",
+                          width: 120,
+                          height: 120,
+                          position: "relative",
+                        }}
+                      >
+                        <Chart
+                          type="pie"
+                          data={sexChartData}
+                          options={sexChartOptions}
+                        />
+                        <Stack
+                          spacing={0}
+                          sx={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "flex-end",
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                flex: 1,
+                                fontSize: 12,
+                                lineHeight: "24px",
+                                fontWeight: "700",
+                                color: blueGrey[700],
+                                textAlign: "left",
+                                mr: 0.5,
+                              }}
+                            >
+                              남성
+                            </Typography>
+                            <Typography
+                              sx={{
+                                fontSize: 18,
+                                lineHeight: "28px",
+                                fontWeight: "700",
+                                color: blueGrey[700],
+                                textAlign: "right",
+                                "& span": {
+                                  fontSize: 14,
+                                  lineHeight: "24px",
+                                },
+                              }}
+                            >
+                              48.6<span>%</span>
+                            </Typography>
+                          </Box>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "flex-end",
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                flex: 1,
+                                fontSize: 12,
+                                lineHeight: "24px",
+                                fontWeight: "700",
+                                color: blueGrey[700],
+                                textAlign: "left",
+                                mr: 0.5,
+                              }}
+                            >
+                              여성
+                            </Typography>
+                            <Typography
+                              sx={{
+                                fontSize: 18,
+                                lineHeight: "28px",
+                                fontWeight: "700",
+                                color: blueGrey[700],
+                                textAlign: "right",
+                                "& span": {
+                                  fontSize: 14,
+                                  lineHeight: "24px",
+                                },
+                              }}
+                            >
+                              51.2<span>%</span>
+                            </Typography>
+                          </Box>
+                        </Stack>
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: "100%",
+                        backgroundColor: blueGrey[50],
+                        p: 2,
+                        borderRadius: 1,
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          lineHeight: "24px",
+                          fontWeight: "700",
+                          color: blueGrey[900],
+                        }}
+                      >
+                        연령 지수
+                      </Typography>
+                      <Box
+                        sx={{
+                          mt: 2,
+                          mb: 0,
+                          ml: "auto",
+                          mr: "auto",
+                          // width: 120,
+                          height: 120,
+                          position: "relative",
+                        }}
+                      >
+                        <Chart
+                          type="pie"
+                          data={ageChartData}
+                          options={ageChartOptions}
+                        />
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: "100%",
+                        backgroundColor: blueGrey[50],
+                        p: 2,
+                        borderRadius: 1,
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: 16,
+                          lineHeight: "24px",
+                          fontWeight: "700",
+                          color: blueGrey[900],
+                        }}
+                      >
+                        이슈성 지수
+                      </Typography>
+                      <Box
+                        sx={{
+                          mt: 1,
+                          mb: 1,
+                          ml: "auto",
+                          mr: "auto",
+                          width: 120,
+                          height: 120,
+                          position: "relative",
+                        }}
+                      >
+                        <Chart
+                          type="pie"
+                          data={issueChartData}
+                          options={issueChartOptions}
+                        />
+                        <Stack
+                          spacing={0}
+                          sx={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "flex-end",
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: 32,
+                                lineHeight: "40px",
+                                fontWeight: "700",
+                                color: blueGrey[700],
+                                textAlign: "center",
+                              }}
+                            >
+                              24.6
+                            </Typography>
+                            <Typography
+                              sx={{
+                                fontSize: 14,
+                                lineHeight: "28px",
+                                fontWeight: "700",
+                                color: blueGrey[700],
+                                textAlign: "center",
+                                ml: 0.25,
+                              }}
+                            >
+                              %
+                            </Typography>
+                          </Box>
+                          <Typography
+                            sx={{
+                              fontSize: 12,
+                              lineHeight: "16px",
+                              fontWeight: "700",
+                              color: blueGrey[700],
+                              textAlign: "center",
+                            }}
+                          >
+                            나쁘지 않군요.
+                          </Typography>
+                        </Stack>
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
               </Slide>
             </SwipeableViews>
             <SideBar

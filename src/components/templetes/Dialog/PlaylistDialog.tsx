@@ -89,7 +89,7 @@ export default function PlaylistDialog() {
         ...prev,
         open: true,
         id: creator.id,
-        index: 2,
+        index: 0,
       };
     });
   };
@@ -480,7 +480,7 @@ export default function PlaylistDialog() {
                 data={videos}
                 filters={videoFilters}
                 sorts={videoSorts}
-                columns={3}
+                spacing={1}
                 renderList={(data) => {
                   return data.map((item, index) => (
                     <VideoItem key={index} item={item} inCreator />

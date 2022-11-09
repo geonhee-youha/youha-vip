@@ -1057,7 +1057,7 @@ export default function Index() {
   );
 }
 
-const totalChartData = {
+export const totalChartData = {
   datasets: [
     {
       // type: "pie" as const,
@@ -1069,7 +1069,7 @@ const totalChartData = {
     },
   ],
 };
-const totalChartOptions = {
+export const totalChartOptions = {
   cutout: 50,
   plugins: {
     legend: {
@@ -1085,7 +1085,7 @@ const totalChartOptions = {
   },
   maintainAspectRatio: false,
 };
-const trendChartData = {
+export const trendChartData = {
   labels: ["6/2", "6/9", "6/16", "6/23", "6/30", "7/6", "7/13", "7/20"],
   datasets: [
     {
@@ -1112,7 +1112,7 @@ const trendChartData = {
     },
   ],
 };
-const trendChartOptions = {
+export const trendChartOptions = {
   plugins: {
     legend: {
       display: false,
@@ -1151,7 +1151,7 @@ const trendChartOptions = {
   },
   maintainAspectRatio: false,
 };
-const keywordChartData = {
+export const keywordChartData = {
   labels: ["6/2", "6/9", "6/16", "6/23", "6/30", "7/6", "7/13", "7/20"],
   datasets: [
     {
@@ -1180,7 +1180,7 @@ const keywordChartData = {
     },
   ],
 };
-const keywordChartOptions = {
+export const keywordChartOptions = {
   plugins: {
     legend: {
       display: false,
@@ -1219,7 +1219,7 @@ const keywordChartOptions = {
   },
   maintainAspectRatio: false,
 };
-const sexChartData = {
+export const sexChartData = {
   labels: ["남성", "여성"],
   datasets: [
     {
@@ -1232,7 +1232,7 @@ const sexChartData = {
     },
   ],
 };
-const sexChartOptions = {
+export const sexChartOptions = {
   cutout: 50,
   plugins: {
     legend: {
@@ -1248,7 +1248,7 @@ const sexChartOptions = {
   },
   maintainAspectRatio: false,
 };
-const ageChartData = {
+export const ageChartData = {
   labels: ageFilter.flatMap((el) => el.title),
   datasets: [
     {
@@ -1265,7 +1265,7 @@ const ageChartData = {
     },
   ],
 };
-const ageChartOptions = {
+export const ageChartOptions = {
   indexAxis: "y" as const,
   plugins: {
     legend: {
@@ -1305,7 +1305,7 @@ const ageChartOptions = {
   },
   maintainAspectRatio: false,
 };
-const issueChartData = {
+export const issueChartData = {
   datasets: [
     {
       // type: "pie" as const,
@@ -1317,7 +1317,7 @@ const issueChartData = {
     },
   ],
 };
-const issueChartOptions = {
+export const issueChartOptions = {
   cutout: 50,
   plugins: {
     legend: {
