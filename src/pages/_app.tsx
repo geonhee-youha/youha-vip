@@ -114,7 +114,7 @@ function MyApp(props: MyAppProps) {
         <meta property="og:image" content="/images/favicon/share.png" />
         <meta property="og:image:width" content="200" />
         <meta property="og:image:height" content="200" />
-        <meta property="og:image:type" content="images/png" />
+        <meta property="og:image:type" content="image/png" />
         <meta property="og:url" content="https://youha.info" />
         <meta name="twitter:card" content="summary" data-react-helmet="true" />
         <meta name="twitter:creator" content="" data-react-helmet="true" />
@@ -133,7 +133,7 @@ function MyApp(props: MyAppProps) {
         <link
           rel="shortcut icon"
           href="/images/favicon/favicon.ico"
-          type="images/x-icon"
+          type="image/x-icon"
         />
         <link
           rel="apple-touch-icon"
@@ -182,31 +182,31 @@ function MyApp(props: MyAppProps) {
         />
         <link
           rel="icon"
-          type="images/png"
+          type="image/png"
           sizes="144x144"
           href="/favicon/android-icon-144x144.png"
         />
         <link
           rel="icon"
-          type="images/png"
+          type="image/png"
           sizes="192x192"
           href="/images/favicon/android-icon-192x192.png"
         />
         <link
           rel="icon"
-          type="images/png"
+          type="image/png"
           sizes="32x32"
           href="/images/favicon/favicon-32x32.png"
         />
         <link
           rel="icon"
-          type="images/png"
+          type="image/png"
           sizes="96x96"
           href="/images/favicon/favicon-96x96.png"
         />
         <link
           rel="icon"
-          type="images/png"
+          type="image/png"
           sizes="16x16"
           href="/images/favicon/favicon-16x16.png"
         />
@@ -323,7 +323,7 @@ function MyApp(props: MyAppProps) {
                 <AlertDialog />
                 <AdDialog />
                 <AdSetDialog />
-                <EstimateDialog/>
+                <EstimateDialog />
               </Box>
             </>
           )}
