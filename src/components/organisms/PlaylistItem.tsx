@@ -13,6 +13,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   checkedPlaylistIdsState,
   favoritedPlaylistIdsState,
+  tempCheckedPlaylistIdsState,
   testCreators,
 } from "../../datas";
 import { creatorDialogState, playlistDialogState } from "../../recoil";
@@ -34,8 +35,8 @@ export default function PlaylistItem({
   inCreator?: boolean;
 }) {
   const { id, count, snippet } = item;
-  const [checkedPlaylistIds, setCheckedPlaylistIds] = useRecoilState(
-    checkedPlaylistIdsState
+  const [tempCheckedPlaylistIds, setTempCheckedPlaylistIds] = useRecoilState(
+    tempCheckedPlaylistIdsState
   );
   const [favoritedPlaylistIds, setFavoritedPlaylistIds] = useRecoilState(
     favoritedPlaylistIdsState
@@ -43,7 +44,7 @@ export default function PlaylistItem({
   const setCreatorDialog = useSetRecoilState(creatorDialogState);
   const setPlaylistDialog = useSetRecoilState(playlistDialogState);
   const checked =
-    (forceCheck || checkMode) && checkedPlaylistIds.includes(item.id);
+    (forceCheck || checkMode) && tempCheckedPlaylistIds.includes(item.id);
   const favorited = favoritedPlaylistIds.includes(id);
   const [index, setIndex] = useState<number | null>(null);
   useEffect(() => {
@@ -68,7 +69,7 @@ export default function PlaylistItem({
     });
   };
   const handleClickCheck = () => {
-    setCheckedPlaylistIds((prev) => {
+    setTempCheckedPlaylistIds((prev) => {
       let prevList = _.cloneDeep(prev);
       if (prevList.includes(id)) {
         prevList = _.filter(prevList, (el) => el !== id);
@@ -299,7 +300,7 @@ export default function PlaylistItem({
                   fontSize: 12,
                   lineHeight: "16px",
                   fontWeight: "700",
-                  color: blueGrey[700]
+                  color: blueGrey[700],
                   // "@media(max-width: 1023px)": {
                   //     fontSize: 10,
                   //     lineHeight: "14px",
@@ -337,7 +338,7 @@ export default function PlaylistItem({
                   fontSize: 12,
                   lineHeight: "16px",
                   fontWeight: "700",
-                  color: blueGrey[700]
+                  color: blueGrey[700],
                   // "@media(max-width: 1023px)": {
                   //     fontSize: 10,
                   //     lineHeight: "14px",

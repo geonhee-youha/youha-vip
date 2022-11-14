@@ -35,11 +35,7 @@ export default function DataCell({
             sx={{
               fontSize: 12,
               lineHeight: "16px",
-              color: checked
-                ? tempCheck
-                  ? blueGrey[900]
-                  : youhaBlue[500]
-                : blueGrey[700],
+              color: tempCheck && checked ? youhaBlue[500] : blueGrey[700],
             }}
           >
             {label}
@@ -51,11 +47,7 @@ export default function DataCell({
             fontSize: 14,
             lineHeight: "20px",
             fontWeight: "700",
-            color: checked
-              ? tempCheck
-                ? blueGrey[900]
-                : youhaBlue[500]
-              : blueGrey[900],
+            color: tempCheck && checked ? youhaBlue[500] : blueGrey[900],
           }}
         >
           {value}

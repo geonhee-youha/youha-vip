@@ -281,7 +281,7 @@ function MyApp(props: MyAppProps) {
                     flexDirection: "column",
                   }}
                 >
-                  <Paper
+                  {/* <Paper
                     elevation={4}
                     sx={{
                       height: 72,
@@ -294,7 +294,7 @@ function MyApp(props: MyAppProps) {
                     }}
                   >
                     배너
-                  </Paper>
+                  </Paper> */}
                   <Box
                     sx={{
                       position: "relative",

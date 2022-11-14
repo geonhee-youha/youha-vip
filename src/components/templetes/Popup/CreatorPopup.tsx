@@ -241,7 +241,6 @@ export default function CreatorPopup() {
         >
           <Button
             fullWidth
-            color="secondary"
             sx={{
               minHeight: 48,
               height: 48,

@@ -48,6 +48,7 @@ import { adSetDialogState } from "../../../recoil";
 import { theme } from "../../../themes/theme";
 import youhaBlue from "../../../themes/youhaBlue";
 import { setKoNumber } from "../../../utils";
+import DatePicker from "../../atoms/DatePicker";
 import Icon from "../../atoms/Icon";
 import Slide from "../../atoms/Slide";
 import TextInput from "../../atoms/TextInput";
@@ -657,11 +658,20 @@ function Pager() {
                       value={`${setKoNumber(Number(input.budget))}원`}
                       essential
                     />
-                    <InputRow
-                      label="광고 일정"
-                      value={input.duration}
-                      essential
-                    />
+                    <InputRow label="광고 일정" essential>
+                      <Stack direction="row" spacing={1}>
+                        <DatePicker
+                          value={input.startedAt}
+                          onChange={() => {}}
+                          disabled
+                        />
+                        <DatePicker
+                          value={input.endedAt}
+                          onChange={() => {}}
+                          disabled
+                        />
+                      </Stack>
+                    </InputRow>
                     <InputRow label="광고 목적" essential>
                       <Box sx={{ mb: -1 }}>
                         {input.purposies.map((item, index) => {
@@ -704,48 +714,11 @@ function Pager() {
                         })}
                       </Box>
                     </InputRow>
-                    <InputRow label="2차 콘텐츠 활용">
-                      <Box sx={{ mb: -1 }}>
-                        {input.medias.map((item, index) => {
-                          const checked = true;
-                          return (
-                            <Button
-                              key={index}
-                              variant="outlined"
-                              color={checked ? "primary" : "secondary"}
-                              sx={{
-                                p: theme.spacing(0, 1.25),
-                                height: 32,
-                                minHeight: 32,
-                                border: `1px solid ${
-                                  checked ? youhaBlue[500] : blueGrey[100]
-                                } !important`,
-                                boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, ${
-                                  checked ? `0.08` : `0.08`
-                                })`,
-                                borderRadius: 1,
-                                mr: 1,
-                                mb: 1,
-                              }}
-                              disabled
-                            >
-                              <Typography
-                                sx={{
-                                  fontSize: 14,
-                                  lineHeight: "20px",
-                                  fontWeight: "700",
-                                  color: checked
-                                    ? youhaBlue[500]
-                                    : blueGrey[300],
-                                }}
-                              >
-                                {item.title}
-                              </Typography>
-                            </Button>
-                          );
-                        })}
-                      </Box>
-                    </InputRow>
+                    <InputRow
+                      label="핵심 키워드"
+                      essential
+                      value={input.keyword}
+                    />
                     {mix && (
                       <>
                         <InputRow label="카테고리" essential>
@@ -875,11 +848,48 @@ function Pager() {
                         />
                       </>
                     )}
-                    <InputRow
-                      label="핵심 키워드"
-                      essential
-                      value={input.keyword}
-                    />
+                    <InputRow label="2차 콘텐츠 활용">
+                      <Box sx={{ mb: -1 }}>
+                        {input.medias.map((item, index) => {
+                          const checked = true;
+                          return (
+                            <Button
+                              key={index}
+                              variant="outlined"
+                              color={checked ? "primary" : "secondary"}
+                              sx={{
+                                p: theme.spacing(0, 1.25),
+                                height: 32,
+                                minHeight: 32,
+                                border: `1px solid ${
+                                  checked ? youhaBlue[500] : blueGrey[100]
+                                } !important`,
+                                boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, ${
+                                  checked ? `0.08` : `0.08`
+                                })`,
+                                borderRadius: 1,
+                                mr: 1,
+                                mb: 1,
+                              }}
+                              disabled
+                            >
+                              <Typography
+                                sx={{
+                                  fontSize: 14,
+                                  lineHeight: "20px",
+                                  fontWeight: "700",
+                                  color: checked
+                                    ? youhaBlue[500]
+                                    : blueGrey[300],
+                                }}
+                              >
+                                {item.title}
+                              </Typography>
+                            </Button>
+                          );
+                        })}
+                      </Box>
+                    </InputRow>
                     <InputRow
                       label="셀링 포인트"
                       value={input.sellingPoint}
@@ -1033,10 +1043,12 @@ function Pager() {
                   pl: 40 + (448 - 375) / 8,
                 }}
               >
-                <Box sx={{
-                  ml: -1,
-                  mr: 1,
-                }}>
+                <Box
+                  sx={{
+                    ml: -1,
+                    mr: 1,
+                  }}
+                >
                   <img src="/images/report-0.png" />
                   <img src="/images/report-1.png" />
                   <img src="/images/report-2.png" />

@@ -63770,7 +63770,8 @@ export const testEstimates: EstimateProps[] = [
         },
         input: {
             budget: "30000000",
-            duration: "2022년 10월 31일 ~ 2022년 11월 1일",
+            startedAt: null,
+            endedAt: null,
             purposies: [{ value: "0", title: '인지도 상승', },],
             medias: [{ value: "1", title: "유통/판매 채널", },],
             categories: [{ value: "0", title: "패션", },],
@@ -63803,7 +63804,8 @@ export const testEstimates: EstimateProps[] = [
         },
         input: {
             budget: "30000000",
-            duration: "2022년 10월 31일 ~ 2022년 11월 1일",
+            startedAt: null,
+            endedAt: null,
             purposies: [{ value: "0", title: '인지도 상승', },],
             medias: [{ value: "1", title: "유통/판매 채널", },],
             categories: [{ value: "0", title: "패션", },],
@@ -63836,7 +63838,8 @@ export const testEstimates: EstimateProps[] = [
         },
         input: {
             budget: "30000000",
-            duration: "2022년 10월 31일 ~ 2022년 11월 1일",
+            startedAt: null,
+            endedAt: null,
             purposies: [{ value: "0", title: '인지도 상승', },],
             medias: [{ value: "1", title: "유통/판매 채널", },],
             categories: [{ value: "0", title: "패션", },],
@@ -63869,7 +63872,8 @@ export const testEstimates: EstimateProps[] = [
         },
         input: {
             budget: "30000000",
-            duration: "2022년 10월 31일 ~ 2022년 11월 1일",
+            startedAt: null,
+            endedAt: null,
             purposies: [{ value: "0", title: '인지도 상승', },],
             medias: [{ value: "1", title: "유통/판매 채널", },],
             categories: [{ value: "0", title: "패션", },],
@@ -63902,7 +63906,8 @@ export const testEstimates: EstimateProps[] = [
         },
         input: {
             budget: "30000000",
-            duration: "2022년 10월 31일 ~ 2022년 11월 1일",
+            startedAt: null,
+            endedAt: null,
             purposies: [{ value: "0", title: '인지도 상승', },],
             medias: [{ value: "1", title: "유통/판매 채널", },],
             categories: [{ value: "0", title: "패션", },],
@@ -63935,7 +63940,8 @@ export const testEstimates: EstimateProps[] = [
         },
         input: {
             budget: "30000000",
-            duration: "2022년 10월 31일 ~ 2022년 11월 1일",
+            startedAt: null,
+            endedAt: null,
             purposies: [{ value: "0", title: '인지도 상승', },],
             medias: [{ value: "1", title: "유통/판매 채널", },],
             categories: [{ value: "0", title: "패션", },],
@@ -63968,7 +63974,8 @@ export const testEstimates: EstimateProps[] = [
         },
         input: {
             budget: "30000000",
-            duration: "2022년 10월 31일 ~ 2022년 11월 1일",
+            startedAt: null,
+            endedAt: null,
             purposies: [{ value: "0", title: '인지도 상승', },],
             medias: [{ value: "1", title: "유통/판매 채널", },],
             categories: [{ value: "0", title: "패션", },],
@@ -64120,6 +64127,10 @@ export const testAdSets = [
 //recoils - 추후 데이터로 받아와야 함
 export const checkedCreatorIdsState = atom<string[]>({
     key: "checkedCreatorIdsState",
+    default: []
+});
+export const tempCheckedPlaylistIdsState = atom<string[]>({
+    key: "tempCheckedPlaylistIdsState",
     default: []
 });
 export const favoritedCreatorIdsState = atom<string[]>({

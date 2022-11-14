@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { Dayjs } from 'dayjs';
 import { AgeProps, FilterProps, SexProps } from "../constants";
 import { v1 } from "uuid";
 import { CampaignProps } from "../datas";
@@ -49,7 +50,8 @@ export const creatorDrawerState = atom<
 });
 export type EstimateInputProps = {
   budget: string;
-  duration: string;
+  startedAt: Dayjs | null
+  endedAt: Dayjs | null
   purposies: FilterProps[];
   medias: FilterProps[];
   categories: FilterProps[];
@@ -64,7 +66,8 @@ export type EstimateInputProps = {
 };
 export const estimateInputDefaultProps = {
   budget: "",
-  duration: "",
+  startedAt: null,
+  endedAt: null,
   purposies: [],
   medias: [],
   categories: [],

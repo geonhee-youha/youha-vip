@@ -129,7 +129,7 @@ export default function CreatorItem({
         ...prev,
         open: true,
         id: id,
-        index: 0,
+        index: 1,
         checkMode: true,
       };
     });
@@ -153,11 +153,7 @@ export default function CreatorItem({
           alignItems: "flex-start",
           borderRadius: 1,
           border: `1px solid ${
-            checked
-              ? tempCheck
-                ? blueGrey[900]
-                : youhaBlue[500]
-              : blueGrey[100]
+            tempCheck && checked ? youhaBlue[500] : blueGrey[100]
           } !important`,
           boxShadow: `2px 2px 4px 0px ${alpha("#000000", 0.08)}`,
           "& *": {
@@ -199,11 +195,7 @@ export default function CreatorItem({
               height: 104,
               borderRadius: "50%",
               border: `1px solid ${
-                checked
-                  ? tempCheck
-                    ? blueGrey[900]
-                    : youhaBlue[500]
-                  : blueGrey[100]
+                tempCheck && checked ? youhaBlue[100] : blueGrey[100]
               } !important`,
               overflow: "hidden",
             }}
@@ -229,11 +221,8 @@ export default function CreatorItem({
               p: theme.spacing(0, 0.75),
               display: "flex",
               alignItems: "center",
-              backgroundColor: checked
-                ? tempCheck
-                  ? blueGrey[50]
-                  : youhaBlue[50]
-                : blueGrey[50],
+              backgroundColor:
+                tempCheck && checked ? youhaBlue[50] : blueGrey[50],
             }}
           >
             <Typography
@@ -241,11 +230,7 @@ export default function CreatorItem({
                 fontSize: 12,
                 lineHeight: "16px",
                 fontWeight: "700",
-                color: checked
-                  ? tempCheck
-                    ? blueGrey[900]
-                    : youhaBlue[500]
-                  : blueGrey[500],
+                color: tempCheck && checked ? youhaBlue[500] : blueGrey[500],
               }}
             >
               뷰티/패션
@@ -258,11 +243,7 @@ export default function CreatorItem({
               fontSize: 18,
               lineHeight: "28px",
               fontWeight: "700",
-              color: checked
-                ? tempCheck
-                  ? blueGrey[900]
-                  : youhaBlue[500]
-                : blueGrey[900],
+              color: tempCheck && checked ? youhaBlue[500] : blueGrey[900],
               wordBreak: "break-all",
             }}
           >
@@ -273,11 +254,7 @@ export default function CreatorItem({
               mt: 0.5,
               fontSize: 14,
               lineHeight: "20px",
-              color: checked
-                ? tempCheck
-                  ? blueGrey[900]
-                  : youhaBlue[500]
-                : blueGrey[700],
+              color: tempCheck && checked ? youhaBlue[500] : blueGrey[700],
             }}
           >
             구독자 {`${setKoNumber(subscriberCount)}명`}
@@ -300,11 +277,8 @@ export default function CreatorItem({
                 gridAutoColumn: "1fr",
                 gridTemplateRows: "auto auto",
                 gridRowGap: 0,
-                backgroundColor: checked
-                  ? tempCheck
-                    ? blueGrey[50]
-                    : youhaBlue[50]
-                  : blueGrey[50],
+                backgroundColor:
+                  tempCheck && checked ? youhaBlue[50] : blueGrey[50],
                 borderRadius: 1,
                 p: 1,
               }}
@@ -363,18 +337,10 @@ export default function CreatorItem({
               width: 32,
               height: 32,
               backgroundColor: `${
-                checked
-                  ? tempCheck
-                    ? blueGrey[900]
-                    : youhaBlue[500]
-                  : "#ffffff"
+                tempCheck && checked ? youhaBlue[500] : "#ffffff"
               } !important`,
               border: `1px solid ${
-                checked
-                  ? tempCheck
-                    ? blueGrey[900]
-                    : youhaBlue[500]
-                  : blueGrey[100]
+                tempCheck && checked ? youhaBlue[500] : blueGrey[100]
               }`,
               boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
               zIndex: 98,
@@ -384,10 +350,16 @@ export default function CreatorItem({
             onClick={handleClickCheck}
           >
             <Icon
-              name="check"
+              name={!tempCheck && checked ? "trash-alt" : "check"}
               prefix="fas"
               size={16}
-              color={checked ? "#ffffff" : blueGrey[300]}
+              color={
+                !tempCheck && checked
+                  ? blueGrey[300]
+                  : checked
+                  ? "#ffffff"
+                  : blueGrey[300]
+              }
             />
           </IconButton>
         </Stack>

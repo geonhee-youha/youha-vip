@@ -1,6 +1,7 @@
 import {
   alpha,
   Box,
+  Button,
   Dialog,
   IconButton,
   Paper,
@@ -21,7 +22,9 @@ import {
   videoSorts,
 } from "../../../constants";
 import {
+  checkedPlaylistIdsState,
   favoritedCreatorIdsState,
+  tempCheckedPlaylistIdsState,
   testCreators,
   testPlaylists,
   testVideos,
@@ -81,6 +84,19 @@ export default function CreatorDialog() {
       }
       return prevList;
     });
+  };
+  const [checkedPlaylistIds, setCheckedPlaylistIds] = useRecoilState(
+    checkedPlaylistIdsState
+  );
+  const [tempCheckedPlaylistIds, setTempCheckedPlaylistIdsState] =
+    useRecoilState(tempCheckedPlaylistIdsState);
+  const confirmable = tempCheckedPlaylistIds.length > 0;
+  useEffect(() => {
+    if (open && checkMode) setTempCheckedPlaylistIdsState(checkedPlaylistIds);
+  }, [open]);
+  const handleClickConfirm = () => {
+    handleClose();
+    setCheckedPlaylistIds(tempCheckedPlaylistIds);
   };
   return (
     <Dialog
@@ -335,57 +351,6 @@ export default function CreatorDialog() {
               }}
             >
               <Slide>
-                <List
-                  data={playlists}
-                  filters={playlistFilters}
-                  sorts={playlistSorts}
-                  columns={3}
-                  renderList={(data) => {
-                    return data.map((item, index) => (
-                      <PlaylistItem
-                        key={index}
-                        item={item}
-                        checkMode={checkMode}
-                        forceCheck={forceCheck}
-                        inCreator
-                      />
-                    ));
-                  }}
-                  title="플레이리스트가"
-                />
-              </Slide>
-              <Slide>
-                <List
-                  data={videos}
-                  filters={videoFilters}
-                  sorts={videoSorts}
-                  spacing={1}
-                  renderList={(data) => {
-                    return data.map((item, index) => (
-                      <VideoItem key={index} item={item} inCreator />
-                    ));
-                  }}
-                  title="광고영상이"
-                />
-              </Slide>
-              <Slide>
-                <Box
-                  sx={{
-                    p: theme.spacing(4, 3, 2, 3),
-                  }}
-                >
-                  <Box
-                    sx={{
-                      ml: -7.5,
-                      mr: -7.5,
-                    }}
-                  >
-                    <img src="/images/creator-0.png" />
-                    <img src="/images/creator-1.png" />
-                  </Box>
-                </Box>
-              </Slide>
-              <Slide>
                 <Box
                   sx={{
                     p: theme.spacing(4, 3, 2, 3),
@@ -522,9 +487,9 @@ export default function CreatorDialog() {
                                 maxWidth: 200,
                                 display: "flex",
                                 alignItems: "center",
-                                width: 'max-content',
+                                width: "max-content",
                                 opacity: 0,
-                                transition: `opacity 0.35s ease`
+                                transition: `opacity 0.35s ease`,
                               }}
                               className="tooltip"
                             >
@@ -564,6 +529,104 @@ export default function CreatorDialog() {
                       </Box>
                     ))}
                   </Stack>
+                </Box>
+              </Slide>
+              <Slide>
+                <List
+                  data={playlists}
+                  filters={playlistFilters}
+                  sorts={playlistSorts}
+                  columns={3}
+                  renderList={(data) => {
+                    return data.map((item, index) => (
+                      <PlaylistItem
+                        key={index}
+                        item={item}
+                        checkMode={checkMode}
+                        forceCheck={forceCheck}
+                        inCreator
+                      />
+                    ));
+                  }}
+                  title="플레이리스트가"
+                />
+                {checkMode && (
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      p: theme.spacing(2, 3),
+                      zIndex: 98,
+                      backgroundColor: "#ffffff",
+                      boxShadow: `4px 4px 8px 4px rgba(0, 0, 0, 0.08)`,
+                    }}
+                  >
+                    <Button
+                      fullWidth
+                      sx={{
+                        minHeight: 48,
+                        height: 48,
+                        boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
+                      }}
+                      disabled={!confirmable}
+                      onClick={handleClickConfirm}
+                    >
+                      <Icon
+                        name="users"
+                        size={20}
+                        color="#ffffff"
+                        prefix="fas"
+                        sx={{
+                          mr: 1,
+                        }}
+                      />
+                      <Typography
+                        sx={{
+                          fontSize: 16,
+                          lineHeight: "24px",
+                          fontWeight: "700",
+                          color: "#ffffff",
+                        }}
+                      >
+                        {tempCheckedPlaylistIds.length === 0
+                          ? "기획안 선택"
+                          : `${tempCheckedPlaylistIds.length}개의 기획안 담기`}
+                      </Typography>
+                    </Button>
+                  </Box>
+                )}
+              </Slide>
+              <Slide>
+                <List
+                  data={videos}
+                  filters={videoFilters}
+                  sorts={videoSorts}
+                  spacing={1}
+                  renderList={(data) => {
+                    return data.map((item, index) => (
+                      <VideoItem key={index} item={item} inCreator />
+                    ));
+                  }}
+                  title="광고영상이"
+                />
+              </Slide>
+              <Slide>
+                <Box
+                  sx={{
+                    p: theme.spacing(4, 3, 2, 3),
+                  }}
+                >
+                  <Box
+                    sx={{
+                      ml: -7.5,
+                      mr: -7.5,
+                    }}
+                  >
+                    <img src="/images/creator-0.png" />
+                    <img src="/images/creator-1.png" />
+                  </Box>
                 </Box>
               </Slide>
             </SwipeableViews>

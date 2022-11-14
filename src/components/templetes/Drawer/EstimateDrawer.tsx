@@ -7,10 +7,17 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { Dayjs } from "dayjs";
 import { blueGrey } from "@mui/material/colors";
 import _ from "lodash";
 import { useRouter } from "next/router";
-import React, { ChangeEvent, KeyboardEvent, useEffect, useRef } from "react";
+import React, {
+  ChangeEvent,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   sexFilter,
@@ -29,6 +36,7 @@ import {
 import { theme } from "../../../themes/theme";
 import youhaBlue from "../../../themes/youhaBlue";
 import { setKoNumber } from "../../../utils";
+import DatePicker from "../../atoms/DatePicker";
 import Icon from "../../atoms/Icon";
 import TextInput from "../../atoms/TextInput";
 import PaperHeader from "../../molecules/PaperHeader";
@@ -37,7 +45,8 @@ export default function EstimateDrawer() {
   const boxRef = useRef<any>(null);
   const router = useRouter();
   const budgetRef = useRef<any>(null);
-  const durationRef = useRef<any>(null);
+  const startedAtRef = useRef<any>(null);
+  const endedAtRef = useRef<any>(null);
   const purposeRef = useRef<any>(null);
   const categoryRef = useRef<any>(null);
   const ageRef = useRef<any>(null);
@@ -52,11 +61,16 @@ export default function EstimateDrawer() {
   const creatorDrawer = useRecoilValue(creatorDrawerState);
   const [estimateDrawer, setEstimateDrawer] =
     useRecoilState(estimateDrawerState);
-  const setEstimateConfirmDialog = useSetRecoilState(estimateConfirmDialogState);
+  const setEstimateConfirmDialog = useSetRecoilState(
+    estimateConfirmDialogState
+  );
   const { queryName, open, mix, input } = estimateDrawer;
+  const [startedAt, setStartedAt] = useState<Dayjs | null>(null);
+  const [endedAt, setEndedAt] = useState<Dayjs | null>(null);
   const confirmable =
     input.budget !== "" &&
-    input.duration !== "" &&
+    startedAt !== null &&
+    endedAt !== null &&
     input.purposies.length > 0 &&
     input.keyword.length > 0 &&
     (mix === false ||
@@ -66,6 +80,8 @@ export default function EstimateDrawer() {
         input.sex !== undefined &&
         input.ages &&
         input.ages.length > 0));
+  console.log(startedAt, endedAt);
+
   useEffect(() => {
     handleClose();
   }, [router]);
@@ -104,36 +120,7 @@ export default function EstimateDrawer() {
   const handleKeyPressBudget = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key == "Enter") {
       budgetRef.current.blur();
-      durationRef.current.focus();
-    }
-  };
-  const handleChangeDuration = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setEstimateDrawer((prev) => {
-      return {
-        ...prev,
-        input: {
-          ...input,
-          duration: value,
-        },
-      };
-    });
-  };
-  const handleResetDuration = () => {
-    setEstimateDrawer((prev) => {
-      return {
-        ...prev,
-        input: {
-          ...input,
-          duration: "",
-        },
-      };
-    });
-  };
-  const handleKeyPressDuration = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key == "Enter") {
-      durationRef.current.blur();
-      purposeRef.current.focus();
+      startedAtRef.current.focus();
     }
   };
   const handleChangeChannelCount = (event: ChangeEvent<HTMLInputElement>) => {
@@ -305,7 +292,7 @@ export default function EstimateDrawer() {
           : _.filter(testCreators, (el) =>
               creatorDrawer.selectedCreatorIds.includes(el.id)
             ),
-        input: input,
+        input: { ...input, startedAt: startedAt, endedAt: endedAt },
       };
     });
   };
@@ -370,17 +357,32 @@ export default function EstimateDrawer() {
                   : `${setKoNumber(Number(input.budget))}원`
               }
             />
-            <TextInput
-              inputRef={durationRef}
-              onKeyPress={handleKeyPressDuration}
-              label="광고 일정"
-              placeholder="ex) 2022.11.31 ~ 2022.12.31"
-              essential
-              value={input.duration}
-              onChange={handleChangeDuration}
-              onReset={handleResetDuration}
-              type="text"
-            />
+            <Box>
+              <Typography
+                sx={{
+                  mb: 1,
+                  fontSize: 14,
+                  lineHeight: "20px",
+                  fontWeight: "700",
+                  "& span": {
+                    color: youhaBlue[500],
+                  },
+                }}
+              >
+                광고 일정 (최소 1개)
+                <span>*</span>
+              </Typography>
+              <Stack direction="row" spacing={1}>
+                <DatePicker
+                  value={startedAt}
+                  onChange={(newValue) => setStartedAt(newValue)}
+                />
+                <DatePicker
+                  value={endedAt}
+                  onChange={(newValue) => setEndedAt(newValue)}
+                />
+              </Stack>
+            </Box>
             <Box>
               <Typography
                 sx={{
@@ -467,6 +469,16 @@ export default function EstimateDrawer() {
                 })}
               </Box>
             </Box>
+            <TextInput
+              inputRef={keywordRef}
+              onKeyPress={handleKeyPressKeyword}
+              label="핵심 키워드"
+              essential
+              value={input.keyword}
+              onChange={handleChangeKeyword}
+              onReset={handleResetKeyword}
+              type="text"
+            />
             {mix && (
               <>
                 <Box>
@@ -658,7 +670,10 @@ export default function EstimateDrawer() {
                               .flatMap((el) => el.value)
                               .includes(item.value)
                           ) {
-                            prevList = _.filter(prevList, (el) => el.value !== item.value);
+                            prevList = _.filter(
+                              prevList,
+                              (el) => el.value !== item.value
+                            );
                           } else {
                             prevList = [...prevList, item];
                           }
@@ -719,7 +734,7 @@ export default function EstimateDrawer() {
                 />
               </>
             )}
-                        <Box>
+            <Box>
               <Typography
                 sx={{
                   mb: 1,
@@ -805,16 +820,6 @@ export default function EstimateDrawer() {
                 })}
               </Box>
             </Box>
-            <TextInput
-              inputRef={keywordRef}
-              onKeyPress={handleKeyPressKeyword}
-              label="핵심 키워드"
-              essential
-              value={input.keyword}
-              onChange={handleChangeKeyword}
-              onReset={handleResetKeyword}
-              type="text"
-            />
             <TextInput
               inputRef={sellingPointRef}
               onKeyPress={handleKeyPressSellingPoint}

@@ -42,30 +42,36 @@ export const pages: PageProps[] = [
         ],
         inMainTab: true
     },
-    {
-        title: '인사이트',
-        iconName: 'lightbulb-exclamation',
-        pathName: '/insight',
-        slugs: [
-            {
-                title: '추천 크리에이터',
-                pathName: '/creator'
-            },
-            {
-                title: '추천 기획안',
-                pathName: '/playlist'
-            },
-            {
-                title: '추천 광고영상',
-                pathName: '/video'
-            },
-        ],
-        inMainTab: true
-    },
+    // {
+    //     title: '인사이트',
+    //     iconName: 'lightbulb-exclamation',
+    //     pathName: '/insight',
+    //     slugs: [
+    //         {
+    //             title: '추천 크리에이터',
+    //             pathName: '/creator'
+    //         },
+    //         {
+    //             title: '추천 기획안',
+    //             pathName: '/playlist'
+    //         },
+    //         {
+    //             title: '추천 광고영상',
+    //             pathName: '/video'
+    //         },
+    //     ],
+    //     inMainTab: true
+    // },
     {
         title: '크리에이터 리스트',
         iconName: 'address-book',
         pathName: '/creator',
+        inMainTab: true
+    },
+    {
+        title: '기획안 리스트',
+        iconName: 'list',
+        pathName: '/project',
         inMainTab: true
     },
     {
@@ -169,22 +175,22 @@ export const estimateDialogTabs: TabProps[] = [
 export const creatorDialogTabs: TabProps[] = [
     {
         id: 0,
-        title: '기획안',
+        title: '채널 스코어',
         value: ''
     },
     {
         id: 1,
-        title: '광고영상',
+        title: '기획안',
         value: ''
     },
     {
         id: 2,
-        title: '채널정보',
+        title: '광고영상',
         value: ''
     },
     {
         id: 3,
-        title: '채널 스코어',
+        title: '채널정보',
         value: ''
     },
 ]
