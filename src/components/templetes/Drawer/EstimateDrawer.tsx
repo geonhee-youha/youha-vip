@@ -369,7 +369,7 @@ export default function EstimateDrawer() {
                   },
                 }}
               >
-                광고 일정 (최소 1개)
+                광고 일정
                 <span>*</span>
               </Typography>
               <Stack direction="row" spacing={1}>

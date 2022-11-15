@@ -3,9 +3,11 @@ import { useRef } from "react";
 
 export default function Slide({
   children,
+  renderCover,
   sx,
 }: {
   children?: React.ReactNode;
+  renderCover?: React.ReactNode;
   sx?: SxProps;
 }) {
   // const boxRef = useRef<any>(null);
@@ -79,6 +81,7 @@ export default function Slide({
       >
         {children}
       </Box>
+      {renderCover}
     </Box>
   );
 }

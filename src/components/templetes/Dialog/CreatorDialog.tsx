@@ -14,10 +14,13 @@ import _ from "lodash";
 import { useEffect, useState } from "react";
 import SwipeableViews from "react-swipeable-views";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import dayjs from "dayjs";
 import {
+  ageFilter,
   creatorDialogTabs,
   playlistFilters,
   playlistSorts,
+  sexFilter,
   videoFilters,
   videoSorts,
 } from "../../../constants";
@@ -55,12 +58,9 @@ export default function CreatorDialog() {
       ? testCreators[_.findIndex(testCreators, (el) => el.id === id)]
       : null;
   const playlists = creator
-    ? _.filter(
-        testPlaylists.flatMap((el) => el.playlistItems),
-        (el: any) => el.snippet.channelTitle === creator.title
-      )
+    ? _.filter(testPlaylists, (el: any) => el.youtubeCreatorId === creator.id)
     : [];
-  const videos = testVideos;
+  const videos = playlists ? playlists.flatMap((el: any) => el.items) : [];
   const favorited = favoritedCreatorIds.includes(id);
   const [tabIndex, setTabIndex] = useState<number>(0);
   useEffect(() => {
@@ -98,6 +98,95 @@ export default function CreatorDialog() {
     handleClose();
     setCheckedPlaylistIds(tempCheckedPlaylistIds);
   };
+  const [sexIndex, setSexIndex] = useState<number>(-1);
+  const [ageIndex, setAgeIndex] = useState<number>(-1);
+  useEffect(() => {
+    if (sexIndex === -1) {
+      setSexIndex(Math.floor(Math.random() * 3));
+    }
+    if (ageIndex === -1) {
+      setAgeIndex(Math.floor(Math.random() * 4));
+    }
+  }, []);
+  const CPV = creator?.CPV;
+  const trendIndex = (creator && creator.trendIndex) ?? 0;
+  const commercialIdeaPerfomanceIndex =
+    (creator && creator.commercialIdeaPerfomanceIndex) ?? 0;
+  const fullfillmentIndex = (creator && creator.fullfillmentIndex) ?? 0;
+  const influenceIndex = (creator && creator.influenceIndex) ?? 0;
+  const advertisementIndex =
+    creator && creator.advertisementIndex
+      ? creator.advertisementIndex * 100
+      : 0;
+  const cleanIndex = (creator && creator.cleanIndex) ?? 0;
+  const totalChartData = {
+    labels: [
+      "트렌드 지수",
+      "광고 기획력",
+      "이행 지수",
+      "영향력 지수",
+      "광고 지수",
+      "클린 지수",
+    ],
+    datasets: [
+      {
+        label: "My First Dataset",
+        data: [
+          trendIndex,
+          commercialIdeaPerfomanceIndex,
+          fullfillmentIndex,
+          influenceIndex,
+          advertisementIndex,
+          cleanIndex,
+        ],
+        fill: true,
+        pointRadius: 6,
+        pointBorderWidth: 6,
+        borderWidth: 8,
+        backgroundColor: youhaBlue[500],
+        borderColor: youhaBlue[500],
+        pointBackgroundColor: blueGrey[50],
+        pointBorderColor: youhaBlue[500],
+        pointHoverBackgroundColor: blueGrey[50],
+        pointHoverBorderColor: youhaBlue[500],
+      },
+    ],
+  };
+  const totalChartOptions = {
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      r: {
+        ticks: {
+          display: false,
+          background: blueGrey[50],
+          font: {
+            size: 14,
+            family: "Pretendard",
+            weight: "700",
+          },
+          color: blueGrey[700],
+        },
+        pointLabels: {
+          font: {
+            size: 14,
+            family: "Pretendard",
+            weight: "700",
+          },
+        },
+        angleLines: {
+          display: false,
+        },
+        suggestedMin: 50,
+        suggestedMax: 100,
+      },
+    },
+    maintainAspectRatio: false,
+  };
+  const vip = true;
   return (
     <Dialog
       open={open}
@@ -165,56 +254,156 @@ export default function CreatorDialog() {
                 <Box
                   sx={{
                     position: "relative",
+                    mt: 1,
+                    mb: 1,
                   }}
                 >
-                  <IconButton
-                    sx={{
-                      position: "absolute",
-                      top: 8,
-                      left: 8,
-                      width: 40,
-                      height: 40,
-                      backgroundColor: `${
-                        favorited ? pink[500] : "#ffffff"
-                      } !important`,
-                      border: `1px solid ${
-                        favorited ? pink[500] : blueGrey[100]
-                      }`,
-                      boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
-                      zIndex: 98,
-                      borderRadius: 0.5,
-                      transition: "none",
-                    }}
-                    onClick={handleClickFavorite}
-                  >
-                    <Icon
-                      name="heart"
-                      prefix="fas"
-                      size={20}
-                      color={favorited ? "#ffffff" : blueGrey[300]}
-                    />
-                  </IconButton>
                   <Box
                     sx={{
                       position: "relative",
-                      width: 168,
-                      height: 168,
-                      borderRadius: "50%",
-                      border: `1px solid ${blueGrey[100]} !important`,
-                      overflow: "hidden",
                     }}
                   >
-                    <img
-                      src={creator.thumbnail}
-                      style={{
+                    <IconButton
+                      sx={{
                         position: "absolute",
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        objectFit: "cover",
+                        top: 8,
+                        left: 8,
+                        width: 40,
+                        height: 40,
+                        backgroundColor: `${
+                          favorited ? pink[500] : "#ffffff"
+                        } !important`,
+                        border: `1px solid ${
+                          favorited ? pink[500] : blueGrey[100]
+                        }`,
+                        boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
+                        zIndex: 98,
+                        borderRadius: 0.5,
+                        transition: "none",
                       }}
-                    />
+                      onClick={handleClickFavorite}
+                    >
+                      <Icon
+                        name="heart"
+                        prefix="fas"
+                        size={20}
+                        color={favorited ? "#ffffff" : blueGrey[300]}
+                      />
+                    </IconButton>
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: 168,
+                        height: 168,
+                        borderRadius: "50%",
+                        border: `1px solid ${blueGrey[100]} !important`,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <img
+                        src={creator.thumbnail}
+                        style={{
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          objectFit: "cover",
+                        }}
+                      />
+                    </Box>
+                    {vip && (
+                      <>
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            top: -8,
+                            left: -8,
+                            right: -8,
+                            bottom: -8,
+                            borderRadius: "50%",
+                            border: `4px solid ${blueGrey[900]}`,
+                          }}
+                        ></Box>
+                        {/* <Box
+                  sx={{
+                    position: "absolute",
+                    right: -8,
+                    bottom: -8,
+                    width: 40,
+                    height: 40,
+                    borderRadius: "50%",
+                    backgroundColor: blueGrey[900],
+                  }}
+                >
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: -40,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      overflow: "hidden",
+                      borderBottomLeftRadius: 16,
+                      borderBottomRightRadius: 16,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        left: -2,
+                        bottom: -2,
+                        display: "flex",
+                        alignItems: "flex-end",
+                        "& img": {
+                          width: 40,
+                        },
+                      }}
+                    >
+                      <img src="/images/rocket.png" />
+                    </Box>
+                  </Box>
+                </Box> */}
+                        {creator.mcn && (
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              left: 0,
+                              right: 0,
+                              bottom: -8,
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                borderRadius: 0.5,
+                                height: 24,
+                                p: theme.spacing(0, 1),
+                                display: "flex",
+                                alignItems: "center",
+                                backgroundColor: blueGrey[900],
+                              }}
+                            >
+                              <img
+                                src="/images/rocket.png"
+                                style={{ height: 16, marginRight: 4 }}
+                              />
+                              <Typography
+                                sx={{
+                                  fontSize: 14,
+                                  lineHeight: "20px",
+                                  fontWeight: "700",
+                                  color: "#ffffff",
+                                }}
+                              >
+                                {creator.mcn}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        )}
+                      </>
+                    )}
                   </Box>
                 </Box>
                 <Box
@@ -232,32 +421,69 @@ export default function CreatorDialog() {
                       alignItems: "flex-start",
                     }}
                   >
-                    <Box
-                      sx={{
-                        mb: 0.5,
-                        borderRadius: 0.5,
-                        mr: 0.5,
-                        height: 24,
-                        p: theme.spacing(0, 1),
-                        display: "flex",
-                        alignItems: "center",
-                        backgroundColor: blueGrey[50],
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontSize: 12,
-                          lineHeight: "16px",
-                          fontWeight: "700",
-                          color: blueGrey[500],
-                        }}
-                      >
-                        뷰티/패션
-                      </Typography>
-                    </Box>
+                    <Stack spacing={1} alignItems="center" sx={{ mt: 2 }}>
+                      <Stack direction="row" spacing={0.5}>
+                        <Box
+                          sx={{
+                            borderRadius: 0.5,
+                            height: 20,
+                            p: theme.spacing(0, 0.75),
+                            display: "flex",
+                            alignItems: "center",
+                            backgroundColor: blueGrey[50],
+                          }}
+                        >
+                          <Typography
+                            sx={{
+                              fontSize: 12,
+                              lineHeight: "16px",
+                              fontWeight: "700",
+                              color: blueGrey[500],
+                            }}
+                          >
+                            뷰티/패션
+                          </Typography>
+                        </Box>
+                        {creator.availableForSaleAt.includes("W") && (
+                          <Box
+                            sx={{
+                              borderRadius: 0.5,
+                              height: 20,
+                              p: theme.spacing(0, 0.75),
+                              display: "flex",
+                              alignItems: "center",
+                              backgroundColor: youhaBlue[50],
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: 12,
+                                lineHeight: "16px",
+                                fontWeight: "700",
+                                // color: colors[adSet.id][500],
+                                color: youhaBlue[500],
+                              }}
+                            >
+                              {dayjs(
+                                new Date(
+                                  new Date().getFullYear(),
+                                  new Date().getMonth(),
+                                  new Date().getDate() +
+                                    Number(
+                                      creator.availableForSaleAt.replace("W", "")
+                                    ) *
+                                      7
+                                )
+                              ).format("YYYY년 MM월 DD일~ ")}
+                            </Typography>
+                          </Box>
+                        )}
+                      </Stack>
+                    </Stack>
                     <Typo
                       lines={1}
                       sx={{
+                        mt: 1,
                         fontSize: 20,
                         lineHeight: "32px",
                         fontWeight: "700",
@@ -290,7 +516,7 @@ export default function CreatorDialog() {
                       sx={{
                         width: "100%",
                         display: "grid",
-                        gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr",
+                        gridTemplateColumns: "1fr 1fr 1fr 1fr",
                         gridAutoColumn: "1fr",
                         gridTemplateRows: "auto",
                         gridRowGap: 0,
@@ -299,7 +525,7 @@ export default function CreatorDialog() {
                         p: 1,
                       }}
                     >
-                      <DataCell label="영향력 지수" value={`높음`} />
+                      {/* <DataCell label="영향력 지수" value={`높음`} />
                       <DataCell label="트렌드 지수" value={`56점`} />
                       <DataCell label="타겟 적합도" value={`${98}%`} />
                       <DataCell
@@ -311,7 +537,21 @@ export default function CreatorDialog() {
                         }
                       />
                       <DataCell label="평균 단가" value={`3,230만원`} />
-                      <DataCell label="집행가능일" value={`11월 1일~`} />
+                      <DataCell label="집행가능일" value={`11월 1일~`} /> */}
+                      {sexIndex !== -1 && ageIndex !== -1 && (
+                        <>
+                          <DataCell
+                            label="타겟"
+                            value={`${sexFilter[sexIndex].title} / ${ageFilter[ageIndex].title}`}
+                          />
+                          <DataCell label="응답율" value={"100%"} />
+                        </>
+                      )}
+                      <DataCell label="평균 단가" value={`3,230만원`} />
+                      <DataCell
+                        label="예상 CPV"
+                        value={CPV ? `${CPV.toFixed(0)}원/회` : "집계중"}
+                      />
                     </Box>
                   </Box>
                 </Box>
@@ -403,42 +643,42 @@ export default function CreatorDialog() {
                     {[
                       {
                         title: "트렌드 지수",
-                        value: "56점",
+                        value: `${Math.floor(trendIndex)}점`,
                         reason: "설명이 들어갈 예정입니다.",
                         tooltip:
                           "해당 크리에이터의 채널의 영상이 최근 얼마나 이슈화 되는지 확인하는 지수 입니다.",
                       },
                       {
                         title: "광고 기획력",
-                        value: "56점",
+                        value: `${Math.floor(commercialIdeaPerfomanceIndex)}점`,
                         reason: "설명이 들어갈 예정입니다.",
                         tooltip:
                           "크리에이터가 해당 광고를 얼마나 자연스럽고 거부감 없이 콘텐츠에 반영하였는지 확인하는 지수입니다. 광고 관련 경력 5년 이상의 종사자, PD, 영화감독, 작가로 구성된 유하 검증단이 평가하였습니다.",
                       },
                       {
                         title: "이행 지수",
-                        value: "95점",
+                        value: `${Math.floor(fullfillmentIndex)}점`,
                         reason: "설명이 들어갈 예정입니다.",
                         tooltip:
                           "해당 크리에이터의 이전 광고 집행 과정에 참여한 적이 있는 대행사, MCN의 의견을 기준으로 평가하였습니다.",
                       },
                       {
                         title: "영향력 지수",
-                        value: "74점",
+                        value: `${Math.floor(influenceIndex)}점`,
                         reason: "설명이 들어갈 예정입니다.",
                         tooltip:
                           "해당 크리에이터의 최근 광고가 유튜브 채널을 제외하고 포털, SNS에 얼마나 빠르게 언급되는지 측정하는 지표입니다.",
                       },
                       {
                         title: "광고 지수",
-                        value: "16점",
+                        value: `${Math.floor(advertisementIndex)}%`,
                         reason: "설명이 들어갈 예정입니다.",
                         tooltip:
                           "해당 크리에이터 채널의 광고 포화지수를 측정한 지수입니다.",
                       },
                       {
                         title: "클린 지수",
-                        value: "8점",
+                        value: `${Math.floor(cleanIndex)}%`,
                         reason: "설명이 들어갈 예정입니다.",
                         tooltip:
                           "크리에이터와 관련된 논란이 없었는지를 기록하는 지수입니다. 해당 지수는 포털사이트, SNS 크롤링을 통해 논란의 관련 언급 여부를 통해 평가하였습니다.",
@@ -462,7 +702,7 @@ export default function CreatorDialog() {
                           >
                             {item.title}
                           </Typography>
-                          <Box
+                          {/* <Box
                             sx={{
                               position: "relative",
                               ":hover .tooltip": {
@@ -503,7 +743,7 @@ export default function CreatorDialog() {
                                 {item.tooltip}
                               </Typography>
                             </Box>
-                          </Box>
+                          </Box> */}
                         </Stack>
                         <Typography
                           sx={{
@@ -524,80 +764,98 @@ export default function CreatorDialog() {
                             mt: 2,
                           }}
                         >
-                          {item.reason}
+                          <Box sx={{ display: "inline-flex", mr: 0.5 }}>
+                            <Icon
+                              name="exclamation-circle"
+                              color={blueGrey[500]}
+                              size={12}
+                            />
+                          </Box>
+                          {item.tooltip}
                         </Typography>
                       </Box>
                     ))}
                   </Stack>
                 </Box>
               </Slide>
-              <Slide>
-                <List
-                  data={playlists}
-                  filters={playlistFilters}
-                  sorts={playlistSorts}
-                  columns={3}
-                  renderList={(data) => {
-                    return data.map((item, index) => (
-                      <PlaylistItem
-                        key={index}
-                        item={item}
-                        checkMode={checkMode}
-                        forceCheck={forceCheck}
-                        inCreator
-                      />
-                    ));
-                  }}
-                  title="플레이리스트가"
-                />
-                {checkMode && (
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      p: theme.spacing(2, 3),
-                      zIndex: 98,
-                      backgroundColor: "#ffffff",
-                      boxShadow: `4px 4px 8px 4px rgba(0, 0, 0, 0.08)`,
+              <Box
+                sx={{
+                  display: "flex",
+                  flex: 1,
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                <Slide>
+                  <List
+                    data={playlists}
+                    filters={playlistFilters}
+                    sorts={playlistSorts}
+                    columns={3}
+                    renderList={(data) => {
+                      return data.map((item, index) => (
+                        <PlaylistItem
+                          key={index}
+                          item={item}
+                          checkMode={checkMode}
+                          forceCheck={forceCheck}
+                          inCreator
+                        />
+                      ));
                     }}
-                  >
-                    <Button
-                      fullWidth
+                    title="플레이리스트가"
+                  ></List>
+                </Slide>
+                <>
+                  {checkMode && (
+                    <Box
                       sx={{
-                        minHeight: 48,
-                        height: 48,
-                        boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
+                        position: "absolute",
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        p: theme.spacing(2, 3),
+                        zIndex: 999,
+                        backgroundColor: "#ffffff",
+                        boxShadow: `4px 4px 8px 4px rgba(0, 0, 0, 0.08)`,
                       }}
-                      disabled={!confirmable}
-                      onClick={handleClickConfirm}
                     >
-                      <Icon
-                        name="users"
-                        size={20}
-                        color="#ffffff"
-                        prefix="fas"
+                      <Button
+                        fullWidth
                         sx={{
-                          mr: 1,
+                          minHeight: 48,
+                          height: 48,
+                          boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
                         }}
-                      />
-                      <Typography
-                        sx={{
-                          fontSize: 16,
-                          lineHeight: "24px",
-                          fontWeight: "700",
-                          color: "#ffffff",
-                        }}
+                        disabled={!confirmable}
+                        onClick={handleClickConfirm}
                       >
-                        {tempCheckedPlaylistIds.length === 0
-                          ? "기획안 선택"
-                          : `${tempCheckedPlaylistIds.length}개의 기획안 담기`}
-                      </Typography>
-                    </Button>
-                  </Box>
-                )}
-              </Slide>
+                        <Icon
+                          name="users"
+                          size={20}
+                          color="#ffffff"
+                          prefix="fas"
+                          sx={{
+                            mr: 1,
+                          }}
+                        />
+                        <Typography
+                          sx={{
+                            fontSize: 16,
+                            lineHeight: "24px",
+                            fontWeight: "700",
+                            color: "#ffffff",
+                          }}
+                        >
+                          {tempCheckedPlaylistIds.length === 0
+                            ? "기획안 선택"
+                            : `${tempCheckedPlaylistIds.length}개의 기획안 담기`}
+                        </Typography>
+                      </Button>
+                    </Box>
+                  )}
+                </>
+              </Box>
               <Slide>
                 <List
                   data={videos}
@@ -636,63 +894,3 @@ export default function CreatorDialog() {
     </Dialog>
   );
 }
-const totalChartData = {
-  labels: [
-    "트렌드 지수",
-    "광고 기획력",
-    "이행 지수",
-    "영향력 지수",
-    "광고 지수",
-    "클린 지수",
-  ],
-  datasets: [
-    {
-      label: "My First Dataset",
-      data: [65, 59, 90, 81, 56, 40],
-      fill: true,
-      pointRadius: 6,
-      pointBorderWidth: 6,
-      borderWidth: 8,
-      backgroundColor: youhaBlue[500],
-      borderColor: youhaBlue[500],
-      pointBackgroundColor: blueGrey[50],
-      pointBorderColor: youhaBlue[500],
-      pointHoverBackgroundColor: blueGrey[50],
-      pointHoverBorderColor: youhaBlue[500],
-    },
-  ],
-};
-const totalChartOptions = {
-  plugins: {
-    legend: {
-      display: false,
-    },
-  },
-  scales: {
-    r: {
-      ticks: {
-        display: false,
-        background: blueGrey[50],
-        font: {
-          size: 14,
-          family: "Pretendard",
-          weight: "700",
-        },
-        color: blueGrey[700],
-      },
-      pointLabels: {
-        font: {
-          size: 14,
-          family: "Pretendard",
-          weight: "700",
-        },
-      },
-      angleLines: {
-        display: false,
-      },
-      suggestedMin: 50,
-      suggestedMax: 100,
-    },
-  },
-  maintainAspectRatio: false,
-};

@@ -877,16 +877,14 @@ export default function Index() {
                     }}
                     className="Container"
                   >
-                    {testPlaylists
-                      .flatMap((el) => el.playlistItems)
-                      .map((item, index) => {
-                        return (
-                          index <
-                            (_.filter(opens, (el) => el === true).length === 0
-                              ? 5
-                              : 3) && <PlaylistItem key={index} item={item} />
-                        );
-                      })}
+                    {testPlaylists.map((item, index) => {
+                      return (
+                        index <
+                          (_.filter(opens, (el) => el === true).length === 0
+                            ? 5
+                            : 3) && <PlaylistItem key={index} item={item} />
+                      );
+                    })}
                   </Box>
                   <Box
                     sx={{

@@ -18,7 +18,7 @@ export default function Page() {
         )?.title
       : _.findLast(pages, (el) => el.pathName === currentPathName)?.title;
   const queryName = `page-${currentPathName.replace("/", "")}`;
-  const data = testPlaylists.flatMap((el) => el.playlistItems).slice(0, 22);
+  const data = testPlaylists;
   return (
     <Paper
       elevation={4}

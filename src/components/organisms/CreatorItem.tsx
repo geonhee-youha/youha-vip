@@ -9,8 +9,9 @@ import {
 } from "@mui/material";
 import { blueGrey, pink } from "@mui/material/colors";
 import _ from "lodash";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import { ageFilter, sexFilter } from "../../constants";
 import {
   checkedCreatorIdsState,
   checkedPlaylistIdsState,
@@ -21,10 +22,11 @@ import {
 import { creatorDialogState, creatorDrawerState } from "../../recoil";
 import { theme } from "../../themes/theme";
 import youhaBlue from "../../themes/youhaBlue";
-import { setKoNumber } from "../../utils";
+import { displayedAt, setKoNumber } from "../../utils";
 import DataCell from "../atoms/DataCell";
 import Icon from "../atoms/Icon";
 import Typo from "../atoms/Typo";
+import dayjs from "dayjs";
 
 export default function CreatorItem({
   item,
@@ -43,6 +45,8 @@ export default function CreatorItem({
   inHome?: boolean;
 }) {
   const { id, thumbnail, title, subscriberCount, CPV } = item;
+  console.log(item);
+
   const [creatorDrawer, setCreatorDrawer] = useRecoilState(creatorDrawerState);
   const [favoritedCreatorIds, setFavoritedCreatorIds] = useRecoilState(
     favoritedCreatorIdsState
@@ -62,14 +66,13 @@ export default function CreatorItem({
     _.findIndex(targetCheckList, (el) => el === id) !== -1;
   const favorited = favoritedCreatorIds.includes(id);
   const playlists = _.filter(
-    testPlaylists.flatMap((el) => el.playlistItems),
-    (el: any) => el.snippet.channelTitle === title
+    testPlaylists,
+    (el: any) => el.youtubeCreatorId === id
   );
   const checkedPlaylists = _.filter(
-    testPlaylists.flatMap((el) => el.playlistItems),
+    playlists,
     (el: any) =>
-      el.snippet.channelTitle === title &&
-      (playlistsOrigin ?? checkedPlaylistIds).includes(el.id)
+      el.youtubeCreatorId === id && checkedPlaylistIds.includes(el.id)
   );
   const handleClick = () => {
     setCreatorDialog((prev) => {
@@ -134,6 +137,35 @@ export default function CreatorItem({
       };
     });
   };
+  const [sexIndex, setSexIndex] = useState<number>(-1);
+  const [ageIndex, setAgeIndex] = useState<number>(-1);
+  useEffect(() => {
+    if (sexIndex === -1) {
+      setSexIndex(Math.floor(Math.random() * 3));
+    }
+    if (ageIndex === -1) {
+      setAgeIndex(Math.floor(Math.random() * 4));
+    }
+  }, []);
+  const vips = ["6a9083c8-4d6f-428d-9fa1-143c2a2b8648"];
+  const vip = true;
+  const averagePrice =
+    Math.floor(
+      (!isNaN(Number(item.basicPPLPrice)) ? Number(item.basicPPLPrice) : 0) +
+        (!isNaN(Number(item.advancedPPLPrice))
+          ? Number(item.advancedPPLPrice)
+          : 0) +
+        (!isNaN(Number(item.brandedCommercialPrice))
+          ? Number(item.brandedCommercialPrice)
+          : 0) +
+        (!isNaN(Number(item.featuringPrice))
+          ? Number(item.featuringPrice)
+          : 0) /
+          ((!isNaN(Number(item.basicPPLPrice)) ? 1 : 0) +
+            (!isNaN(Number(item.advancedPPLPrice)) ? 1 : 0) +
+            (!isNaN(Number(item.brandedCommercialPrice)) ? 1 : 0) +
+            (!isNaN(Number(item.featuringPrice)) ? 1 : 0))
+    ) * 10000;
   return (
     <Box
       sx={{
@@ -190,56 +222,188 @@ export default function CreatorItem({
         >
           <Box
             sx={{
+              mt: 1,
+              mb: 1,
               position: "relative",
-              width: 104,
-              height: 104,
-              borderRadius: "50%",
-              border: `1px solid ${
-                tempCheck && checked ? youhaBlue[100] : blueGrey[100]
-              } !important`,
-              overflow: "hidden",
             }}
           >
-            <img
-              src={thumbnail}
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                objectFit: "cover",
-              }}
-            />
-          </Box>
-          <Box
-            sx={{
-              mt: 2,
-              borderRadius: 0.5,
-              mr: 0.5,
-              height: 20,
-              p: theme.spacing(0, 0.75),
-              display: "flex",
-              alignItems: "center",
-              backgroundColor:
-                tempCheck && checked ? youhaBlue[50] : blueGrey[50],
-            }}
-          >
-            <Typography
+            <Box
               sx={{
-                fontSize: 12,
-                lineHeight: "16px",
-                fontWeight: "700",
-                color: tempCheck && checked ? youhaBlue[500] : blueGrey[500],
+                position: "relative",
+                width: 104,
+                height: 104,
+                borderRadius: "50%",
+                border: `1px solid ${
+                  tempCheck && checked ? youhaBlue[100] : blueGrey[100]
+                } !important`,
+                overflow: "hidden",
               }}
             >
-              뷰티/패션
-            </Typography>
+              <img
+                src={thumbnail}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  objectFit: "cover",
+                }}
+              />
+            </Box>
+            {vip && (
+              <>
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: -8,
+                    left: -8,
+                    right: -8,
+                    bottom: -8,
+                    borderRadius: "50%",
+                    border: `4px solid ${blueGrey[900]}`,
+                  }}
+                ></Box>
+                {/* <Box
+                  sx={{
+                    position: "absolute",
+                    right: -8,
+                    bottom: -8,
+                    width: 40,
+                    height: 40,
+                    borderRadius: "50%",
+                    backgroundColor: blueGrey[900],
+                  }}
+                >
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: -40,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      overflow: "hidden",
+                      borderBottomLeftRadius: 16,
+                      borderBottomRightRadius: 16,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        left: -2,
+                        bottom: -2,
+                        display: "flex",
+                        alignItems: "flex-end",
+                        "& img": {
+                          width: 40,
+                        },
+                      }}
+                    >
+                      <img src="/images/rocket.png" />
+                    </Box>
+                  </Box>
+                </Box> */}
+                {item.mcn && (
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      left: 0,
+                      right: 0,
+                      bottom: -8,
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        borderRadius: 0.5,
+                        height: 24,
+                        p: theme.spacing(0, 1),
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor:
+                          tempCheck && checked ? youhaBlue[500] : blueGrey[900],
+                      }}
+                    >
+                      <img src="/images/rocket.png" style={{ height: 16, marginRight: 4 }} />
+                      <Typography
+                        sx={{
+                          fontSize: 14,
+                          lineHeight: "20px",
+                          fontWeight: "700",
+                          color: "#ffffff",
+                        }}
+                      >
+                        {item.mcn}
+                      </Typography>
+                    </Box>
+                  </Box>
+                )}
+              </>
+            )}
           </Box>
+          <Stack spacing={1} alignItems="center" sx={{ mt: 2 }}>
+            <Stack direction="row" spacing={0.5}>
+              <Box
+                sx={{
+                  borderRadius: 0.5,
+                  height: 20,
+                  p: theme.spacing(0, 0.75),
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor:
+                    tempCheck && checked ? youhaBlue[50] : blueGrey[50],
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: 12,
+                    lineHeight: "16px",
+                    fontWeight: "700",
+                    color:
+                      tempCheck && checked ? youhaBlue[500] : blueGrey[500],
+                  }}
+                >
+                  뷰티/패션
+                </Typography>
+              </Box>
+              {item.availableForSaleAt.includes("W") && (
+                <Box
+                  sx={{
+                    borderRadius: 0.5,
+                    height: 20,
+                    p: theme.spacing(0, 0.75),
+                    display: "flex",
+                    alignItems: "center",
+                    backgroundColor: youhaBlue[50],
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: 12,
+                      lineHeight: "16px",
+                      fontWeight: "700",
+                      // color: colors[adSet.id][500],
+                      color: youhaBlue[500],
+                    }}
+                  >
+                    {dayjs(
+                      new Date(
+                        new Date().getFullYear(),
+                        new Date().getMonth(),
+                        new Date().getDate() +
+                          Number(item.availableForSaleAt.replace("W", "")) * 7
+                      )
+                    ).format("YYYY년 MM월 DD일~ ")}
+                  </Typography>
+                </Box>
+              )}
+            </Stack>
+          </Stack>
           <Typo
             lines={1}
             sx={{
-              mt: 0.5,
+              mt: 1,
               fontSize: 18,
               lineHeight: "28px",
               fontWeight: "700",
@@ -271,19 +435,26 @@ export default function CreatorItem({
           >
             <Box
               sx={{
-                width: "100%",
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr 1fr",
-                gridAutoColumn: "1fr",
-                gridTemplateRows: "auto auto",
-                gridRowGap: 0,
                 backgroundColor:
                   tempCheck && checked ? youhaBlue[50] : blueGrey[50],
                 borderRadius: 1,
                 p: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
               }}
             >
-              <DataCell
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gridAutoColumn: "1fr",
+                  gridTemplateRows: "auto auto",
+                  gridRowGap: 0,
+                }}
+              >
+                {/* <DataCell
                 tempCheck={tempCheck}
                 checked={checked}
                 label="영향력 지수"
@@ -300,25 +471,42 @@ export default function CreatorItem({
                 checked={checked}
                 label="타겟 적합도"
                 value={`${98}%`}
-              />
-              <DataCell
-                tempCheck={tempCheck}
-                checked={checked}
-                label="예상 CPV"
-                value={CPV ? `${CPV.toFixed(0)}원/회` : "집계중"}
-              />
-              <DataCell
-                tempCheck={tempCheck}
-                checked={checked}
-                label="평균 단가"
-                value={`3,230만원`}
-              />
-              <DataCell
+              /> */}
+                {sexIndex !== -1 && ageIndex !== -1 && (
+                  <>
+                    <DataCell
+                      tempCheck={tempCheck}
+                      checked={checked}
+                      label="타겟"
+                      value={`${sexFilter[sexIndex].title} / ${ageFilter[ageIndex].title}`}
+                    />
+                    <DataCell
+                      tempCheck={tempCheck}
+                      checked={checked}
+                      label="응답율"
+                      value={"100%"}
+                    />
+                  </>
+                )}
+                <DataCell
+                  tempCheck={tempCheck}
+                  checked={checked}
+                  label="평균 단가"
+                  value={`${setKoNumber(averagePrice)}원`}
+                />
+                <DataCell
+                  tempCheck={tempCheck}
+                  checked={checked}
+                  label="예상 CPV"
+                  value={CPV ? `${CPV.toFixed(0)}원/회` : "집계중"}
+                />
+                {/* <DataCell
                 tempCheck={tempCheck}
                 checked={checked}
                 label="집행가능일"
                 value={`11월 1일~`}
-              />
+              /> */}
+              </Box>
             </Box>
           </Box>
         )}
@@ -459,7 +647,7 @@ export default function CreatorItem({
                         }}
                       >
                         <img
-                          src={item?.snippet?.thumbnails["maxres"]?.url}
+                          src={item?.thumbnail}
                           style={{
                             position: "absolute",
                             top: 0,

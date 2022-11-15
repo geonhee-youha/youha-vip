@@ -22,7 +22,7 @@ import {
 } from "../../../datas";
 import { creatorDialogState, playlistDialogState } from "../../../recoil";
 import { theme } from "../../../themes/theme";
-import { setKoNumber } from "../../../utils";
+import { comma, setKoNumber } from "../../../utils";
 import Icon from "../../atoms/Icon";
 import Typo from "../../atoms/Typo";
 import PaperHeader from "../../molecules/PaperHeader";
@@ -41,29 +41,17 @@ export default function PlaylistDialog() {
   );
   const [creatorDialog, setCreatorDialog] = useRecoilState(creatorDialogState);
   const { queryName, open, id, index } = playlistDialog;
-  const playlist = testPlaylists.flatMap((el) => el.playlistItems)[
-    _.findIndex(
-      testPlaylists.flatMap((el) => el.playlistItems),
-      (el) => el.id === id
-    )
-  ];
+  const playlist =
+    testPlaylists[_.findIndex(testPlaylists, (el: any) => el.id === id)];
   const item = playlist;
-  const videos = testVideos;
-  const [creatorIndex, setCreatorIndex] = useState<number | null>(null);
-  useEffect(() => {
-    if (creatorIndex === null) setCreatorIndex(Math.floor(Math.random() * 8));
-  }, [creatorIndex]);
-  const creator =
-    creatorIndex === null
-      ? {
-          id: "",
-          title: "",
-          thumbnail: "",
-          subscriberCount: 0,
-        }
-      : testCreators[creatorIndex];
+  const videos = playlist ? playlist.items : [];
+  const creator = item
+    ? _.findLast(testCreators, (el) => el.id === item.youtubeCreatorId)
+    : null;
   const favorited = favoritedPlaylistIds.includes(id);
-  const creatorFavorited = favoritedCreatorIds.includes(creator.id);
+  const creatorFavorited = creator
+    ? favoritedCreatorIds.includes(creator.id)
+    : false;
   const handleClose = () => {
     setPlaylistDialog((prev) => {
       return {
@@ -104,6 +92,26 @@ export default function PlaylistDialog() {
       return prevList;
     });
   };
+  const averagePrice = creator
+    ? Math.floor(
+        (!isNaN(Number(creator.basicPPLPrice))
+          ? Number(creator.basicPPLPrice)
+          : 0) +
+          (!isNaN(Number(creator.advancedPPLPrice))
+            ? Number(creator.advancedPPLPrice)
+            : 0) +
+          (!isNaN(Number(creator.brandedCommercialPrice))
+            ? Number(creator.brandedCommercialPrice)
+            : 0) +
+          (!isNaN(Number(creator.featuringPrice))
+            ? Number(creator.featuringPrice)
+            : 0) /
+            ((!isNaN(Number(creator.basicPPLPrice)) ? 1 : 0) +
+              (!isNaN(Number(creator.advancedPPLPrice)) ? 1 : 0) +
+              (!isNaN(Number(creator.brandedCommercialPrice)) ? 1 : 0) +
+              (!isNaN(Number(creator.featuringPrice)) ? 1 : 0))
+      ) * 10000
+    : null;
   return (
     <Dialog
       open={open}
@@ -206,7 +214,7 @@ export default function PlaylistDialog() {
                       }}
                     >
                       <img
-                        src={item.snippet?.thumbnails["maxres"]?.url}
+                        src={item.thumbnail}
                         style={{
                           position: "absolute",
                           top: 0,
@@ -238,7 +246,7 @@ export default function PlaylistDialog() {
                             fontWeight: "700",
                           }}
                         >
-                          {item.count}
+                          {item.items.length}
                         </Typography>
                         <Icon
                           name="list-ul"
@@ -421,7 +429,7 @@ export default function PlaylistDialog() {
                         wordBreak: "break-all",
                       }}
                     >
-                      {item.snippet.title}
+                      {item.title}
                     </Typo>
                   </Box>
                   <Typography
@@ -432,36 +440,120 @@ export default function PlaylistDialog() {
                       color: blueGrey[700],
                     }}
                   >
-                    {item.snippet.description}
+                    {item.description}
                   </Typography>
-                  <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Icon
-                        prefix="fad"
-                        name="money-bill"
-                        size={16}
+                  <Stack spacing={2} sx={{ mt: 2 }}>
+                    <Box sx={{}}>
+                      <Typography
                         sx={{
-                          mr: 0.5,
-                          color: blueGrey[500],
+                          fontSize: 12,
+                          lineHeight: "16px",
+                          fontWeight: "700",
+                          color: blueGrey[700],
+                          // "@media(max-width: 1023px)": {
+                          //     fontSize: 10,
+                          //     lineHeight: "14px",
+                          // },
                         }}
-                      />
-                      <Typo
-                        lines={2}
+                      >
+                        예상 조회수
+                      </Typography>
+                      <Typography
                         sx={{
                           fontSize: 16,
                           lineHeight: "24px",
-                          color: blueGrey[500],
                           fontWeight: "700",
+                          "& .won": {
+                            fontSize: 12,
+                            lineHeight: "16px",
+                            ml: 0.25,
+                          },
+                          "& .ratio": {
+                            mr: 0.5,
+                            color: pink[500],
+                          },
                         }}
                       >
-                        {setKoNumber(32450000)}원
-                      </Typo>
+                        {item.expectedViewCount ? (
+                          <>
+                            {/* <span className="ratio">30%</span> */}
+                            {setKoNumber(item.expectedViewCount)}
+                            <span className="won">회</span>
+                          </>
+                        ) : (
+                          "집계중"
+                        )}
+                      </Typography>
                     </Box>
+                    <Box sx={{}}>
+                      <Typography
+                        sx={{
+                          fontSize: 12,
+                          lineHeight: "16px",
+                          fontWeight: "700",
+                          color: blueGrey[700],
+                          // "@media(max-width: 1023px)": {
+                          //     fontSize: 10,
+                          //     lineHeight: "14px",
+                          // },
+                        }}
+                      >
+                        브랜디드 기준 최소단가
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontSize: 16,
+                          lineHeight: "24px",
+                          fontWeight: "700",
+                          "& .won": {
+                            fontSize: 12,
+                            lineHeight: "16px",
+                            ml: 0.25,
+                          },
+                          "& .ratio": {
+                            mr: 0.5,
+                            color: pink[500],
+                          },
+                        }}
+                      >
+                        {averagePrice ? (
+                          <>
+                            <span className="ratio">30%</span>
+                            {comma(averagePrice)}
+                            <span className="won">원</span>
+                          </>
+                        ) : (
+                          "집계중"
+                        )}
+                      </Typography>
+                    </Box>
+                    {/* <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Icon
+                prefix="fad"
+                name="eye"
+                size={14}
+                sx={{
+                  mr: 0.5,
+                  color: checked ? youhaBlue[500] : blueGrey[500],
+                }}
+              />
+              <Typo
+                lines={2}
+                sx={{
+                  fontSize: 14,
+                  lineHeight: "20px",
+                  color: checked ? youhaBlue[500] : blueGrey[500],
+                  fontWeight: "700",
+                }}
+              >
+                {setKoNumber(3204000)}회 예상
+              </Typo>
+            </Box> */}
                   </Stack>
                 </Box>
               </Box>

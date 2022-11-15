@@ -24,7 +24,7 @@ export default function VideoItem({
   item: any;
   inCreator?: boolean;
 }) {
-  const { id, thumbnail, title, description, href, viewCount, publishedAt } =
+  const { id, thumbnail, title, description, href, viewCount, youtubeVideoId } =
     item;
   const [favoritedVideoIds, setFavoritedVideoIds] = useRecoilState(
     favoritedVideoIdsState
@@ -32,7 +32,7 @@ export default function VideoItem({
   const favorited = favoritedVideoIds.includes(id);
   const setCreatorDialog = useSetRecoilState(creatorDialogState);
   const handleClick = () => {
-    window.open(href);
+    window.open(`https://www.youtube.com/watch?v=${youtubeVideoId}`);
   };
   const [index, setIndex] = useState<number | null>(null);
   useEffect(() => {

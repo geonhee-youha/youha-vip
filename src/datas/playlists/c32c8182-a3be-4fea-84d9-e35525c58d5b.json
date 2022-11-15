@@ -1,0 +1,32 @@
+[
+    {
+        "id": "3052ee97-84e2-4248-a6bb-7394166b3075",
+        "title": "Private video",
+        "description": "This video is private.",
+        "thumbnail": null,
+        "youtubeVideoId": "Arhd3H-ndEM",
+        "uploadedDate": "2021-04-29T14:34:25Z",
+        "viewCount": 3999,
+        "isCommercial": "False"
+    },
+    {
+        "id": "f323a1e0-099a-4682-8160-a8e84eeee9b1",
+        "title": "Private video",
+        "description": "This video is private.",
+        "thumbnail": null,
+        "youtubeVideoId": "OG9ROHW74ww",
+        "uploadedDate": "2021-04-30T12:16:37Z",
+        "viewCount": 0,
+        "isCommercial": "False"
+    },
+    {
+        "id": "ba5233b7-e0c6-4656-b5c4-f370384fb11d",
+        "title": "Private video",
+        "description": "This video is private.",
+        "thumbnail": null,
+        "youtubeVideoId": "-5xBsrtszxs",
+        "uploadedDate": "2021-07-17T10:52:32Z",
+        "viewCount": 0,
+        "isCommercial": "False"
+    }
+]

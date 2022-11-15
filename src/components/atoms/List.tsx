@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 import _ from "lodash";
-import { useState } from "react";
+import React, { useState } from "react";
 import { FilterProps } from "../../constants";
 import { theme } from "../../themes/theme";
 import youhaBlue from "../../themes/youhaBlue";
@@ -24,8 +24,9 @@ export default function List({
   renderList,
   title,
   sx,
+  children,
 }: {
-  data: any[];
+  data: any;
   sorts: FilterProps[];
   filters: FilterProps[];
   columns?: number;
@@ -33,6 +34,7 @@ export default function List({
   renderList: (data: any[]) => React.ReactNode;
   title?: string;
   sx?: SxProps;
+  children?: React.ReactNode;
 }) {
   const [sortValue, setSortValue] = useState<string>(sorts[0].value);
   const [filterValue, setFilterValue] = useState<string>(filters[0].value);
@@ -186,6 +188,7 @@ export default function List({
           {renderList(list)}
         </Stack>
       </Box>
+      {children}
       {list.length === 0 && (
         <Box
           sx={{

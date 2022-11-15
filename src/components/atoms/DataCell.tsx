@@ -29,7 +29,14 @@ export default function DataCell({
         p: 1,
       }}
     >
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <Stack direction="row" spacing={1}>
           <Typography
             sx={{

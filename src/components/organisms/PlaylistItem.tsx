@@ -34,7 +34,9 @@ export default function PlaylistItem({
   forceCheck?: boolean;
   inCreator?: boolean;
 }) {
-  const { id, count, snippet } = item;
+  console.log(item);
+
+  const { id, expectedViewCount, snippet } = item;
   const [tempCheckedPlaylistIds, setTempCheckedPlaylistIds] = useRecoilState(
     tempCheckedPlaylistIdsState
   );
@@ -46,20 +48,11 @@ export default function PlaylistItem({
   const checked =
     (forceCheck || checkMode) && tempCheckedPlaylistIds.includes(item.id);
   const favorited = favoritedPlaylistIds.includes(id);
-  const [index, setIndex] = useState<number | null>(null);
-  useEffect(() => {
-    if (index === null) setIndex(Math.floor(Math.random() * 8));
-  }, [index]);
-  const creator =
-    index === null
-      ? {
-          id: "",
-          title: "",
-          thumbnail: "",
-          subscriberCount: 0,
-        }
-      : testCreators[index];
   const handleClick = () => {
+    if (!expectedViewCount)
+      return window.open(
+        `https://boost.youha.info/projects/634199a3-5a0c-4bc6-8e18-c61bf0ee9c53`
+      );
     setPlaylistDialog((prev) => {
       return {
         ...prev,
@@ -100,6 +93,29 @@ export default function PlaylistItem({
       };
     });
   };
+  const creator = _.findLast(
+    testCreators,
+    (el) => el.id === item.youtubeCreatorId
+  );
+  const averagePrice =
+    Math.floor(
+      (!isNaN(Number(creator.basicPPLPrice))
+        ? Number(creator.basicPPLPrice)
+        : 0) +
+        (!isNaN(Number(creator.advancedPPLPrice))
+          ? Number(creator.advancedPPLPrice)
+          : 0) +
+        (!isNaN(Number(creator.brandedCommercialPrice))
+          ? Number(creator.brandedCommercialPrice)
+          : 0) +
+        (!isNaN(Number(creator.featuringPrice))
+          ? Number(creator.featuringPrice)
+          : 0) /
+          ((!isNaN(Number(creator.basicPPLPrice)) ? 1 : 0) +
+            (!isNaN(Number(creator.advancedPPLPrice)) ? 1 : 0) +
+            (!isNaN(Number(creator.brandedCommercialPrice)) ? 1 : 0) +
+            (!isNaN(Number(creator.featuringPrice)) ? 1 : 0))
+    ) * 10000;
   return (
     <Box
       sx={{
@@ -158,7 +174,7 @@ export default function PlaylistItem({
               }}
             >
               <img
-                src={snippet?.thumbnails["maxres"]?.url}
+                src={item.thumbnail}
                 style={{
                   position: "absolute",
                   top: 0,
@@ -193,7 +209,7 @@ export default function PlaylistItem({
                     fontWeight: "700",
                   }}
                 >
-                  {count}
+                  {expectedViewCount}
                 </Typography>
                 <Icon
                   name="list-ul"
@@ -215,11 +231,12 @@ export default function PlaylistItem({
         >
           <Box
             sx={{
-              display: "flex",
+              display: "none",
               flexWrap: "wrap",
+              mb: 1,
             }}
           >
-            {!count && (
+            {!expectedViewCount && (
               <Box
                 sx={{
                   borderRadius: 0.5,
@@ -271,7 +288,6 @@ export default function PlaylistItem({
           <Typo
             lines={1}
             sx={{
-              mt: 1,
               fontSize: 16,
               lineHeight: "24px",
               fontWeight: "700",
@@ -279,11 +295,12 @@ export default function PlaylistItem({
               wordBreak: "break-all",
             }}
           >
-            {item.snippet.title}
+            {item.title}
           </Typo>
           <Typo
             lines={2}
             sx={{
+              minHeight: 40,
               mt: 0.5,
               fontSize: 14,
               lineHeight: "20px",
@@ -291,7 +308,7 @@ export default function PlaylistItem({
               wordBreak: "break-all",
             }}
           >
-            {item.snippet.description}
+            {item.description}
           </Typo>
           <Stack spacing={2} sx={{ mt: 2 }}>
             <Box sx={{}}>
@@ -325,11 +342,15 @@ export default function PlaylistItem({
                   },
                 }}
               >
-                <>
-                  {/* <span className="ratio">30%</span> */}
-                  {setKoNumber(3204000)}
-                  <span className="won">회</span>
-                </>
+                {expectedViewCount ? (
+                  <>
+                    {/* <span className="ratio">30%</span> */}
+                    {setKoNumber(expectedViewCount)}
+                    <span className="won">회</span>
+                  </>
+                ) : (
+                  "집계중"
+                )}
               </Typography>
             </Box>
             <Box sx={{}}>
@@ -363,11 +384,15 @@ export default function PlaylistItem({
                   },
                 }}
               >
-                <>
-                  <span className="ratio">30%</span>
-                  {comma(24000000)}
-                  <span className="won">원</span>
-                </>
+                {averagePrice ? (
+                  <>
+                    <span className="ratio">30%</span>
+                    {comma(averagePrice)}
+                    <span className="won">원</span>
+                  </>
+                ) : (
+                  "집계중"
+                )}
               </Typography>
             </Box>
             {/* <Box
@@ -400,7 +425,7 @@ export default function PlaylistItem({
           </Stack>
         </Box>
       </ButtonBase>
-      {!inCreator && index !== null && (
+      {!inCreator && (
         <ButtonBase
           sx={{
             position: "absolute",
@@ -465,7 +490,7 @@ export default function PlaylistItem({
                 wordBreak: "break-all",
               }}
             >
-              구독자 {`${setKoNumber(creator.subscriberCount)}명`}
+              구독자 {`${setKoNumber(creator.subscriberexpectedViewCount)}명`}
             </Typography>
           </Box>
         </ButtonBase>

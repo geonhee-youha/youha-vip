@@ -46,12 +46,12 @@ export default function Page() {
   const creators = _.filter(testCreators, (el) =>
     favoritedCreatorIds.includes(el.id)
   );
-  const playlists = _.filter(
-    testPlaylists.flatMap((el) => el.playlistItems),
-    (el) => favoritedPlaylistIds.includes(el.id)
+  const playlists = _.filter(testPlaylists, (el) =>
+    favoritedPlaylistIds.includes(el.id)
   );
-  const videos = _.filter(testVideos, (el) =>
-    favoritedVideoIds.includes(el.id)
+  const videos = _.filter(
+    testPlaylists.flatMap((el) => el.items),
+    (el) => favoritedVideoIds.includes(el.id)
   );
   const queryName = `page-${currentPathName.replace("/", "")}`;
   return (
@@ -137,7 +137,7 @@ export default function Page() {
               height: "100%",
             }}
           >
-            <Slide sx={{height: 4000}}>
+            <Slide sx={{ height: 4000 }}>
               <List
                 data={creators}
                 filters={creatorFilters}
