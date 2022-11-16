@@ -137,17 +137,6 @@ export default function CreatorItem({
       };
     });
   };
-  const [sexIndex, setSexIndex] = useState<number>(-1);
-  const [ageIndex, setAgeIndex] = useState<number>(-1);
-  useEffect(() => {
-    if (sexIndex === -1) {
-      setSexIndex(Math.floor(Math.random() * 3));
-    }
-    if (ageIndex === -1) {
-      setAgeIndex(Math.floor(Math.random() * 4));
-    }
-  }, []);
-  const vips = ["6a9083c8-4d6f-428d-9fa1-143c2a2b8648"];
   const vip = true;
   const averagePrice =
     Math.floor(
@@ -261,7 +250,7 @@ export default function CreatorItem({
                     right: -8,
                     bottom: -8,
                     borderRadius: "50%",
-                    border: `4px solid ${blueGrey[900]}`,
+                    border: `4px solid ${pink[500]}`,
                   }}
                 ></Box>
                 {/* <Box
@@ -307,8 +296,8 @@ export default function CreatorItem({
                   <Box
                     sx={{
                       position: "absolute",
-                      left: 0,
-                      right: 0,
+                      left: -100,
+                      right: -100,
                       bottom: -8,
                       display: "flex",
                       justifyContent: "center",
@@ -321,11 +310,13 @@ export default function CreatorItem({
                         p: theme.spacing(0, 1),
                         display: "flex",
                         alignItems: "center",
-                        backgroundColor:
-                          tempCheck && checked ? youhaBlue[500] : blueGrey[900],
+                        backgroundColor: pink[500],
                       }}
                     >
-                      <img src="/images/rocket.png" style={{ height: 16, marginRight: 4 }} />
+                      <img
+                        src="/images/rocket.png"
+                        style={{ height: 16, marginRight: 4 }}
+                      />
                       <Typography
                         sx={{
                           fontSize: 14,
@@ -352,7 +343,7 @@ export default function CreatorItem({
                   display: "flex",
                   alignItems: "center",
                   backgroundColor:
-                    tempCheck && checked ? youhaBlue[50] : blueGrey[50],
+                    tempCheck && checked ? youhaBlue[50] : pink[50],
                 }}
               >
                 <Typography
@@ -360,11 +351,10 @@ export default function CreatorItem({
                     fontSize: 12,
                     lineHeight: "16px",
                     fontWeight: "700",
-                    color:
-                      tempCheck && checked ? youhaBlue[500] : blueGrey[500],
+                    color: tempCheck && checked ? youhaBlue[500] : pink[500],
                   }}
                 >
-                  뷰티/패션
+                  {item.channelCategory}
                 </Typography>
               </Box>
               {item.availableForSaleAt.includes("W") && (
@@ -472,22 +462,18 @@ export default function CreatorItem({
                 label="타겟 적합도"
                 value={`${98}%`}
               /> */}
-                {sexIndex !== -1 && ageIndex !== -1 && (
-                  <>
-                    <DataCell
-                      tempCheck={tempCheck}
-                      checked={checked}
-                      label="타겟"
-                      value={`${sexFilter[sexIndex].title} / ${ageFilter[ageIndex].title}`}
-                    />
-                    <DataCell
-                      tempCheck={tempCheck}
-                      checked={checked}
-                      label="응답율"
-                      value={"100%"}
-                    />
-                  </>
-                )}
+                <DataCell
+                  tempCheck={tempCheck}
+                  checked={checked}
+                  label="타겟"
+                  value={`${item.targetGender[0]} / ${item.targetAge[0]}`}
+                />
+                <DataCell
+                  tempCheck={tempCheck}
+                  checked={checked}
+                  label="응답율"
+                  value={"100%"}
+                />
                 <DataCell
                   tempCheck={tempCheck}
                   checked={checked}

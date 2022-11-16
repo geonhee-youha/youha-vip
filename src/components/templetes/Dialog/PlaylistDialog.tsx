@@ -29,6 +29,7 @@ import PaperHeader from "../../molecules/PaperHeader";
 import VideoItem from "../../organisms/VideoItem";
 import Slide from "../../atoms/Slide";
 import List from "../../atoms/List";
+import youhaBlue from "../../../themes/youhaBlue";
 
 export default function PlaylistDialog() {
   const [playlistDialog, setPlaylistDialog] =
@@ -111,6 +112,32 @@ export default function PlaylistDialog() {
               (!isNaN(Number(creator.brandedCommercialPrice)) ? 1 : 0) +
               (!isNaN(Number(creator.featuringPrice)) ? 1 : 0))
       ) * 10000
+    : null;
+  const boost = item && item.youtubePlaylistId === "";
+  const minPrice =
+    item && item.youtubePlaylistId === ""
+      ? Math.min(
+          ...[item.brandedPrice, item.pplPrice].filter<number>(
+            (n): n is number => n != null && n > 0
+          )
+        )
+      : null;
+  const originPrice =
+    minPrice && minPrice === item.brandedPrice && item.brandedPrice
+      ? item.brandedCost ?? 0
+      : minPrice && minPrice === item.pplPrice && item.pplPrice
+      ? item.pplCost ?? 0
+      : 0;
+  const saleRatio =
+    minPrice && originPrice
+      ? Math.floor(((originPrice - minPrice) / originPrice) * 100)
+      : 0;
+  const minAd = minPrice
+    ? minPrice === item.brandedPrice
+      ? "브랜디드"
+      : minPrice === item.pplPrice
+      ? "PPL"
+      : ""
     : null;
   return (
     <Dialog
@@ -228,34 +255,12 @@ export default function PlaylistDialog() {
                         sx={{
                           position: "absolute",
                           top: 0,
+                          left: 0,
                           right: 0,
                           bottom: 0,
-                          backgroundColor: alpha("#000000", 0.8),
-                          width: "50%",
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "center",
-                          alignItems: "center",
+                          backgroundColor: alpha("#000000", 0.1),
                         }}
-                      >
-                        <Typography
-                          sx={{
-                            fontSize: 16,
-                            lineHeight: "24px",
-                            color: "#ffffff",
-                            fontWeight: "700",
-                          }}
-                        >
-                          {item.items.length}
-                        </Typography>
-                        <Icon
-                          name="list-ul"
-                          prefix="fas"
-                          size={20}
-                          color="#ffffff"
-                          sx={{ mt: 1 }}
-                        />
-                      </Box>
+                      />
                     </Box>
                   </Box>
                   {creator && (
@@ -414,6 +419,80 @@ export default function PlaylistDialog() {
                 >
                   <Box
                     sx={{
+                      pb: 0.5,
+                      display: "flex",
+                      flexWrap: "wrap",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        mr: 0.5,
+                        mb: 0.5,
+                        borderRadius: 0.5,
+                        height: 20,
+                        p: theme.spacing(0, 0.75),
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: pink[50],
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: 12,
+                          lineHeight: "16px",
+                          fontWeight: "700",
+                          color: pink[500],
+                        }}
+                      >
+                        {item.contentGenre && item.contentGenre !== ""
+                          ? item.contentGenre
+                          : "미분류"}
+                      </Typography>
+                    </Box>
+                    {boost && (
+                      <Box
+                        sx={{
+                          mr: 0.5,
+                          mb: 0.5,
+                          borderRadius: 0.5,
+                          height: 20,
+                          p: theme.spacing(0, 0.75),
+                          display: "flex",
+                          alignItems: "center",
+                          backgroundColor: youhaBlue[50],
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            fontSize: 12,
+                            lineHeight: "16px",
+                            fontWeight: "700",
+                            // color: colors[adSet.id][500],
+                            color: youhaBlue[500],
+                          }}
+                        >
+                          {
+                            item.dueDateForUploading ?? "미정"
+                            // dayjs(
+                            //     new Date(
+                            //       new Date().getFullYear(),
+                            //       new Date().getMonth(),
+                            //       new Date().getDate() +
+                            //         Number(
+                            //           creator.availableForSaleAt.replace("W", "")
+                            //         ) *
+                            //           7
+                            //     )
+                            //   ).format("YYYY년 MM월 DD일~ ")
+                          }
+                        </Typography>
+                      </Box>
+                    )}
+                  </Box>
+                  <Box
+                    sx={{
                       width: "100%",
                       display: "flex",
                       alignItems: "center",
@@ -442,7 +521,7 @@ export default function PlaylistDialog() {
                   >
                     {item.description}
                   </Typography>
-                  <Stack spacing={2} sx={{ mt: 2 }}>
+                  <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                     <Box sx={{}}>
                       <Typography
                         sx={{
@@ -498,7 +577,7 @@ export default function PlaylistDialog() {
                           // },
                         }}
                       >
-                        브랜디드 기준 최소단가
+                        {minAd ? `${minAd} 기준 최소단가` : "예상 단가"}
                       </Typography>
                       <Typography
                         sx={{
@@ -516,9 +595,15 @@ export default function PlaylistDialog() {
                           },
                         }}
                       >
-                        {averagePrice ? (
+                        {minPrice ? (
                           <>
-                            <span className="ratio">30%</span>
+                            {saleRatio > 0 && (
+                              <span className="ratio">{saleRatio}%</span>
+                            )}
+                            {comma(minPrice)}원
+                          </>
+                        ) : averagePrice ? (
+                          <>
                             {comma(averagePrice)}
                             <span className="won">원</span>
                           </>

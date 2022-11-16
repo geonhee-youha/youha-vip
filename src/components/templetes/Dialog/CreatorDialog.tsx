@@ -98,16 +98,6 @@ export default function CreatorDialog() {
     handleClose();
     setCheckedPlaylistIds(tempCheckedPlaylistIds);
   };
-  const [sexIndex, setSexIndex] = useState<number>(-1);
-  const [ageIndex, setAgeIndex] = useState<number>(-1);
-  useEffect(() => {
-    if (sexIndex === -1) {
-      setSexIndex(Math.floor(Math.random() * 3));
-    }
-    if (ageIndex === -1) {
-      setAgeIndex(Math.floor(Math.random() * 4));
-    }
-  }, []);
   const CPV = creator?.CPV;
   const trendIndex = (creator && creator.trendIndex) ?? 0;
   const commercialIdeaPerfomanceIndex =
@@ -136,7 +126,7 @@ export default function CreatorDialog() {
           commercialIdeaPerfomanceIndex,
           fullfillmentIndex,
           influenceIndex,
-          advertisementIndex,
+          100 - advertisementIndex,
           cleanIndex,
         ],
         fill: true,
@@ -322,7 +312,7 @@ export default function CreatorDialog() {
                             right: -8,
                             bottom: -8,
                             borderRadius: "50%",
-                            border: `4px solid ${blueGrey[900]}`,
+                            border: `4px solid ${pink[500]}`,
                           }}
                         ></Box>
                         {/* <Box
@@ -368,8 +358,8 @@ export default function CreatorDialog() {
                           <Box
                             sx={{
                               position: "absolute",
-                              left: 0,
-                              right: 0,
+                              left: -32,
+                              right: -32,
                               bottom: -8,
                               display: "flex",
                               justifyContent: "center",
@@ -382,7 +372,7 @@ export default function CreatorDialog() {
                                 p: theme.spacing(0, 1),
                                 display: "flex",
                                 alignItems: "center",
-                                backgroundColor: blueGrey[900],
+                                backgroundColor: pink[500],
                               }}
                             >
                               <img
@@ -430,7 +420,7 @@ export default function CreatorDialog() {
                             p: theme.spacing(0, 0.75),
                             display: "flex",
                             alignItems: "center",
-                            backgroundColor: blueGrey[50],
+                            backgroundColor: pink[50],
                           }}
                         >
                           <Typography
@@ -438,10 +428,10 @@ export default function CreatorDialog() {
                               fontSize: 12,
                               lineHeight: "16px",
                               fontWeight: "700",
-                              color: blueGrey[500],
+                              color: pink[500],
                             }}
                           >
-                            뷰티/패션
+                            {creator.channelCategory}
                           </Typography>
                         </Box>
                         {creator.availableForSaleAt.includes("W") && (
@@ -470,7 +460,10 @@ export default function CreatorDialog() {
                                   new Date().getMonth(),
                                   new Date().getDate() +
                                     Number(
-                                      creator.availableForSaleAt.replace("W", "")
+                                      creator.availableForSaleAt.replace(
+                                        "W",
+                                        ""
+                                      )
                                     ) *
                                       7
                                 )
@@ -538,15 +531,11 @@ export default function CreatorDialog() {
                       />
                       <DataCell label="평균 단가" value={`3,230만원`} />
                       <DataCell label="집행가능일" value={`11월 1일~`} /> */}
-                      {sexIndex !== -1 && ageIndex !== -1 && (
-                        <>
-                          <DataCell
-                            label="타겟"
-                            value={`${sexFilter[sexIndex].title} / ${ageFilter[ageIndex].title}`}
-                          />
-                          <DataCell label="응답율" value={"100%"} />
-                        </>
-                      )}
+                      <DataCell
+                        label="타겟"
+                        value={`${creator.targetGender[0]} / ${creator.targetAge[0]}`}
+                      />
+                      <DataCell label="응답율" value={"100%"} />
                       <DataCell label="평균 단가" value={`3,230만원`} />
                       <DataCell
                         label="예상 CPV"
@@ -643,42 +632,60 @@ export default function CreatorDialog() {
                     {[
                       {
                         title: "트렌드 지수",
-                        value: `${Math.floor(trendIndex)}점`,
+                        value:
+                          trendIndex === 0
+                            ? "집계중"
+                            : `${Math.floor(trendIndex)}점`,
                         reason: "설명이 들어갈 예정입니다.",
                         tooltip:
                           "해당 크리에이터의 채널의 영상이 최근 얼마나 이슈화 되는지 확인하는 지수 입니다.",
                       },
                       {
                         title: "광고 기획력",
-                        value: `${Math.floor(commercialIdeaPerfomanceIndex)}점`,
+                        value:
+                          commercialIdeaPerfomanceIndex === 0
+                            ? "집계중"
+                            : `${Math.floor(commercialIdeaPerfomanceIndex)}점`,
                         reason: "설명이 들어갈 예정입니다.",
                         tooltip:
                           "크리에이터가 해당 광고를 얼마나 자연스럽고 거부감 없이 콘텐츠에 반영하였는지 확인하는 지수입니다. 광고 관련 경력 5년 이상의 종사자, PD, 영화감독, 작가로 구성된 유하 검증단이 평가하였습니다.",
                       },
                       {
                         title: "이행 지수",
-                        value: `${Math.floor(fullfillmentIndex)}점`,
+                        value:
+                          fullfillmentIndex === 0
+                            ? "집계중"
+                            : `${Math.floor(fullfillmentIndex)}점`,
                         reason: "설명이 들어갈 예정입니다.",
                         tooltip:
                           "해당 크리에이터의 이전 광고 집행 과정에 참여한 적이 있는 대행사, MCN의 의견을 기준으로 평가하였습니다.",
                       },
                       {
                         title: "영향력 지수",
-                        value: `${Math.floor(influenceIndex)}점`,
+                        value:
+                          influenceIndex === 0
+                            ? "집계중"
+                            : `${Math.floor(influenceIndex)}점`,
                         reason: "설명이 들어갈 예정입니다.",
                         tooltip:
                           "해당 크리에이터의 최근 광고가 유튜브 채널을 제외하고 포털, SNS에 얼마나 빠르게 언급되는지 측정하는 지표입니다.",
                       },
                       {
                         title: "광고 지수",
-                        value: `${Math.floor(advertisementIndex)}%`,
+                        value:
+                          advertisementIndex === 0
+                            ? "집계중"
+                            : `${Math.floor(advertisementIndex)}%`,
                         reason: "설명이 들어갈 예정입니다.",
                         tooltip:
                           "해당 크리에이터 채널의 광고 포화지수를 측정한 지수입니다.",
                       },
                       {
                         title: "클린 지수",
-                        value: `${Math.floor(cleanIndex)}%`,
+                        value:
+                          cleanIndex === 0
+                            ? "집계중"
+                            : `${Math.floor(cleanIndex)}%`,
                         reason: "설명이 들어갈 예정입니다.",
                         tooltip:
                           "크리에이터와 관련된 논란이 없었는지를 기록하는 지수입니다. 해당 지수는 포털사이트, SNS 크롤링을 통해 논란의 관련 언급 여부를 통해 평가하였습니다.",

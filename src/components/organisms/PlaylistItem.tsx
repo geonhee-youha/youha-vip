@@ -22,6 +22,7 @@ import youhaBlue from "../../themes/youhaBlue";
 import { comma, setKoNumber } from "../../utils";
 import Icon from "../atoms/Icon";
 import Typo from "../atoms/Typo";
+import dayjs from "dayjs";
 
 export default function PlaylistItem({
   item,
@@ -48,11 +49,9 @@ export default function PlaylistItem({
   const checked =
     (forceCheck || checkMode) && tempCheckedPlaylistIds.includes(item.id);
   const favorited = favoritedPlaylistIds.includes(id);
+  const boost = item.youtubePlaylistId === "";
   const handleClick = () => {
-    if (!expectedViewCount)
-      return window.open(
-        `https://boost.youha.info/projects/634199a3-5a0c-4bc6-8e18-c61bf0ee9c53`
-      );
+    if (boost) return null;
     setPlaylistDialog((prev) => {
       return {
         ...prev,
@@ -93,10 +92,9 @@ export default function PlaylistItem({
       };
     });
   };
-  const creator = _.findLast(
-    testCreators,
-    (el) => el.id === item.youtubeCreatorId
-  );
+  const creator =
+    _.findLast(testCreators, (el) => el.id === item.youtubeCreatorId) ??
+    testCreators[0];
   const averagePrice =
     Math.floor(
       (!isNaN(Number(creator.basicPPLPrice))
@@ -116,6 +114,31 @@ export default function PlaylistItem({
             (!isNaN(Number(creator.brandedCommercialPrice)) ? 1 : 0) +
             (!isNaN(Number(creator.featuringPrice)) ? 1 : 0))
     ) * 10000;
+  const minPrice =
+    item.youtubePlaylistId === ""
+      ? Math.min(
+          ...[item.brandedPrice, item.pplPrice].filter<number>(
+            (n): n is number => n != null && n > 0
+          )
+        )
+      : null;
+  const originPrice =
+    minPrice && minPrice === item.brandedPrice && item.brandedPrice
+      ? item.brandedCost ?? 0
+      : minPrice && minPrice === item.pplPrice && item.pplPrice
+      ? item.pplCost ?? 0
+      : 0;
+  const saleRatio =
+    minPrice && originPrice
+      ? Math.floor(((originPrice - minPrice) / originPrice) * 100)
+      : 0;
+  const minAd = minPrice
+    ? minPrice === item.brandedPrice
+      ? "브랜디드"
+      : minPrice === item.pplPrice
+      ? "PPL"
+      : ""
+    : null;
   return (
     <Box
       sx={{
@@ -171,10 +194,15 @@ export default function PlaylistItem({
                 border: `1px solid ${
                   checked ? youhaBlue[500] : blueGrey[100]
                 } !important`,
+                backgroundColor: checked ? youhaBlue[100] : blueGrey[100],
               }}
             >
               <img
-                src={item.thumbnail}
+                src={
+                  item.thumbnail === "https://i.ytimg.com/img/no_thumbnail.jpg"
+                    ? "/images/no-image.png"
+                    : item.thumbnail
+                }
                 style={{
                   position: "absolute",
                   top: 0,
@@ -184,6 +212,50 @@ export default function PlaylistItem({
                   objectFit: "cover",
                 }}
               />
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: alpha("#000000", 0.1),
+                }}
+              />
+              {boost && (
+                <>
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      borderRadius: 1,
+                      border: `4px solid ${pink[500]}`,
+                      boxShadow: `0px 0px 0px 4px ${"#ffffff"} inset`,
+                      zIndex: 99,
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      right: 0,
+                      bottom: 0,
+                      backgroundColor: pink[500],
+                      p: theme.spacing(0.5, 1),
+                      fontSize: 12,
+                      lineHeight: "16px",
+                      color: "#ffffff",
+                      fontWeight: "700",
+                      zIndex: 999,
+                      borderTopLeftRadius: 8,
+                    }}
+                  >
+                    youha. ORIGINAL
+                  </Box>
+                </>
+              )}
               {/* <Box
                 sx={{
                   position: "absolute",
@@ -226,26 +298,56 @@ export default function PlaylistItem({
           sx={{
             flex: 1,
             alignSelf: "stretch",
+            display: "flex",
+            flexDirection: "column",
             p: theme.spacing(2, 2, !inCreator ? 11 : 2, 2),
           }}
         >
           <Box
             sx={{
-              display: "none",
+              pb: 0.5,
+              display: "flex",
               flexWrap: "wrap",
-              mb: 1,
+              flexDirection: "column",
+              alignItems: "flex-start",
             }}
           >
-            {!expectedViewCount && (
+            <Box
+              sx={{
+                mr: 0.5,
+                mb: 0.5,
+                borderRadius: 0.5,
+                height: 20,
+                p: theme.spacing(0, 0.75),
+                display: "flex",
+                alignItems: "center",
+                backgroundColor: pink[50],
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: 12,
+                  lineHeight: "16px",
+                  fontWeight: "700",
+                  color: pink[500],
+                }}
+              >
+                {item.contentGenre && item.contentGenre !== ""
+                  ? item.contentGenre
+                  : "미분류"}
+              </Typography>
+            </Box>
+            {boost && (
               <Box
                 sx={{
-                  borderRadius: 0.5,
                   mr: 0.5,
-                  height: 24,
-                  p: theme.spacing(0, 1),
+                  mb: 0.5,
+                  borderRadius: 0.5,
+                  height: 20,
+                  p: theme.spacing(0, 0.75),
                   display: "flex",
                   alignItems: "center",
-                  backgroundColor: pink[50],
+                  backgroundColor: youhaBlue[50],
                 }}
               >
                 <Typography
@@ -254,62 +356,54 @@ export default function PlaylistItem({
                     lineHeight: "16px",
                     fontWeight: "700",
                     // color: colors[adSet.id][500],
-                    color: pink[500],
+                    color: youhaBlue[500],
                   }}
                 >
-                  런칭 예정
+                  {
+                    item.dueDateForUploading ?? "미정"
+                    // dayjs(
+                    //     new Date(
+                    //       new Date().getFullYear(),
+                    //       new Date().getMonth(),
+                    //       new Date().getDate() +
+                    //         Number(
+                    //           creator.availableForSaleAt.replace("W", "")
+                    //         ) *
+                    //           7
+                    //     )
+                    //   ).format("YYYY년 MM월 DD일~ ")
+                  }
                 </Typography>
               </Box>
             )}
-            <Box
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            <Typo
+              lines={1}
               sx={{
-                borderRadius: 0.5,
-                mr: 0.5,
-                height: 24,
-                p: theme.spacing(0, 1),
-                display: "flex",
-                alignItems: "center",
-                backgroundColor: youhaBlue[50],
+                fontSize: 16,
+                lineHeight: "24px",
+                fontWeight: "700",
+                color: checked ? youhaBlue[500] : blueGrey[900],
+                wordBreak: "break-all",
               }}
             >
-              <Typography
-                sx={{
-                  fontSize: 12,
-                  lineHeight: "16px",
-                  fontWeight: "700",
-                  // color: colors[adSet.id][500],
-                  color: youhaBlue[500],
-                }}
-              >
-                2022년 11월 31일~
-              </Typography>
-            </Box>
+              {item.title}
+            </Typo>
+            <Typo
+              lines={2}
+              sx={{
+                minHeight: 40,
+                mt: 0.5,
+                fontSize: 14,
+                lineHeight: "20px",
+                color: checked ? youhaBlue[500] : blueGrey[500],
+                wordBreak: "break-all",
+              }}
+            >
+              {item.description}
+            </Typo>
           </Box>
-          <Typo
-            lines={1}
-            sx={{
-              fontSize: 16,
-              lineHeight: "24px",
-              fontWeight: "700",
-              color: checked ? youhaBlue[500] : blueGrey[900],
-              wordBreak: "break-all",
-            }}
-          >
-            {item.title}
-          </Typo>
-          <Typo
-            lines={2}
-            sx={{
-              minHeight: 40,
-              mt: 0.5,
-              fontSize: 14,
-              lineHeight: "20px",
-              color: checked ? youhaBlue[500] : blueGrey[500],
-              wordBreak: "break-all",
-            }}
-          >
-            {item.description}
-          </Typo>
           <Stack spacing={2} sx={{ mt: 2 }}>
             <Box sx={{}}>
               <Typography
@@ -366,7 +460,7 @@ export default function PlaylistItem({
                   // },
                 }}
               >
-                브랜디드 기준 최소단가
+                {minAd ? `${minAd} 기준 최소단가` : "예상 단가"}
               </Typography>
               <Typography
                 sx={{
@@ -384,9 +478,15 @@ export default function PlaylistItem({
                   },
                 }}
               >
-                {averagePrice ? (
+                {minPrice ? (
                   <>
-                    <span className="ratio">30%</span>
+                    {saleRatio > 0 && (
+                      <span className="ratio">{saleRatio}%</span>
+                    )}
+                    {comma(minPrice)}원
+                  </>
+                ) : averagePrice ? (
+                  <>
                     {comma(averagePrice)}
                     <span className="won">원</span>
                   </>
@@ -490,7 +590,7 @@ export default function PlaylistItem({
                 wordBreak: "break-all",
               }}
             >
-              구독자 {`${setKoNumber(creator.subscriberexpectedViewCount)}명`}
+              구독자 {`${setKoNumber(creator.subscriberCount)}명`}
             </Typography>
           </Box>
         </ButtonBase>
@@ -499,8 +599,8 @@ export default function PlaylistItem({
         spacing={1}
         sx={{
           position: "absolute",
-          top: 8,
-          left: 8,
+          top: boost ? 16 : 8,
+          left: boost ? 16 : 8,
         }}
       >
         {!forceCheck && checkMode && (
