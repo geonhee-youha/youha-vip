@@ -768,7 +768,7 @@ export default function Index() {
                     >
                       추천 크리에이터
                     </Typography>
-                    <ButtonBase
+                    {/* <ButtonBase
                       onClick={() => router.push("/insight/creator")}
                       sx={{
                         p: 1,
@@ -790,7 +790,7 @@ export default function Index() {
                         prefix="fas"
                         color={blueGrey[500]}
                       />
-                    </ButtonBase>
+                    </ButtonBase> */}
                   </Box>
                   <Box
                     sx={{
@@ -837,7 +837,7 @@ export default function Index() {
                     >
                       추천 기획안
                     </Typography>
-                    <ButtonBase
+                    {/* <ButtonBase
                       onClick={() => router.push("/insight/playlist")}
                       sx={{
                         p: 1,
@@ -859,7 +859,7 @@ export default function Index() {
                         prefix="fas"
                         color={blueGrey[500]}
                       />
-                    </ButtonBase>
+                    </ButtonBase> */}
                   </Box>
                   <Box
                     sx={{
@@ -904,7 +904,7 @@ export default function Index() {
                     >
                       추천 광고영상
                     </Typography>
-                    <ButtonBase
+                    {/* <ButtonBase
                       onClick={() => router.push("/insight/video")}
                       sx={{
                         p: 1,
@@ -926,7 +926,7 @@ export default function Index() {
                         prefix="fas"
                         color={blueGrey[500]}
                       />
-                    </ButtonBase>
+                    </ButtonBase> */}
                   </Box>
                   <Box
                     sx={{

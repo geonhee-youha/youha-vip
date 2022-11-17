@@ -2355,7 +2355,8 @@
     "CPV": 17.8,
     "targetGender": ["여성"],
     "targetAge": ["20~30대"],
-    "answerRatio": 0.64
+    "answerRatio": 0.64,
+    "youtubeChannelId": "UCwx6n_4OcLgzAGdty0RWCoA"
   },
   {
     "id": "UCSSkHIU1-nL_FeCjeZ_Xtvg",
@@ -2382,7 +2383,8 @@
     "CPV": 10.9,
     "targetGender": ["여성"],
     "targetAge": ["20~30대"],
-    "answerRatio": null
+    "answerRatio": null,
+    "youtubeChannelId": "UCSSkHIU1-nL_FeCjeZ_Xtvg"
   },
   {
     "id": "UCWYzc_p0GgfCepIWDHGFmEg",
@@ -2409,7 +2411,8 @@
     "CPV": 1037.9,
     "targetGender": ["여성"],
     "targetAge": ["20~30대"],
-    "answerRatio": null
+    "answerRatio": null,
+    "youtubeChannelId": "UCWYzc_p0GgfCepIWDHGFmEg"
   },
   {
     "id": "UCqHP70746lwBPFp30_wl5gQ",
@@ -2436,7 +2439,8 @@
     "CPV": 6.7,
     "targetGender": ["여성"],
     "targetAge": ["20~30대"],
-    "answerRatio": null
+    "answerRatio": null,
+    "youtubeChannelId": "UCqHP70746lwBPFp30_wl5gQ"
   },
   {
     "id": "UCmgt7ewcg_HscfA4ks7rGhg",
@@ -2463,7 +2467,8 @@
     "CPV": 43.1,
     "targetGender": ["여성"],
     "targetAge": ["20~30대"],
-    "answerRatio": 0.8
+    "answerRatio": 0.8,
+    "youtubeChannelId": "UCmgt7ewcg_HscfA4ks7rGhg"
   },
   {
     "id": "UCkQCwnkQfgSuPTTnw_Y7v7w",
@@ -2490,7 +2495,8 @@
     "CPV": 51.2,
     "targetGender": ["남성"],
     "targetAge": ["20~30대"],
-    "answerRatio": 0.63
+    "answerRatio": 0.63,
+    "youtubeChannelId": "UCkQCwnkQfgSuPTTnw_Y7v7w"
   },
   {
     "id": "UCOVtwrWmXPB7Q35RB_RZ1Ew",
@@ -2517,7 +2523,8 @@
     "CPV": 214.5,
     "targetGender": ["여성"],
     "targetAge": ["40~50대"],
-    "answerRatio": null
+    "answerRatio": null,
+    "youtubeChannelId": "UCOVtwrWmXPB7Q35RB_RZ1Ew"
   },
   {
     "id": "UCoCvTlU0KpNYwnMIgs7MPrA",
@@ -2544,7 +2551,8 @@
     "CPV": 94.1,
     "targetGender": ["남성"],
     "targetAge": ["40~50대"],
-    "answerRatio": 1
+    "answerRatio": 1,
+    "youtubeChannelId": "UCoCvTlU0KpNYwnMIgs7MPrA"
   },
   {
     "id": "UCFFgB2HEFbTD6Vmm503vzqQ",
@@ -2571,7 +2579,8 @@
     "CPV": 899.8,
     "targetGender": ["여성"],
     "targetAge": ["20~30대"],
-    "answerRatio": null
+    "answerRatio": null,
+    "youtubeChannelId": "UCFFgB2HEFbTD6Vmm503vzqQ"
   },
   {
     "id": "UCqshHEVBj0HtH9wF8Y_Hdqw",
@@ -2598,7 +2607,8 @@
     "CPV": 86.4,
     "targetGender": ["여성"],
     "targetAge": ["20~30대"],
-    "answerRatio": 1
+    "answerRatio": 1,
+    "youtubeChannelId": "UCqshHEVBj0HtH9wF8Y_Hdqw"
   },
   {
     "id": "UCW6cJ6YAbPrNOvVEhYCovhg",
@@ -2625,7 +2635,8 @@
     "CPV": 36.6,
     "targetGender": ["남성"],
     "targetAge": ["20~30대"],
-    "answerRatio": null
+    "answerRatio": null,
+    "youtubeChannelId": "UCW6cJ6YAbPrNOvVEhYCovhg"
   },
   {
     "id": "UCmxDK1eWo-KvQQJ23p95XGw",
@@ -2652,6 +2663,7 @@
     "CPV": 215,
     "targetGender": ["여성"],
     "targetAge": ["20~30대"],
-    "answerRatio": 1
+    "answerRatio": 1,
+    "youtubeChannelId": "UCmxDK1eWo-KvQQJ23p95XGw"
   }
 ]

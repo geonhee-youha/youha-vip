@@ -35,8 +35,6 @@ export default function PlaylistItem({
   forceCheck?: boolean;
   inCreator?: boolean;
 }) {
-  console.log(item);
-
   const { id, expectedViewCount, snippet } = item;
   const [tempCheckedPlaylistIds, setTempCheckedPlaylistIds] = useRecoilState(
     tempCheckedPlaylistIdsState
@@ -252,7 +250,7 @@ export default function PlaylistItem({
                       borderTopLeftRadius: 8,
                     }}
                   >
-                    youha. ORIGINAL
+                    ORIGINAL
                   </Box>
                 </>
               )}

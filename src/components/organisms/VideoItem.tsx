@@ -10,7 +10,12 @@ import { blueGrey, pink } from "@mui/material/colors";
 import _ from "lodash";
 import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { favoritedVideoIdsState, testCreators } from "../../datas";
+import {
+  favoritedVideoIdsState,
+  testCreators,
+  testPlaylists,
+  testVideos,
+} from "../../datas";
 import { creatorDialogState } from "../../recoil";
 import { theme } from "../../themes/theme";
 import { displayedAt, setKoNumber } from "../../utils";
@@ -34,18 +39,21 @@ export default function VideoItem({
   const handleClick = () => {
     window.open(`https://www.youtube.com/watch?v=${youtubeVideoId}`);
   };
-  const [index, setIndex] = useState<number | null>(null);
-  useEffect(() => {
-    if (index === null) setIndex(Math.floor(Math.random() * 8));
-  }, [index]);
-  const creator =
-    index === null
-      ? {
-          title: "",
-          thumbnail: "",
-          subscriberCount: 0,
-        }
-      : testCreators[index];
+
+  const playlisyIndex = id
+    ? _.findIndex(
+        testPlaylists,
+        (el) => _.findIndex(el.items, (newEl: any) => newEl.id === id) !== -1
+      )
+    : null;    
+  const playlist = id && playlisyIndex !== null ? testPlaylists[playlisyIndex] : null;
+  const creatorIndex =
+    id && playlist
+      ? _.findIndex(testCreators, (el) => el.id === playlist.youtubeCreatorId)
+      : null;
+  const creator = creatorIndex !== null ? testCreators[creatorIndex] : null;
+  console.log(playlist);
+  
   const handleClickFavorite = () => {
     setFavoritedVideoIds((prev) => {
       let prevList = _.cloneDeep(prev);
@@ -113,7 +121,7 @@ export default function VideoItem({
               borderRadius: 1,
               overflow: "hidden",
               border: `1px solid ${blueGrey[100]} !important`,
-              zIndex: 9
+              zIndex: 9,
             }}
           >
             <img
@@ -226,7 +234,7 @@ export default function VideoItem({
           </Stack>
         </Box>
       </ButtonBase>
-      {!inCreator && index !== null && (
+      {!inCreator && creator && (
         <ButtonBase
           sx={{
             position: "absolute",

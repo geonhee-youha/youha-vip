@@ -80,8 +80,6 @@ export default function EstimateDrawer() {
         input.sex !== undefined &&
         input.ages &&
         input.ages.length > 0));
-  console.log(startedAt, endedAt);
-
   useEffect(() => {
     handleClose();
   }, [router]);

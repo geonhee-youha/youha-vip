@@ -20,7 +20,6 @@ export default function DatePicker({
   disabled?: boolean;
   error?: boolean;
 }) {
-  console.log(value);
   const isWeekend = (date: Dayjs) => {
     const day = date.day();
 

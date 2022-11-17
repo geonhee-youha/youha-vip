@@ -45,8 +45,6 @@ export default function CreatorItem({
   inHome?: boolean;
 }) {
   const { id, thumbnail, title, subscriberCount, CPV } = item;
-  console.log(item);
-
   const [creatorDrawer, setCreatorDrawer] = useRecoilState(creatorDrawerState);
   const [favoritedCreatorIds, setFavoritedCreatorIds] = useRecoilState(
     favoritedCreatorIdsState
@@ -334,9 +332,18 @@ export default function CreatorItem({
             )}
           </Box>
           <Stack spacing={1} alignItems="center" sx={{ mt: 2 }}>
-            <Stack direction="row" spacing={0.5}>
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent:'center',
+                mr: -0.5
+              }}
+            >
               <Box
                 sx={{
+                  mr: 0.5,
+                  mb: 0.5,
                   borderRadius: 0.5,
                   height: 20,
                   p: theme.spacing(0, 0.75),
@@ -360,6 +367,8 @@ export default function CreatorItem({
               {item.availableForSaleAt.includes("W") && (
                 <Box
                   sx={{
+                    mr: 0.5,
+                    mb: 0.5,
                     borderRadius: 0.5,
                     height: 20,
                     p: theme.spacing(0, 0.75),
@@ -388,12 +397,12 @@ export default function CreatorItem({
                   </Typography>
                 </Box>
               )}
-            </Stack>
+            </Box>
           </Stack>
           <Typo
             lines={1}
             sx={{
-              mt: 1,
+              pt: 0.5,
               fontSize: 18,
               lineHeight: "28px",
               fontWeight: "700",
