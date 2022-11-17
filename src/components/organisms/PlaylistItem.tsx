@@ -232,7 +232,7 @@ export default function PlaylistItem({
                       borderRadius: 1,
                       border: `4px solid ${pink[500]}`,
                       boxShadow: `0px 0px 0px 4px ${"#ffffff"} inset`,
-                      zIndex: 99,
+                      zIndex: 9,
                     }}
                   />
                   <Box
@@ -246,7 +246,7 @@ export default function PlaylistItem({
                       lineHeight: "16px",
                       color: "#ffffff",
                       fontWeight: "700",
-                      zIndex: 999,
+                      zIndex: 9,
                       borderTopLeftRadius: 8,
                     }}
                   >
@@ -476,7 +476,11 @@ export default function PlaylistItem({
                   },
                 }}
               >
-                {minPrice ? (
+                {boost &&
+                item.pplPrice === null &&
+                item.brandedPrice === null ? (
+                  "가격미정"
+                ) : minPrice ? (
                   <>
                     {saleRatio > 0 && (
                       <span className="ratio">{saleRatio}%</span>
