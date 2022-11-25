@@ -135,7 +135,7 @@ export default function CreatorItem({
       };
     });
   };
-  const vip = true;
+  const vip = id !== "35349f9e-2b17-430f-bfee-6eff01964619";
   const averagePrice =
     Math.floor(
       (!isNaN(Number(item.basicPPLPrice)) ? Number(item.basicPPLPrice) : 0) +
@@ -209,8 +209,6 @@ export default function CreatorItem({
         >
           <Box
             sx={{
-              mt: 1,
-              mb: 1,
               position: "relative",
             }}
           >
@@ -243,10 +241,10 @@ export default function CreatorItem({
                 <Box
                   sx={{
                     position: "absolute",
-                    top: -8,
-                    left: -8,
-                    right: -8,
-                    bottom: -8,
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
                     borderRadius: "50%",
                     border: `4px solid ${pink[500]}`,
                   }}
@@ -296,7 +294,7 @@ export default function CreatorItem({
                       position: "absolute",
                       left: -100,
                       right: -100,
-                      bottom: -8,
+                      bottom: 0,
                       display: "flex",
                       justifyContent: "center",
                     }}
@@ -336,8 +334,8 @@ export default function CreatorItem({
               sx={{
                 display: "flex",
                 flexWrap: "wrap",
-                justifyContent:'center',
-                mr: -0.5
+                justifyContent: "center",
+                mr: -0.5,
               }}
             >
               <Box

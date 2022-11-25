@@ -176,7 +176,7 @@ export default function CreatorDialog() {
     },
     maintainAspectRatio: false,
   };
-  const vip = true;
+  const vip = id !== "35349f9e-2b17-430f-bfee-6eff01964619";
   return (
     <Dialog
       open={open}
@@ -244,8 +244,6 @@ export default function CreatorDialog() {
                 <Box
                   sx={{
                     position: "relative",
-                    mt: 1,
-                    mb: 1,
                   }}
                 >
                   <Box
@@ -283,8 +281,8 @@ export default function CreatorDialog() {
                     <Box
                       sx={{
                         position: "relative",
-                        width: 168,
-                        height: 168,
+                        width: 188,
+                        height: 188,
                         borderRadius: "50%",
                         border: `1px solid ${blueGrey[100]} !important`,
                         overflow: "hidden",
@@ -307,10 +305,10 @@ export default function CreatorDialog() {
                         <Box
                           sx={{
                             position: "absolute",
-                            top: -8,
-                            left: -8,
-                            right: -8,
-                            bottom: -8,
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
                             borderRadius: "50%",
                             border: `4px solid ${pink[500]}`,
                           }}
@@ -360,7 +358,7 @@ export default function CreatorDialog() {
                               position: "absolute",
                               left: -32,
                               right: -32,
-                              bottom: -8,
+                              bottom: 0,
                               display: "flex",
                               justifyContent: "center",
                             }}
@@ -554,7 +552,11 @@ export default function CreatorDialog() {
               <TabBar
                 color="secondary"
                 title="creatorDialog"
-                tabs={creatorDialogTabs}
+                tabs={
+                  vip
+                    ? creatorDialogTabs
+                    : [creatorDialogTabs[2], creatorDialogTabs[3]]
+                }
                 index={tabIndex}
                 setIndex={setTabIndex}
               />
@@ -570,146 +572,149 @@ export default function CreatorDialog() {
               position: "relative",
             }}
           >
-            <SwipeableViews
-              index={tabIndex}
-              onChangeIndex={setTabIndex}
-              style={{
-                overflow: "hidden",
-                width: "100%",
-                height: "100%",
-              }}
-            >
-              <Slide>
-                <Box
-                  sx={{
-                    p: theme.spacing(4, 3, 2, 3),
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontSize: 18,
-                      lineHeight: "28px",
-                      fontWeight: "700",
-                      mb: 1,
-                    }}
-                  >
-                    채널 스코어 분석
-                  </Typography>
+            {vip ? (
+              <SwipeableViews
+                index={tabIndex}
+                onChangeIndex={setTabIndex}
+                style={{
+                  overflow: "hidden",
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                <Slide>
                   <Box
                     sx={{
-                      m: `0 auto`,
-                      width: 320,
-                      height: 280,
+                      p: theme.spacing(4, 3, 2, 3),
                     }}
                   >
-                    <Box
+                    <Typography
                       sx={{
-                        width: "100%",
-                        height: "100%",
+                        fontSize: 18,
+                        lineHeight: "28px",
+                        fontWeight: "700",
+                        mb: 1,
                       }}
                     >
-                      <Chart
-                        type="radar"
-                        data={totalChartData}
-                        options={totalChartOptions}
-                      />
-                    </Box>
-                  </Box>
-                  <Stack
-                    // direction="row"
-                    spacing={0}
-                    sx={{
-                      mt: 4,
-                      width: "100%",
-                      display: "grid",
-                      gridTemplateColumns: `repeat(${2}, 1fr)`,
-                      gridAutoColumn: "1fr",
-                      gridTemplateRows: "auto",
-                      gridRowGap: 16,
-                      gridColumnGap: 16,
-                    }}
-                  >
-                    {[
-                      {
-                        title: "트렌드 지수",
-                        value:
-                          trendIndex === 0
-                            ? "집계중"
-                            : `${Math.floor(trendIndex)}점`,
-                        reason: "설명이 들어갈 예정입니다.",
-                        tooltip:
-                          "해당 크리에이터의 채널의 영상이 최근 얼마나 이슈화 되는지 확인하는 지수 입니다.",
-                      },
-                      {
-                        title: "광고 기획력",
-                        value:
-                          commercialIdeaPerfomanceIndex === 0
-                            ? "집계중"
-                            : `${Math.floor(commercialIdeaPerfomanceIndex)}점`,
-                        reason: "설명이 들어갈 예정입니다.",
-                        tooltip:
-                          "크리에이터가 해당 광고를 얼마나 자연스럽고 거부감 없이 콘텐츠에 반영하였는지 확인하는 지수입니다. 광고 관련 경력 5년 이상의 종사자, PD, 영화감독, 작가로 구성된 유하 검증단이 평가하였습니다.",
-                      },
-                      {
-                        title: "이행 지수",
-                        value:
-                          fullfillmentIndex === 0
-                            ? "집계중"
-                            : `${Math.floor(fullfillmentIndex)}점`,
-                        reason: "설명이 들어갈 예정입니다.",
-                        tooltip:
-                          "해당 크리에이터의 이전 광고 집행 과정에 참여한 적이 있는 대행사, MCN의 의견을 기준으로 평가하였습니다.",
-                      },
-                      {
-                        title: "영향력 지수",
-                        value:
-                          influenceIndex === 0
-                            ? "집계중"
-                            : `${Math.floor(influenceIndex)}점`,
-                        reason: "설명이 들어갈 예정입니다.",
-                        tooltip:
-                          "해당 크리에이터의 최근 광고가 유튜브 채널을 제외하고 포털, SNS에 얼마나 빠르게 언급되는지 측정하는 지표입니다.",
-                      },
-                      {
-                        title: "광고 지수",
-                        value:
-                          advertisementIndex === 0
-                            ? "집계중"
-                            : `${Math.floor(advertisementIndex)}%`,
-                        reason: "설명이 들어갈 예정입니다.",
-                        tooltip:
-                          "해당 크리에이터 채널의 광고 포화지수를 측정한 지수입니다.",
-                      },
-                      {
-                        title: "클린 지수",
-                        value:
-                          cleanIndex === 0
-                            ? "집계중"
-                            : `${Math.floor(cleanIndex)}%`,
-                        reason: "설명이 들어갈 예정입니다.",
-                        tooltip:
-                          "크리에이터와 관련된 논란이 없었는지를 기록하는 지수입니다. 해당 지수는 포털사이트, SNS 크롤링을 통해 논란의 관련 언급 여부를 통해 평가하였습니다.",
-                      },
-                    ].map((item, index) => (
+                      채널 스코어 분석
+                    </Typography>
+                    <Box
+                      sx={{
+                        m: `0 auto`,
+                        width: 320,
+                        height: 280,
+                      }}
+                    >
                       <Box
-                        key={index}
                         sx={{
-                          borderRadius: 1,
-                          border: `1px solid ${blueGrey[100]}`,
-                          p: 2,
-                          flex: 1,
+                          width: "100%",
+                          height: "100%",
                         }}
                       >
-                        <Stack direction="row" spacing={0.5}>
-                          <Typography
-                            sx={{
-                              fontSize: 14,
-                              lineHeight: "20px",
-                            }}
-                          >
-                            {item.title}
-                          </Typography>
-                          {/* <Box
+                        <Chart
+                          type="radar"
+                          data={totalChartData}
+                          options={totalChartOptions}
+                        />
+                      </Box>
+                    </Box>
+                    <Stack
+                      // direction="row"
+                      spacing={0}
+                      sx={{
+                        mt: 4,
+                        width: "100%",
+                        display: "grid",
+                        gridTemplateColumns: `repeat(${2}, 1fr)`,
+                        gridAutoColumn: "1fr",
+                        gridTemplateRows: "auto",
+                        gridRowGap: 16,
+                        gridColumnGap: 16,
+                      }}
+                    >
+                      {[
+                        {
+                          title: "트렌드 지수",
+                          value:
+                            trendIndex === 0
+                              ? "집계중"
+                              : `${Math.floor(trendIndex)}점`,
+                          reason: "설명이 들어갈 예정입니다.",
+                          tooltip:
+                            "해당 크리에이터의 채널의 영상이 최근 얼마나 이슈화 되는지 확인하는 지수 입니다.",
+                        },
+                        {
+                          title: "광고 기획력",
+                          value:
+                            commercialIdeaPerfomanceIndex === 0
+                              ? "집계중"
+                              : `${Math.floor(
+                                  commercialIdeaPerfomanceIndex
+                                )}점`,
+                          reason: "설명이 들어갈 예정입니다.",
+                          tooltip:
+                            "크리에이터가 해당 광고를 얼마나 자연스럽고 거부감 없이 콘텐츠에 반영하였는지 확인하는 지수입니다. 광고 관련 경력 5년 이상의 종사자, PD, 영화감독, 작가로 구성된 유하 검증단이 평가하였습니다.",
+                        },
+                        {
+                          title: "이행 지수",
+                          value:
+                            fullfillmentIndex === 0
+                              ? "집계중"
+                              : `${Math.floor(fullfillmentIndex)}점`,
+                          reason: "설명이 들어갈 예정입니다.",
+                          tooltip:
+                            "해당 크리에이터의 이전 광고 집행 과정에 참여한 적이 있는 대행사, MCN의 의견을 기준으로 평가하였습니다.",
+                        },
+                        {
+                          title: "영향력 지수",
+                          value:
+                            influenceIndex === 0
+                              ? "집계중"
+                              : `${Math.floor(influenceIndex)}점`,
+                          reason: "설명이 들어갈 예정입니다.",
+                          tooltip:
+                            "해당 크리에이터의 최근 광고가 유튜브 채널을 제외하고 포털, SNS에 얼마나 빠르게 언급되는지 측정하는 지표입니다.",
+                        },
+                        {
+                          title: "광고 지수",
+                          value:
+                            advertisementIndex === 0
+                              ? "집계중"
+                              : `${Math.floor(advertisementIndex)}%`,
+                          reason: "설명이 들어갈 예정입니다.",
+                          tooltip:
+                            "해당 크리에이터 채널의 광고 포화지수를 측정한 지수입니다.",
+                        },
+                        {
+                          title: "클린 지수",
+                          value:
+                            cleanIndex === 0
+                              ? "집계중"
+                              : `${Math.floor(cleanIndex)}%`,
+                          reason: "설명이 들어갈 예정입니다.",
+                          tooltip:
+                            "크리에이터와 관련된 논란이 없었는지를 기록하는 지수입니다. 해당 지수는 포털사이트, SNS 크롤링을 통해 논란의 관련 언급 여부를 통해 평가하였습니다.",
+                        },
+                      ].map((item, index) => (
+                        <Box
+                          key={index}
+                          sx={{
+                            borderRadius: 1,
+                            border: `1px solid ${blueGrey[100]}`,
+                            p: 2,
+                            flex: 1,
+                          }}
+                        >
+                          <Stack direction="row" spacing={0.5}>
+                            <Typography
+                              sx={{
+                                fontSize: 14,
+                                lineHeight: "20px",
+                              }}
+                            >
+                              {item.title}
+                            </Typography>
+                            {/* <Box
                             sx={{
                               position: "relative",
                               ":hover .tooltip": {
@@ -751,150 +756,193 @@ export default function CreatorDialog() {
                               </Typography>
                             </Box>
                           </Box> */}
-                        </Stack>
-                        <Typography
+                          </Stack>
+                          <Typography
+                            sx={{
+                              fontSize: 16,
+                              lineHeight: "24px",
+                              fontWeight: "700",
+                            }}
+                          >
+                            {item.value}
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontSize: 14,
+                              lineHeight: "20px",
+                              p: 2,
+                              borderRadius: 1,
+                              backgroundColor: blueGrey[50],
+                              mt: 2,
+                            }}
+                          >
+                            <Box sx={{ display: "inline-flex", mr: 0.5 }}>
+                              <Icon
+                                name="exclamation-circle"
+                                color={blueGrey[500]}
+                                size={12}
+                              />
+                            </Box>
+                            {item.tooltip}
+                          </Typography>
+                        </Box>
+                      ))}
+                    </Stack>
+                  </Box>
+                </Slide>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flex: 1,
+                    position: "relative",
+                    overflow: "hidden",
+                  }}
+                >
+                  <Slide>
+                    <List
+                      data={playlists}
+                      filters={playlistFilters}
+                      sorts={playlistSorts}
+                      columns={3}
+                      renderList={(data) => {
+                        return data.map((item, index) => (
+                          <PlaylistItem
+                            key={index}
+                            item={item}
+                            checkMode={checkMode}
+                            forceCheck={forceCheck}
+                            inCreator
+                          />
+                        ));
+                      }}
+                      title="플레이리스트가"
+                    ></List>
+                  </Slide>
+                  <>
+                    {checkMode && (
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          p: theme.spacing(2, 3),
+                          zIndex: 999,
+                          backgroundColor: "#ffffff",
+                          boxShadow: `4px 4px 8px 4px rgba(0, 0, 0, 0.08)`,
+                        }}
+                      >
+                        <Button
+                          fullWidth
                           sx={{
-                            fontSize: 16,
-                            lineHeight: "24px",
-                            fontWeight: "700",
+                            minHeight: 48,
+                            height: 48,
+                            boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
                           }}
+                          disabled={!confirmable}
+                          onClick={handleClickConfirm}
                         >
-                          {item.value}
-                        </Typography>
-                        <Typography
-                          sx={{
-                            fontSize: 14,
-                            lineHeight: "20px",
-                            p: 2,
-                            borderRadius: 1,
-                            backgroundColor: blueGrey[50],
-                            mt: 2,
-                          }}
-                        >
-                          <Box sx={{ display: "inline-flex", mr: 0.5 }}>
-                            <Icon
-                              name="exclamation-circle"
-                              color={blueGrey[500]}
-                              size={12}
-                            />
-                          </Box>
-                          {item.tooltip}
-                        </Typography>
+                          <Icon
+                            name="users"
+                            size={20}
+                            color="#ffffff"
+                            prefix="fas"
+                            sx={{
+                              mr: 1,
+                            }}
+                          />
+                          <Typography
+                            sx={{
+                              fontSize: 16,
+                              lineHeight: "24px",
+                              fontWeight: "700",
+                              color: "#ffffff",
+                            }}
+                          >
+                            {tempCheckedPlaylistIds.length === 0
+                              ? "기획안 선택"
+                              : `${tempCheckedPlaylistIds.length}개의 기획안 담기`}
+                          </Typography>
+                        </Button>
                       </Box>
-                    ))}
-                  </Stack>
+                    )}
+                  </>
                 </Box>
-              </Slide>
-              <Box
-                sx={{
-                  display: "flex",
-                  flex: 1,
-                  position: "relative",
+                <Slide>
+                  <List
+                    data={videos}
+                    filters={videoFilters}
+                    sorts={videoSorts}
+                    spacing={1}
+                    renderList={(data) => {
+                      return data.map((item, index) => (
+                        <VideoItem key={index} item={item} inCreator />
+                      ));
+                    }}
+                    title="광고영상이"
+                  />
+                </Slide>
+                <Slide>
+                  <Box
+                    sx={{
+                      p: theme.spacing(4, 3, 2, 3),
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        ml: -7.5,
+                        mr: -7.5,
+                      }}
+                    >
+                      <img src="/images/creator-0.png" />
+                      <img src="/images/creator-1.png" />
+                    </Box>
+                  </Box>
+                </Slide>
+              </SwipeableViews>
+            ) : (
+              <SwipeableViews
+                index={tabIndex}
+                onChangeIndex={setTabIndex}
+                style={{
                   overflow: "hidden",
+                  width: "100%",
+                  height: "100%",
                 }}
               >
                 <Slide>
                   <List
-                    data={playlists}
-                    filters={playlistFilters}
-                    sorts={playlistSorts}
-                    columns={3}
+                    data={videos}
+                    filters={videoFilters}
+                    sorts={videoSorts}
+                    spacing={1}
                     renderList={(data) => {
                       return data.map((item, index) => (
-                        <PlaylistItem
-                          key={index}
-                          item={item}
-                          checkMode={checkMode}
-                          forceCheck={forceCheck}
-                          inCreator
-                        />
+                        <VideoItem key={index} item={item} inCreator />
                       ));
                     }}
-                    title="플레이리스트가"
-                  ></List>
+                    title="광고영상이"
+                  />
                 </Slide>
-                <>
-                  {checkMode && (
-                    <Box
-                      sx={{
-                        position: "absolute",
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        p: theme.spacing(2, 3),
-                        zIndex: 999,
-                        backgroundColor: "#ffffff",
-                        boxShadow: `4px 4px 8px 4px rgba(0, 0, 0, 0.08)`,
-                      }}
-                    >
-                      <Button
-                        fullWidth
-                        sx={{
-                          minHeight: 48,
-                          height: 48,
-                          boxShadow: `2px 2px 4px 0px rgba(0, 0, 0, 0.08)`,
-                        }}
-                        disabled={!confirmable}
-                        onClick={handleClickConfirm}
-                      >
-                        <Icon
-                          name="users"
-                          size={20}
-                          color="#ffffff"
-                          prefix="fas"
-                          sx={{
-                            mr: 1,
-                          }}
-                        />
-                        <Typography
-                          sx={{
-                            fontSize: 16,
-                            lineHeight: "24px",
-                            fontWeight: "700",
-                            color: "#ffffff",
-                          }}
-                        >
-                          {tempCheckedPlaylistIds.length === 0
-                            ? "기획안 선택"
-                            : `${tempCheckedPlaylistIds.length}개의 기획안 담기`}
-                        </Typography>
-                      </Button>
-                    </Box>
-                  )}
-                </>
-              </Box>
-              <Slide>
-                <List
-                  data={videos}
-                  filters={videoFilters}
-                  sorts={videoSorts}
-                  spacing={1}
-                  renderList={(data) => {
-                    return data.map((item, index) => (
-                      <VideoItem key={index} item={item} inCreator />
-                    ));
-                  }}
-                  title="광고영상이"
-                />
-              </Slide>
-              <Slide>
-                <Box
-                  sx={{
-                    p: theme.spacing(4, 3, 2, 3),
-                  }}
-                >
+                <Slide>
                   <Box
                     sx={{
-                      ml: -7.5,
-                      mr: -7.5,
+                      p: theme.spacing(4, 3, 2, 3),
                     }}
                   >
-                    <img src="/images/creator-0.png" />
-                    <img src="/images/creator-1.png" />
+                    <Box
+                      sx={{
+                        ml: -7.5,
+                        mr: -7.5,
+                      }}
+                    >
+                      <img src="/images/creator-0.png" />
+                      <img src="/images/creator-1.png" />
+                    </Box>
                   </Box>
-                </Box>
-              </Slide>
-            </SwipeableViews>
+                </Slide>
+              </SwipeableViews>
+            )}
           </Box>
         </Box>
       </Paper>
