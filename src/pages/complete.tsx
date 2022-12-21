@@ -51,8 +51,8 @@ export default function Page() {
       >
         <Typography
           sx={{
-            fontSize: 28,
-            lineHeight: "32px",
+            fontSize: 32,
+            lineHeight: "40px",
             fontWeight: "900",
             color: "#ffffff",
           }}
@@ -63,8 +63,8 @@ export default function Page() {
         </Typography>
         <Typography
           sx={{
-            fontSize: 14,
-            lineHeight: "20px",
+            fontSize: 16,
+            lineHeight: "24px",
             color: grey[500],
             mt: 1,
           }}
