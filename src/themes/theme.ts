@@ -3,25 +3,23 @@ import { createTheme } from "@mui/material/styles";
 import {
   red,
   purple,
+  cyan,
+  grey,
 } from "@mui/material/colors";
-import newBlue from "../core/colors/newBlue";
-import newGrey from "../core/colors/newGrey";
-import newRed from "../core/colors/newRed";
-
 export const theme = createTheme({
   palette: {
     mode: "light",
-    primary: newBlue,
+    primary: cyan,
     secondary: purple,
-    grey: newGrey,
-    error: newRed,
+    grey: grey,
+    error: red,
     action: {
-      active: alpha(newGrey[900], 0.54),
-      hover: alpha(newGrey[900], 0.04),
-      selected: alpha(newGrey[900], 0.08),
-      disabled: alpha(newGrey[900], 0.26),
-      disabledBackground: alpha(newGrey[900], 0.12),
-      focus: alpha(newGrey[900], 0.12),
+      active: alpha(grey[900], 0.54),
+      hover: alpha(grey[900], 0.04),
+      selected: alpha(grey[900], 0.08),
+      disabled: alpha(grey[900], 0.26),
+      disabledBackground: alpha(grey[900], 0.12),
+      focus: alpha(grey[900], 0.12),
     },
   },
   shape: {

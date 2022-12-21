@@ -5,10 +5,8 @@ import {
   IconPrefix,
 } from "@fortawesome/fontawesome-svg-core";
 import { Badge, SxProps } from "@mui/material";
-import { red } from "@mui/material/colors";
+import { grey, red } from "@mui/material/colors";
 import { MouseEventHandler } from "react";
-import newGrey from "../../core/colors/newGrey";
-import newRed from "../../core/colors/newRed";
 
 type IconProps = {
   name: IconName;
@@ -29,13 +27,13 @@ export default function Icon({
   size = 24,
   padding = 2,
   className,
-  color = newGrey[900],
+  color = grey[900],
   onClick,
   sx,
 }: IconProps) {
   const icon: IconLookup = { prefix: prefix, iconName: name };
   const badgeInvisible = badgeCount === undefined;
-  const badgeColor = newRed[400];
+  const badgeColor = red[400];
   return (
     <Badge
       max={999}

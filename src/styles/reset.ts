@@ -354,18 +354,18 @@ const reset = css`
   body {
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
-    background-color: #000000
+    background-color: #000000;
+    overflow: hidden;
   }
   #__next {
-    /* position: fixed;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    overflow: auto; */
-    position: relative;
+    overflow: auto;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     background: linear-gradient(rgba(0, 0, 0, 1), rgba(33, 33, 33, 1));
     overflow-x: scroll;
     --sat: var(--sait);

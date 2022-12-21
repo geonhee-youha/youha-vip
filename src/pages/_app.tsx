@@ -35,9 +35,7 @@ import {
   DoughnutController,
 } from "chart.js";
 import _ from "lodash";
-import GlobalHeader from "../components/organisms/GlobalHeader";
-import LocalNav from "../components/molecules/LocalNav";
-import GlobalFooter from "../components/organisms/GlobalFooter";
+
 ChartJS.register(
   LineController,
   BarController,
