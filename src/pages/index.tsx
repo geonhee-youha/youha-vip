@@ -95,6 +95,7 @@ export default function Page() {
         bottom: 0,
         width: "100%",
         height: "100%",
+        overflowX: "hidden",
         overflowY: "auto",
         scrollSnapType: "y mandatory",
       }}
@@ -364,6 +365,7 @@ function Info() {
       sx={{
         scrollSnapAlign: "start",
         position: "relative",
+        background: `linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0))`,
       }}
       className="info"
     >
