@@ -57,137 +57,134 @@ export default function Page() {
   return (
     <Box
       sx={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         height: "100%",
-        background: `linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3))`,
+        display: "flex",
+        flexDirection: "column",
+        overflowY: "scroll",
       }}
     >
       <Box
         sx={{
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          overflowY: "scroll",
+          p: theme.spacing(10, 3, 3, 3),
+          width: "100%",
+          maxWidth: 600,
+          m: theme.spacing(0, "auto"),
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: 32,
+            lineHeight: "40px",
+            fontWeight: "900",
+            color: "#ffffff",
+          }}
+        >
+          페어링 한번으로
+          <br />
+          한도를 조회하세요.
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: 16,
+            lineHeight: "24px",
+            color: grey[500],
+            mt: 1,
+          }}
+        >
+          당신의 유튜브 채널을 페어링하고
+          <br />
+          가장 나은 제안을 찾아 드릴게요.
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          flex: 1,
+          position: "relative",
+          overflow: "hidden",
+          minHeight: `${itemSize + 80}px`,
         }}
       >
         <Box
           sx={{
-            p: theme.spacing(10, 3, 3, 3),
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            display: "flex",
+            alignItems: "center",
+            p: theme.spacing(0, 0, 10, 0),
+          }}
+        >
+          <Gallery />
+          <Gallery />
+          <Gallery />
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          position: "fixed",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          p: theme.spacing(3),
+        }}
+      >
+        <Box
+          sx={{
             width: "100%",
             maxWidth: 600,
+            bottom: 0,
             m: theme.spacing(0, "auto"),
           }}
         >
-          <Typography
+          <ButtonBase
             sx={{
-              fontSize: 32,
-              lineHeight: "40px",
-              fontWeight: "900",
-              color: "#ffffff",
-            }}
-          >
-            페어링 한번으로
-            <br />
-            한도를 조회하세요.
-          </Typography>
-          <Typography
-            sx={{
+              width: "100%",
+              background: "#ffffff",
+              color: grey[900],
+              height: 44,
               fontSize: 16,
               lineHeight: "24px",
+              fontWeight: "700",
+              borderRadius: 0.5,
+              justifyContent: "flex-start",
+              alignItems: "center",
+              p: theme.spacing(0, 2.5),
+            }}
+            onClick={onClickButton}
+          >
+            <Box
+              sx={{
+                width: 24,
+                height: 24,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                mr: 2,
+              }}
+            >
+              <img src="/logos/google.png" />
+            </Box>
+            구글 계정으로 로그인
+          </ButtonBase>
+          <Typography
+            sx={{
+              fontSize: 12,
               color: grey[500],
+              "& b": {
+                fontWeight: "700",
+              },
               mt: 1,
             }}
           >
-            당신의 유튜브 채널을 페어링하고
+            Jellysmack과 youha는 창작자의 데이터를 제3자에게 판매하지 않습니다.
             <br />
-            가장 나은 제안을 찾아 드릴게요.
+            한도를 조회하신 후에는 언제든지 페어링을 해제할 수 있습니다.
           </Typography>
-        </Box>
-        <Box
-          sx={{
-            flex: 1,
-            position: "relative",
-            overflow: "hidden",
-            minHeight: `${itemSize}px`,
-          }}
-        >
-          <Box
-            sx={{
-              position: "absolute",
-              top: 0,
-              bottom: 0,
-              display: "flex",
-              alignItems: "center",
-              p: theme.spacing(0, 0, 10, 0),
-            }}
-          >
-            <Gallery />
-            <Gallery />
-            <Gallery />
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            position: "fixed",
-            left: 0,
-            right: 0,
-            bottom: 0,
-            p: theme.spacing(3),
-          }}
-        >
-          <Box
-            sx={{
-              width: "100%",
-              maxWidth: 600,
-              bottom: 0,
-              m: theme.spacing(0, "auto"),
-            }}
-          >
-            <ButtonBase
-              sx={{
-                width: "100%",
-                background: "#ffffff",
-                color: grey[900],
-                height: 44,
-                fontSize: 16,
-                lineHeight: "24px",
-                fontWeight: "700",
-                borderRadius: 0.5,
-                justifyContent: "flex-start",
-                alignItems: "center",
-                p: theme.spacing(0, 2.5),
-              }}
-              onClick={onClickButton}
-            >
-              <Box
-                sx={{
-                  width: 24,
-                  height: 24,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  mr: 2,
-                }}
-              >
-                <img src="/logos/google.png" />
-              </Box>
-              구글 계정으로 로그인
-            </ButtonBase>
-            <Typography
-              sx={{
-                fontSize: 12,
-                color: grey[500],
-                "& b": {
-                  fontWeight: "700",
-                },
-                mt: 1,
-              }}
-            >
-              Jellysmack과 youha는 창작자의 데이터를 제3자에게 판매하지
-              않습니다.
-              <br />
-              한도를 조회하신 후에는 언제든지 페어링을 해제할 수 있습니다.
-            </Typography>
-          </Box>
         </Box>
       </Box>
     </Box>

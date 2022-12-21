@@ -354,7 +354,7 @@ const reset = css`
   body {
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
-    background-color: #000000;
+    background-color: #000000
   }
   #__next {
     /* position: fixed;
@@ -366,8 +366,8 @@ const reset = css`
     position: relative;
     width: 100vw;
     height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 1), rgba(33, 33, 33, 1));
     overflow-x: scroll;
-    background-color: #212121;
     --sat: var(--sait);
     --sar: var(--sair);
     --sab: var(--saib);
