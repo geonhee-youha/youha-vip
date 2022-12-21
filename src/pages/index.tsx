@@ -81,6 +81,7 @@ import Icon from "../components/atoms/Icon";
 import { theme } from "../themes/theme";
 import { useInView } from "react-intersection-observer";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false });
 
@@ -141,6 +142,11 @@ function Intro() {
   const router = useRouter();
   const { ref, inView } = useInView();
   const className = inView ? "shown" : "";
+  const [playing, setPlaying] = useState<boolean>(false);
+  useEffect(() => {
+    setPlaying(inView);
+  }, [inView]);
+
   const onClickDown = () => {
     var container: any = document.querySelector(".container");
     var info: any = document.querySelector(".info");
@@ -172,9 +178,11 @@ function Intro() {
     >
       <ReactPlayer
         url="https://jellysmack.com/wp-content/uploads/2022/02/ADDTL_jellysmack_longform_1920x1080_SANSattribution.mp4"
-        playing
+        autoPlay
+        playing={playing}
         muted
         loop
+        playsinline
       />
       <Box
         sx={{
