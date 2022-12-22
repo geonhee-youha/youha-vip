@@ -509,11 +509,10 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
           </Box>
         </Box>
       </Box>
-      <Stack
-        spacing={0}
-        alignItems="center"
+      <Box
         sx={{
           display: playing ? "flex" : "none",
+          alignItems: "center",
           position: "fixed",
           top: "50%",
           left: 0,
@@ -522,7 +521,11 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
           zIndex: 99,
           width: 12,
           "@media(max-width: 480px)": {
-            top: 56,
+            top: 0,
+            flexDirection: "row",
+            left: "50%",
+            width: "auto",
+            transform: `translate(-50%, ${inView ? "-100%" : "48px"})`,
           },
         }}
         className={className}
@@ -550,12 +553,16 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
                   opacity: focused ? 1 : 0.5,
                   borderRadius: 16,
                   transition: `all 0.35s ease`,
+                  "@media(max-width: 480px)": {
+                    width: focused ? 8 : 6,
+                    height: focused ? 8 : 6,
+                  }
                 }}
               />
             </ButtonBase>
           );
         })}
-      </Stack>
+      </Box>
       <Box
         sx={{
           display: playing ? "flex" : "none",
@@ -565,13 +572,14 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
           bottom: 0,
           transition: `all 0.35s ease`,
           transform: `translateY(${
-            tabIndex !== sections.length - 1 ? "0%" : "100%"
+            tabIndex < sections.length - 1 ? "0%" : "100%"
           })`,
           "&.shown": {
             transform: `translateY(${"100%"})`,
           },
           zIndex: 99,
           // background: `linear-gradient(rgba(33, 33,33, 0), rgba(33, 33,33, 1))`,
+          background: `linear-gradient(rgb(33, 33, 33, 0), rgb(33, 33, 33, 1)) !important`,
         }}
         className={className}
       >
@@ -692,13 +700,17 @@ function BigCases({ index }: { index: number }) {
               fontWeight: "900",
               color: "#ffffff",
               "@media(max-width: 480px)": {
-                fontSize: 16,
+                fontSize: 14,
+                fontWeight: "400",
+                mb: 1,
                 textAlign: "center",
+                "& br": {
+                  display: "none",
+                },
               },
             }}
           >
-            글로벌 1위
-            <br />
+            글로벌 1위 <br />
             크리에이터 플랫폼
           </Typography>
           <Typography
@@ -846,6 +858,9 @@ function BigCases({ index }: { index: number }) {
                         height: "100%",
                         maxHeight: `800px`,
                         backgroundColor: "#000000",
+                        "@media(max-width: 480px)": {
+                          maxHeight: `320px`,
+                        },
                       }}
                     >
                       <Box
@@ -955,6 +970,9 @@ function BigCases({ index }: { index: number }) {
                               right: 0,
                               bottom: 0,
                               background: `linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3), rgba(0,0,0,1))`,
+                              "@media(max-width: 480px)": {
+                                background: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8), rgba(0,0,0,1))`,
+                              },
                             }}
                           />
                         </Box>
@@ -1528,7 +1546,9 @@ function Offer({ index }: { index: number }) {
             maxHeight: `800px`,
             "@media(max-width: 480px)": {
               width: "100%",
-              maxHeight: `480px`,
+              height: "auto",
+              flex: "initial",
+              mt: 6,
               p: theme.spacing(0, 3),
             },
           }}
@@ -1551,6 +1571,9 @@ function Offer({ index }: { index: number }) {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "flex-end",
+                "@media(max-width: 480px)": {
+                  height: 128,
+                },
               }}
             >
               <Box
@@ -1622,6 +1645,9 @@ function Offer({ index }: { index: number }) {
                         fontWeight: "900",
                         color: "#e08af4",
                         textAlign: "center",
+                        "@media(max-width: 480px)": {
+                          fontSize: 16,
+                        },
                       }}
                     >
                       내 수익
@@ -1633,6 +1659,9 @@ function Offer({ index }: { index: number }) {
                         color: "#ffffff",
                         textAlign: "center",
                         mt: 0.5,
+                        "@media(max-width: 480px)": {
+                          fontSize: 10,
+                        },
                       }}
                     >
                       수익의 대부분이
@@ -1688,6 +1717,9 @@ function Offer({ index }: { index: number }) {
                         fontSize: 20,
                         fontWeight: "900",
                         color: grey[200],
+                        "@media(max-width: 480px)": {
+                          fontSize: 16,
+                        },
                       }}
                     >
                       담보분
@@ -1763,7 +1795,14 @@ function Offer({ index }: { index: number }) {
               </Box>
             </Box>
           </Box>
-          <Box sx={{ mt: 10 }}>
+          <Box
+            sx={{
+              mt: 10,
+              "@media(max-width: 480px)": {
+                mt: 4,
+              },
+            }}
+          >
             <Typography
               sx={{
                 fontSize: 16,
@@ -1773,7 +1812,17 @@ function Offer({ index }: { index: number }) {
             >
               원하는 기간 만큼 선택 가능
             </Typography>
-            <Stack direction="row" spacing={1} sx={{ height: 44, mt: 2 }}>
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{
+                height: 44,
+                mt: 2,
+                "@media(max-width: 480px)": {
+                  height: 32,
+                },
+              }}
+            >
               {[1, 2, 3, 5].map((item, index) => (
                 <Box
                   key={index}
@@ -1793,7 +1842,7 @@ function Offer({ index }: { index: number }) {
                       fontWeight: "700",
                       color: grey[900],
                       "@media(max-width: 480px)": {
-                        fontSize: 14,
+                        fontSize: 12,
                         fontWeight: "700",
                       },
                     }}
@@ -2087,7 +2136,7 @@ function Outro({ index }: { index: number }) {
                 },
                 transitionDelay: `0s`,
                 "@media(max-width: 480px)": {
-                  fontSize: 32,
+                  fontSize: 24,
                 },
               }}
               className={className}
@@ -2118,7 +2167,7 @@ function Outro({ index }: { index: number }) {
                 },
                 transitionDelay: `0.5s`,
                 "@media(max-width: 480px)": {
-                  fontSize: 32,
+                  fontSize: 24,
                 },
               }}
               className={className}
@@ -2149,7 +2198,7 @@ function Outro({ index }: { index: number }) {
                 },
                 transitionDelay: `1s`,
                 "@media(max-width: 480px)": {
-                  fontSize: 32,
+                  fontSize: 24,
                 },
               }}
               className={className}
