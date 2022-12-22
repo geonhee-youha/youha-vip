@@ -8,6 +8,7 @@ import { theme } from "../themes/theme";
 export default function Page() {
   const router = useRouter();
   const onClickButton = () => {
+    window.open('https://webtvasia.catalog.jellysmack.com/')
     router.push(`/complete`);
   };
   return (

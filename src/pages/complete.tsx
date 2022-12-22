@@ -50,7 +50,7 @@ export default function Page() {
             color: "#ffffff",
           }}
         >
-          3~5일 내
+          신청 후 3~5일 내
           <br />
           연락드리겠습니다.
         </Typography>
@@ -62,7 +62,7 @@ export default function Page() {
             mt: 1,
           }}
         >
-          한도 조회 신청이 완료되었습니다.
+          한도 조회 신청을 완료하시면.
           <br />
           최대한 빠르게 연락드리겠습니다.
         </Typography>
@@ -177,7 +177,8 @@ export default function Page() {
           <ButtonBase
             sx={{
               width: "100%",
-              background: `linear-gradient(270deg,#00d1b0 0,#00e94f 48.96%,#0093ff 73.96%,#e08af4 97.92%)`,
+              // background: `linear-gradient(270deg,#00d1b0 0,#00e94f 48.96%,#0093ff 73.96%,#e08af4 97.92%)`,
+              background: "#00e94f",
               color: "#000000",
               height: 44,
               fontSize: 16,
@@ -211,7 +212,8 @@ export default function Page() {
           <ButtonBase
             sx={{
               width: "100%",
-              background: `linear-gradient(270deg, #0046DD, rgba(28, 90, 246, 1))`,
+              // background: `linear-gradient(270deg, #0046DD, rgba(28, 90, 246, 1))`,
+              background: "#0093ff",
               color: "#ffffff",
               height: 44,
               fontSize: 16,

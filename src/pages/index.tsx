@@ -13,8 +13,20 @@ import { theme } from "../themes/theme";
 import { useInView } from "react-intersection-observer";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import {
+  chartData,
+  chartDataMobile,
+  chartOptions,
+  chartOptionsMobile,
+  maxWidth,
+} from "../constants";
 import SwipeableViews from "react-swipeable-views";
-import { maxWidth } from "../constants";
+import { autoPlay } from "react-swipeable-views-utils";
+import { Chart } from "react-chartjs-2";
+import Typo from "../components/atoms/Typo";
+import { IconName } from "@fortawesome/fontawesome-svg-core";
+
+const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false });
 
@@ -106,7 +118,52 @@ const views = [
   },
 ];
 
-const sections = ["intro", "jellysmack", "cases", "info"];
+const sections = [
+  "intro",
+  "big-cases",
+  "small-cases",
+  "slip",
+  "revenue",
+  "offer",
+  "flow",
+  "outro",
+];
+
+const flows: {
+  icon: IconName | null;
+  title: string;
+  duration?: string | null;
+}[] = [
+  {
+    icon: "arrow-pointer",
+    title: "한도 조회 신청",
+    duration: "1분",
+  },
+  {
+    icon: "chart-pie-simple",
+    title: "가능 여부 분석",
+    duration: "1일",
+  },
+  {
+    icon: "calculator",
+    title: "지급 금액 분석",
+    duration: "3~5일",
+  },
+  {
+    icon: "comment-check",
+    title: "완료",
+  },
+  {
+    icon: "handshake",
+    title: "담보 교환",
+    duration: "2주",
+  },
+  {
+    icon: "stamp",
+    title: "동의 절차",
+    duration: "1주",
+  },
+];
 
 export default function Page() {
   const [tabIndex, setTabIndex] = useState<number>(0);
@@ -139,22 +196,38 @@ export default function Page() {
       onScroll={onScroll}
     >
       <Header />
-      {sections.map((item, index) => {
+      <Intro index={0} tabIndex={tabIndex} />
+      <BigCases index={2} />
+      <SmallCases index={1} />
+      <Slip index={3} />
+      <Revenue index={4} />
+      <Offer index={5} />
+      <Flow index={6} />
+      <Outro index={7} />
+      {/* {sections.map((item, index) => {
         return item === "intro" ? (
           <Intro key={index} index={index} tabIndex={tabIndex} />
-        ) : item === "cases" ? (
-          <Cases key={index} index={index} />
-        ) : item === "info" ? (
-          <Info key={index} index={index} />
-        ) : item === "jellysmack" ? (
-          <Jellysmack key={index} index={index} />
+        ) : item === "small-cases" ? (
+          <SmallCases key={index} index={index} />
+        ) : item === "big-cases" ? (
+          <BigCases key={index} index={index} />
+        ) : item === "slip" ? (
+          <Slip key={index} index={index} />
+        ) : item === "revenue" ? (
+          <Revenue key={index} index={index} />
+        ) : item === "offer" ? (
+          <Offer key={index} index={index} />
+        ) : item === "flow" ? (
+          <Flow key={index} index={index} />
+        ) : item === "outro" ? (
+          <Outro key={index} index={index} />
         ) : null;
-      })}
+      })} */}
     </Box>
   );
 }
 
-export function Header() {
+function Header() {
   const router = useRouter();
   const onClickLogo = () => {
     if (router.pathname === "/") {
@@ -213,6 +286,9 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
   const router = useRouter();
   const { ref, inView } = useInView();
   const className = inView ? "shown" : "";
+  const onClickButton = () => {
+    router.push(`pairing`);
+  };
   const [playing, setPlaying] = useState<boolean>(false);
   useEffect(() => {
     if (inView) setPlaying(inView);
@@ -228,14 +304,11 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
       });
     }
   };
-  const onClickButton = () => {
-    router.push(`pairing`);
-  };
   return (
     <>
       <Box
         sx={{
-          scrollSnapAlign: "center",
+          // scrollSnapAlign: "start",
           position: "relative",
           height: "100vh",
           "& video": {
@@ -352,7 +425,7 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
                 borderRadius: 0.5,
                 justifyContent: "center",
                 alignItems: "center",
-                p: theme.spacing(0, 2.5),
+                p: theme.spacing(0, 2.5, 0, 2),
                 transform: "translateY(100%)",
                 opacity: 0,
                 "&.shown": {
@@ -372,7 +445,7 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
                 size={20}
                 sx={{ mr: 1 }}
               />
-              지금 바로 내 한도 확인하기
+              지금 바로 한도 확인하기
             </ButtonBase>
           </Box>
         </Box>
@@ -445,9 +518,12 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
           top: "50%",
           left: 0,
           transition: `all 0.35s ease`,
-          transform: `translateX(${inView ? "-100%" : "16px"})`,
+          transform: `translateX(${inView ? "-100%" : "12px"})`,
           zIndex: 99,
-          width: 16,
+          width: 12,
+          "@media(max-width: 480px)": {
+            top: 56,
+          },
         }}
         className={className}
       >
@@ -468,8 +544,8 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
             <ButtonBase key={index} onClick={onClick} sx={{ p: 0.5 }}>
               <Box
                 sx={{
-                  width: focused ? 16 : 12,
-                  height: focused ? 16 : 12,
+                  width: focused ? 12 : 10,
+                  height: focused ? 12 : 10,
                   backgroundColor: "#ffffff",
                   opacity: focused ? 1 : 0.5,
                   borderRadius: 16,
@@ -488,26 +564,46 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
           right: 0,
           bottom: 0,
           transition: `all 0.35s ease`,
-          transform: "translateY(0)",
+          transform: `translateY(${
+            tabIndex !== sections.length - 1 ? "0%" : "100%"
+          })`,
           "&.shown": {
-            transform: "translateY(100%)",
+            transform: `translateY(${"100%"})`,
           },
           zIndex: 99,
-          background: `linear-gradient(rgba(33, 33,33, 0), rgba(33, 33,33, 1))`,
+          // background: `linear-gradient(rgba(33, 33,33, 0), rgba(33, 33,33, 1))`,
         }}
         className={className}
       >
-        <Box
+        <Stack
+          direction="row"
+          spacing={2}
           sx={{
             width: "100%",
             maxWidth: maxWidth,
             m: theme.spacing(0, "auto"),
             p: theme.spacing(2, 3),
+            display: "flex",
           }}
         >
+          <Typography
+            sx={{
+              mr: 1,
+              fontSize: 14,
+              color: "#ffffff",
+              "& b": {
+                fontWeight: "900",
+              },
+            }}
+          >
+            <b>1분 안에</b>
+            <br />
+            신청 가능!
+          </Typography>
           <ButtonBase
             sx={{
-              width: "100%",
+              flex: 1,
+              // width: "100%",
               background: `linear-gradient(90deg, rgb(4,232,78, 1), rgb(28,90,246, 1)) !important`,
               color: "#ffffff",
               height: 44,
@@ -517,7 +613,7 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
               borderRadius: 0.5,
               justifyContent: "center",
               alignItems: "center",
-              p: theme.spacing(0, 2.5),
+              p: theme.spacing(0, 2.5, 0, 2),
             }}
             onClick={onClickButton}
           >
@@ -528,15 +624,15 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
               size={20}
               sx={{ mr: 1 }}
             />
-            지금 바로 내 한도 확인하기
+            지금 바로 한도 확인하기
           </ButtonBase>
-        </Box>
+        </Stack>
       </Box>
     </>
   );
 }
 
-function Jellysmack({ index }: { index: number }) {
+function BigCases({ index }: { index: number }) {
   const swipeableViewsRef = useRef<any>(null);
   const { ref, inView } = useInView();
   const [viewIndex, setViewIndex] = useState<number>(0);
@@ -548,7 +644,7 @@ function Jellysmack({ index }: { index: number }) {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        scrollSnapAlign: "start",
+        // scrollSnapAlign: "start",
         position: "relative",
         background: `linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0))`,
         p: theme.spacing(10, 0, 12, 0),
@@ -596,7 +692,7 @@ function Jellysmack({ index }: { index: number }) {
               fontWeight: "900",
               color: "#ffffff",
               "@media(max-width: 480px)": {
-                fontSize: 28,
+                fontSize: 16,
                 textAlign: "center",
               },
             }}
@@ -604,14 +700,26 @@ function Jellysmack({ index }: { index: number }) {
             글로벌 1위
             <br />
             크리에이터 플랫폼
-            <br />
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: 40,
+              lineHeight: 1.2,
+              fontWeight: "900",
+              color: "#ffffff",
+              "@media(max-width: 480px)": {
+                fontSize: 28,
+                textAlign: "center",
+              },
+            }}
+          >
             <span className="color-js">Jellysmack</span>
             <br />
             국내 지원 시작!
           </Typography>
           <Typography
             sx={{
-              fontSize: 20,
+              fontSize: 16,
               lineHeight: 1.4,
               color: grey[500],
               mt: 2,
@@ -710,7 +818,7 @@ function Jellysmack({ index }: { index: number }) {
             >
               <Icon name="chevron-right" color="#ffffff" size={24} />
             </IconButton>
-            <SwipeableViews
+            <AutoPlaySwipeableViews
               ref={swipeableViewsRef}
               index={viewIndex}
               onChangeIndex={setViewIndex}
@@ -895,12 +1003,25 @@ function Jellysmack({ index }: { index: number }) {
                                 fontSize: 14,
                                 color: grey[500],
                                 "@media(max-width: 480px)": {
-                                  fontSize: 12,
+                                  display: "none",
                                 },
                               }}
                             >
                               {item.description}
                             </Typography>
+                            <Typo
+                              lines={3}
+                              sx={{
+                                fontSize: 12,
+                                color: grey[500],
+                                display: "none",
+                                "@media(max-width: 480px)": {
+                                  display: "-webkit-box",
+                                },
+                              }}
+                            >
+                              {item.description}
+                            </Typo>
                           </Box>
                           <Box>
                             <Typography
@@ -935,7 +1056,7 @@ function Jellysmack({ index }: { index: number }) {
                   </Box>
                 );
               })}
-            </SwipeableViews>
+            </AutoPlaySwipeableViews>
           </Box>
         </Box>
       </Box>
@@ -943,7 +1064,7 @@ function Jellysmack({ index }: { index: number }) {
   );
 }
 
-function Cases({ index }: { index: number }) {
+function SmallCases({ index }: { index: number }) {
   return (
     <Box
       sx={{
@@ -952,9 +1073,10 @@ function Cases({ index }: { index: number }) {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        scrollSnapAlign: "start",
+        // scrollSnapAlign: "start",
         position: "relative",
         p: theme.spacing(10, 0, 12, 0),
+        background: `linear-gradient(rgba(0,0,0,0), rgba(0,0,0,1))`,
       }}
       className={sections[index]}
     >
@@ -976,7 +1098,7 @@ function Cases({ index }: { index: number }) {
       </Typography>
       <Typography
         sx={{
-          fontSize: 20,
+          fontSize: 16,
           lineHeight: 1.4,
           color: grey[500],
           textAlign: "center",
@@ -1015,11 +1137,314 @@ function Cases({ index }: { index: number }) {
   );
 }
 
-function Info({ index }: { index: number }) {
+function Slip({ index }: { index: number }) {
   return (
     <Box
       sx={{
-        scrollSnapAlign: "start",
+        position: "relative",
+        // scrollSnapAlign: "start",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        p: theme.spacing(10, 0, 12, 0),
+        background: `linear-gradient(rgba(0, 0, 0, 1),rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 1))`,
+      }}
+      className={sections[index]}
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: `url('https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2970&q=80')`,
+          backgroundRepeat: `no-repeat`,
+          backgroundSize: `cover`,
+          backgroundPosition: `center center`,
+          zIndex: -1,
+        }}
+      />
+      <Typography
+        sx={{
+          fontSize: 40,
+          lineHeight: 1.2,
+          fontWeight: "900",
+          textAlign: "center",
+          color: "#ffffff",
+          "@media(max-width: 480px)": {
+            fontSize: 28,
+          },
+        }}
+      >
+        총 예산{" "}
+        <span
+          style={{
+            color: `#e08af4`,
+          }}
+        >
+          6,000억,
+        </span>
+        <br />
+        어떤 원리로 지급되나요?
+      </Typography>
+    </Box>
+  );
+}
+
+function Revenue({ index }: { index: number }) {
+  const { ref, inView } = useInView();
+  return (
+    <Box
+      sx={{
+        // scrollSnapAlign: "start",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        p: theme.spacing(10, 0, 12, 0),
+        background: `linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))`,
+      }}
+      className={sections[index]}
+    >
+      <Box
+        ref={ref}
+        sx={{
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "100%",
+          maxWidth: maxWidth * 2,
+          "@media(max-width: 480px)": {
+            flexDirection: "column",
+            p: theme.spacing(0, 3),
+          },
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: 40,
+            lineHeight: 1.2,
+            fontWeight: "900",
+            color: "#ffffff",
+            textAlign: "center",
+            "@media(max-width: 480px)": {
+              fontSize: 28,
+            },
+          }}
+        >
+          유튜브 수익의 대부분은
+          <br />
+          <span
+            style={{
+              color: `#00d1b0`,
+            }}
+          >
+            30일 이내
+          </span>{" "}
+          일어납니다.
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: 16,
+            lineHeight: 1.4,
+            color: grey[500],
+            textAlign: "center",
+            mt: 2,
+            mb: 8,
+            "@media(max-width: 480px)": {
+              fontSize: 14,
+              mb: 4,
+            },
+          }}
+        >
+          당신의 콘텐츠는 6일 이후에도 수익이 됩니다.
+          <br />
+          하지만 한번에 수익이 되지 않습니다.
+        </Typography>
+        <Box
+          sx={{
+            flex: 1,
+            position: "relative",
+            width: "100%",
+            height: "100%",
+            maxHeight: 480,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            "@media(max-width: 480px)": {
+              maxHeight: 320,
+            },
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              "@media(max-width: 480px)": {
+                display: "none",
+              },
+            }}
+          >
+            <Chart type="line" data={chartData} options={chartOptions} />
+          </Box>
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              display: "none",
+              "@media(max-width: 480px)": {
+                display: "initial",
+              },
+            }}
+          >
+            <Chart
+              type="line"
+              data={chartDataMobile}
+              options={chartOptionsMobile}
+            />
+          </Box>
+          <Box
+            sx={{
+              position: "absolute",
+              top: 40,
+              left: `calc(${(6 / 30) * 100}% + 6px)`,
+              bottom: 32,
+              pl: 2,
+            }}
+          >
+            <Box
+              sx={{
+                position: "absolute",
+                top: 12,
+                left: 0,
+                bottom: 0,
+                borderLeft: `2px dashed #ffffff`,
+              }}
+            ></Box>
+            <Typography
+              sx={{
+                fontSize: 32,
+                fontWeight: "900",
+                color: "#00d1b0",
+                "@media(max-width: 480px)": {
+                  fontSize: 24,
+                },
+              }}
+            >
+              75%
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: 14,
+                color: "#ffffff",
+                "@media(max-width: 480px)": {
+                  fontSize: 12,
+                },
+              }}
+            >
+              콘텐츠 수익 중 75%가
+              <br />
+              게시 후 6일 이내에 발생합니다
+              <br />
+              (게시 당일 32%).
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              position: "absolute",
+              top: 40,
+              left: `calc(${(7 / 30) * 100}% + 6px)`,
+              right: `calc(-6px)`,
+              bottom: 32,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-end",
+            }}
+          >
+            <Box
+              sx={{
+                flex: 1,
+                position: "relative",
+              }}
+            >
+              <Box
+                sx={{
+                  position: "absolute",
+                  height: 160,
+                  "@media(max-width: 480px)": {
+                    height: 120,
+                  },
+                  left: "50%",
+                  bottom: 0,
+                  pl: 2,
+                }}
+              >
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: 12,
+                    left: 0,
+                    bottom: 0,
+                    borderLeft: `2px dashed #ffffff`,
+                  }}
+                ></Box>
+                <Typography
+                  sx={{
+                    fontSize: 32,
+                    fontWeight: "900",
+                    color: "#00d1b0",
+                    "@media(max-width: 480px)": {
+                      fontSize: 24,
+                    },
+                  }}
+                >
+                  25%
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: 14,
+                    color: "#ffffff",
+                    "@media(max-width: 480px)": {
+                      fontSize: 12,
+                    },
+                  }}
+                >
+                  콘텐츠로 평생 벌 수 있는 수익의 25%는
+                  <br />첫 주 이후에 발생합니다.
+                </Typography>
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                height: 100,
+                "@media(max-width: 480px)": {
+                  height: 48,
+                },
+                borderTop: `2px dashed #ffffff`,
+                borderLeft: `2px dashed #ffffff`,
+                borderRight: `2px dashed #ffffff`,
+              }}
+            />
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+
+function Offer({ index }: { index: number }) {
+  const { ref, inView } = useInView();
+  return (
+    <Box
+      sx={{
+        // scrollSnapAlign: "start",
         height: "100vh",
         display: "flex",
         flexDirection: "column",
@@ -1028,26 +1453,856 @@ function Info({ index }: { index: number }) {
       }}
       className={sections[index]}
     >
-      <Typography
+      <Box
+        ref={ref}
         sx={{
-          color: "#ffffff",
-          textAlign: "center",
+          position: "relative",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "100%",
+          maxWidth: maxWidth * 2,
+          "@media(max-width: 480px)": {
+            flexDirection: "column",
+          },
         }}
       >
-        jellysmack webpage를 기반으로 해
-        <br />
-        금번 펀딩에 관한 설명을 추가할 예정입니다.
-        <br />
-        <br />
-        - 기업 및 펀딩 소개
-        <br />
-        - 펀딩 성공 사례
-        <br />
-        - 펀딩 프로세스
-        <br />
-        - 펀딩 조건
-        <br />- 상세 정보 (플랜, 한도 등)
-      </Typography>
+        <Box
+          sx={{
+            width: 400,
+            "@media(max-width: 480px)": {
+              width: "100%",
+            },
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: 40,
+              lineHeight: 1.2,
+              fontWeight: "900",
+              color: "#ffffff",
+              "@media(max-width: 480px)": {
+                fontSize: 28,
+                textAlign: "center",
+              },
+            }}
+          >
+            당신의
+            <br />
+            30일 이전 수익을
+            <br />
+            <span
+              style={{
+                color: `#e08af4`,
+              }}
+            >
+              한번에
+            </span>{" "}
+            지급합니다.
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: 16,
+              lineHeight: 1.4,
+              color: grey[500],
+              mt: 2,
+              "@media(max-width: 480px)": {
+                fontSize: 14,
+                textAlign: "center",
+              },
+            }}
+          >
+            당신의 콘텐츠는 6일 이후에도 수익이 됩니다.
+            <br />
+            하지만 한번에 수익이 되지 않습니다.
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            flex: 1,
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            maxHeight: `800px`,
+            "@media(max-width: 480px)": {
+              width: "100%",
+              maxHeight: `480px`,
+              p: theme.spacing(0, 3),
+            },
+          }}
+        >
+          <Box>
+            <Typography
+              sx={{
+                fontSize: 16,
+                fontWeight: "900",
+                color: "#ffffff",
+              }}
+            >
+              30일 이내의 모든 수익 보장
+            </Typography>
+            <Box
+              sx={{
+                mt: 2,
+                position: "relative",
+                height: 168,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Box
+                sx={{
+                  position: "relative",
+                  width: "100%",
+                  height: 4,
+                  backgroundColor: "#e08af4",
+                  overflow: "visible",
+                  mb: 4,
+                }}
+              >
+                <Box
+                  sx={{
+                    position: "absolute",
+                    right: 0,
+                    top: -4,
+                    width: 12,
+                    height: 12,
+                    borderTop: `4px solid #e08af4`,
+                    borderRight: `4px solid #e08af4`,
+                    transform: `rotate(45deg)`,
+                  }}
+                />
+              </Box>
+              <Box
+                sx={{
+                  position: "absolute",
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  width: "calc(60%)",
+                }}
+              >
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 36,
+                    borderTop: `2px dashed #e08af4`,
+                    borderLeft: `2px dashed #e08af4`,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      right: 0,
+                      top: -5,
+                      width: 8,
+                      height: 8,
+                      borderTop: `2px solid #e08af4`,
+                      borderRight: `2px solid #e08af4`,
+                      transform: `rotate(45deg)`,
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontSize: 20,
+                        fontWeight: "900",
+                        color: "#e08af4",
+                        textAlign: "center",
+                      }}
+                    >
+                      내 수익
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: 12,
+                        lineHeight: 1.4,
+                        color: "#ffffff",
+                        textAlign: "center",
+                        mt: 0.5,
+                      }}
+                    >
+                      수익의 대부분이
+                      <br />
+                      온전히 보장됩니다.
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  position: "absolute",
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  width: "calc(40% - 2px)",
+                }}
+              >
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 36,
+                    borderTop: `2px dashed ${grey[700]}`,
+                    borderRight: `2px dashed ${grey[700]}`,
+                    background: `repeating-linear-gradient(45deg, ${grey[700]}, ${grey[700]} 1px, transparent 0, transparent 8px)`,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      left: 0,
+                      top: -5,
+                      width: 8,
+                      height: 8,
+                      borderTop: `2px solid ${grey[700]}`,
+                      borderRight: `2px solid ${grey[700]}`,
+                      transform: `rotate(225deg)`,
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontSize: 20,
+                        fontWeight: "900",
+                        color: grey[200],
+                      }}
+                    >
+                      담보분
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  position: "absolute",
+                  left: `calc(40%)`,
+                  top: 0,
+                  bottom: 0,
+                  transform: `translateX(-50%)`,
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <Box sx={{ flex: 1 }}></Box>
+                <Box
+                  sx={{
+                    width: 16,
+                    height: 16,
+                    borderRadius: 16,
+                    backgroundColor: "#ffffff",
+                    border: `4px solid #e08af4`,
+                  }}
+                />
+                <Typography
+                  sx={{
+                    mt: 0.5,
+                    fontSize: 14,
+                    fontWeight: "700",
+                    color: grey[700],
+                  }}
+                >
+                  30일 이전
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  position: "absolute",
+                  left: `calc(60%)`,
+                  top: 0,
+                  bottom: 0,
+                  transform: `translateX(-50%)`,
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <Box sx={{ flex: 1 }}></Box>
+                <Box
+                  sx={{
+                    width: 16,
+                    height: 16,
+                    borderRadius: 16,
+                    backgroundColor: "#ffffff",
+                    border: `4px solid #e08af4`,
+                  }}
+                />
+                <Typography
+                  sx={{
+                    mt: 0.5,
+                    fontSize: 14,
+                    fontWeight: "700",
+                    color: grey[700],
+                  }}
+                >
+                  당일
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+          <Box sx={{ mt: 10 }}>
+            <Typography
+              sx={{
+                fontSize: 16,
+                fontWeight: "900",
+                color: "#ffffff",
+              }}
+            >
+              원하는 기간 만큼 선택 가능
+            </Typography>
+            <Stack direction="row" spacing={1} sx={{ height: 44, mt: 2 }}>
+              {[1, 2, 3, 5].map((item, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    flex: 1,
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 1,
+                    backgroundColor: "#e08af4",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: 16,
+                      fontWeight: "700",
+                      color: grey[900],
+                      "@media(max-width: 480px)": {
+                        fontSize: 14,
+                        fontWeight: "700",
+                      },
+                    }}
+                  >
+                    {`${item}년 플랜`}
+                  </Typography>
+                </Box>
+              ))}
+            </Stack>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+
+function Flow({ index }: { index: number }) {
+  const { ref, inView } = useInView();
+  return (
+    <Box
+      sx={{
+        // scrollSnapAlign: "start",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        p: theme.spacing(10, 0, 12, 0),
+      }}
+      className={sections[index]}
+    >
+      <Box
+        ref={ref}
+        sx={{
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "100%",
+          maxWidth: maxWidth * 2,
+          "@media(max-width: 480px)": {
+            flexDirection: "column",
+          },
+        }}
+      >
+        <Typography
+          sx={{
+            fontSize: 40,
+            lineHeight: 1.2,
+            fontWeight: "900",
+            color: "#ffffff",
+            textAlign: "center",
+            "@media(max-width: 480px)": {
+              fontSize: 28,
+            },
+          }}
+        >
+          신청으로부터{" "}
+          <span
+            style={{
+              color: `#0093ff`,
+            }}
+          >
+            3주 안에
+          </span>
+          <br />
+          모든 과정 완료.
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: 16,
+            lineHeight: 1.4,
+            color: grey[500],
+            textAlign: "center",
+            mt: 2,
+            mb: 8,
+            "@media(max-width: 480px)": {
+              fontSize: 14,
+              mb: 4,
+            },
+          }}
+        >
+          당신의 콘텐츠는 6일 이후에도 수익이 됩니다.
+          <br />
+          하지만 한번에 수익이 되지 않습니다.
+        </Typography>
+        <Box
+          sx={{
+            flex: 1,
+            position: "relative",
+            width: "100%",
+            maxHeight: 480,
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gridAutoColumn: "1fr 1fr",
+            gridTemplateRows: "auto auto",
+            "@media(max-width: 480px)": {
+              maxHeight: 320,
+            },
+          }}
+        >
+          {flows.map((item, index) => (
+            <Box
+              key={index}
+              sx={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                position: "relative",
+              }}
+            >
+              {item.icon && (
+                <>
+                  <Icon
+                    name={item.icon}
+                    color="#0093ff"
+                    prefix="fad"
+                    size={64}
+                    sx={{
+                      "@media(max-width: 480px)": {
+                        fontSize: `20px !important`,
+                      },
+                    }}
+                  />
+                  <Typography
+                    sx={{
+                      fontSize: 20,
+                      color: "#ffffff",
+                      fontWeight: "900",
+                      mt: 2,
+                      "@media(max-width: 480px)": {
+                        fontSize: 14,
+                      },
+                    }}
+                  >
+                    {item.title}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: 16,
+                      color: grey[500],
+                      mt: 0.5,
+                      "@media(max-width: 480px)": {
+                        fontSize: 12,
+                      },
+                    }}
+                  >
+                    {item.duration ? `${item.duration} 소요` : "총 3~4주"}
+                  </Typography>
+                </>
+              )}
+              {index < 2 ? (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    right: 0,
+                    transform: "translate(50%, -50%)",
+                  }}
+                >
+                  <Icon
+                    name="arrow-right"
+                    color={grey[800]}
+                    size={48}
+                    prefix="fas"
+                    sx={{
+                      "@media(max-width: 480px)": {
+                        fontSize: `12px !important`,
+                      },
+                    }}
+                  />
+                </Box>
+              ) : index === 2 ? (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    left: "50%",
+                    bottom: 0,
+                    transform: "translate(-50%, 50%)",
+                  }}
+                >
+                  <Icon
+                    name="arrow-down"
+                    color={grey[800]}
+                    size={48}
+                    prefix="fas"
+                    sx={{
+                      "@media(max-width: 480px)": {
+                        fontSize: `12px !important`,
+                      },
+                    }}
+                  />
+                </Box>
+              ) : index !== 3 ? (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: 0,
+                    transform: "translate(-50%, -50%)",
+                  }}
+                >
+                  <Icon
+                    name="arrow-left"
+                    color={grey[800]}
+                    size={48}
+                    prefix="fas"
+                    sx={{
+                      "@media(max-width: 480px)": {
+                        fontSize: `12px !important`,
+                      },
+                    }}
+                  />
+                </Box>
+              ) : null}
+            </Box>
+          ))}
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+
+function Outro({ index }: { index: number }) {
+  const router = useRouter();
+  const { ref, inView } = useInView();
+  const className = inView ? "shown" : "";
+  const onClickButton = () => {
+    router.push(`pairing`);
+  };
+  const onClickJellysmack = () => {
+    router.push(`https://jellysmack.com/ko`);
+  };
+  const onClickYouha = () => {
+    router.push(`https://youha.info`);
+  };
+  return (
+    <Box
+      sx={{
+        // scrollSnapAlign: "start",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+      className={sections[index]}
+    >
+      <Box ref={ref} sx={{ flex: 1, width: "100%", position: "relative" }}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: `linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.0), rgba(0,0,0,0))`,
+            p: theme.spacing(7, 0),
+            zIndex: 9,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          <Box
+            ref={ref}
+            sx={{
+              p: theme.spacing(12, 3),
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: 40,
+                lineHeight: 1.2,
+                fontWeight: "900",
+                textAlign: "center",
+                color: "#ffffff",
+                transform: "translateY(100%)",
+                opacity: 0,
+                transition: "all 0.35s ease",
+                "&.shown": {
+                  transform: "translateY(0)",
+                  opacity: 1,
+                },
+                transitionDelay: `0s`,
+                "@media(max-width: 480px)": {
+                  fontSize: 32,
+                },
+              }}
+              className={className}
+            >
+              국내 1위{" "}
+              <span
+                style={{
+                  color: "#0093ff",
+                }}
+              >
+                youha
+              </span>
+              와
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: 40,
+                lineHeight: 1.2,
+                fontWeight: "900",
+                textAlign: "center",
+                color: "#ffffff",
+                transform: "translateY(100%)",
+                opacity: 0,
+                transition: "all 0.35s ease",
+                "&.shown": {
+                  transform: "translateY(0)",
+                  opacity: 1,
+                },
+                transitionDelay: `0.5s`,
+                "@media(max-width: 480px)": {
+                  fontSize: 32,
+                },
+              }}
+              className={className}
+            >
+              글로벌 1위{" "}
+              <span
+                style={{
+                  color: "#00e94f",
+                }}
+              >
+                Jellysmack
+              </span>
+              이
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: 40,
+                lineHeight: 1.2,
+                fontWeight: "900",
+                textAlign: "center",
+                color: "#ffffff",
+                transform: "translateY(100%)",
+                opacity: 0,
+                transition: "all 0.35s ease",
+                "&.shown": {
+                  transform: "translateY(0)",
+                  opacity: 1,
+                },
+                transitionDelay: `1s`,
+                "@media(max-width: 480px)": {
+                  fontSize: 32,
+                },
+              }}
+              className={className}
+            >
+              함께합니다.
+            </Typography>
+            <Stack
+              spacing={1}
+              sx={{
+                transition: "all 0.35s ease",
+                transform: "translateY(100%)",
+                opacity: 0,
+                "&.shown": {
+                  transform: "translateY(0)",
+                  opacity: 1,
+                },
+                transitionDelay: `1.5s`,
+                m: theme.spacing(3, 0, 0, 0),
+              }}
+              className={className}
+            >
+              <ButtonBase
+                sx={{
+                  width: "100%",
+                  background: `#00e94f`,
+                  color: "#000000",
+                  height: 44,
+                  fontSize: 16,
+                  lineHeight: "24px",
+                  fontWeight: "700",
+                  borderRadius: 0.5,
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  p: theme.spacing(0, 2.5),
+                }}
+                onClick={onClickJellysmack}
+              >
+                <Box
+                  sx={{
+                    width: 24,
+                    height: 24,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    mr: 2,
+                    "& img": {
+                      width: 20,
+                      height: 20,
+                    },
+                  }}
+                >
+                  <img src="/logos/jellysmack-square-black.png" />
+                </Box>
+                jellysmack 더 알아보러 가기
+              </ButtonBase>
+              <ButtonBase
+                sx={{
+                  width: "100%",
+                  background: `#0093ff`,
+                  color: "#ffffff",
+                  height: 44,
+                  fontSize: 16,
+                  lineHeight: "24px",
+                  fontWeight: "700",
+                  borderRadius: 0.5,
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  p: theme.spacing(0, 2.5),
+                }}
+                onClick={onClickYouha}
+              >
+                <Box
+                  sx={{
+                    width: 24,
+                    height: 24,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    mr: 2,
+                    "& img": {
+                      width: 20,
+                      height: 20,
+                    },
+                  }}
+                >
+                  <img src="/logos/youha-square-white.png" />
+                </Box>
+                youha 더 알아보러 가기
+              </ButtonBase>
+            </Stack>
+          </Box>
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          width: "100%",
+          backgroundColor: grey[900],
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: maxWidth * 2,
+            p: theme.spacing(5, 3, 10, 3),
+            m: theme.spacing(0, "auto"),
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              mb: 3,
+            }}
+          >
+            <Box
+              sx={{
+                width: 24,
+                height: 24,
+                mr: 2,
+              }}
+              onClick={onClickJellysmack}
+            >
+              <img src="/logos/jellysmack-square-white.png" />
+            </Box>
+            <Box
+              sx={{
+                width: 24,
+                height: 24,
+                mr: 2,
+              }}
+              onClick={onClickYouha}
+            >
+              <img src="/logos/youha-square-white.png" />
+            </Box>
+          </Box>
+          <Typography
+            sx={{
+              fontSize: 14,
+              lineHeight: "20px",
+              color: grey[500],
+            }}
+          >
+            주식회사 티켓플레이스
+            <br />
+            사업자등록번호: 145-87-00100
+            <br />
+            서울특별시 강남구 봉은사로 2길 21, 반석빌딩 5층
+            <br />
+            대표이사 한준희
+            <br />
+            <br />ⓒ Ticketplace Inc.
+          </Typography>
+        </Box>
+      </Box>
     </Box>
   );
 }
