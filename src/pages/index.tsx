@@ -197,8 +197,8 @@ export default function Page() {
     >
       <Header />
       <Intro index={0} tabIndex={tabIndex} />
-      <BigCases index={2} />
-      <SmallCases index={1} />
+      <BigCases index={1} />
+      <SmallCases index={2} />
       <Slip index={3} />
       <Revenue index={4} />
       <Offer index={5} />
