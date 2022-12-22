@@ -12,8 +12,8 @@ import Icon from "../components/atoms/Icon";
 import { theme } from "../themes/theme";
 import { useInView } from "react-intersection-observer";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { comma } from "../utils";
+import { useEffect, useRef, useState } from "react";
+import SwipeableViews from "react-swipeable-views";
 import { maxWidth } from "../constants";
 
 const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false });
@@ -70,17 +70,53 @@ const cases = [
   },
 ];
 
-const sections = ["intro", "cases", "info"];
+const views = [
+  {
+    srcs: [
+      "https://img.insight.co.kr/static/2022/11/27/700/img_20221127173109_4850gt6l.jpg",
+      "https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/202111/29/ebf67a39-a33a-4d7a-aeb4-9e3f62c4ff3b.jpg",
+      "https://storage.googleapis.com/cdn.media.bluedot.so/bluedot.excitingfx/2021/12/MrBeastGame.png",
+    ],
+    title: <>MrBeast </>,
+    subscribers: `1.2억명`,
+    description: `공개 된지 2주가 안된 시점에서 조회수 1.5억을 돌파하였다. 이는 MrBeast의 영상의 최고 조회수이며, 한국 시간 기준으로 12일 월 10일 1위 자리를 차지했다고 한다. 2022년 1월 15일 기준으로 2억회를 돌파했고 2022년 11월 기준으로 3억회를 돌파했다. 오징어 게임 관련 영상 중 조회수 1위다.`,
+    offer: `30억 이상`,
+  },
+  {
+    srcs: [
+      "https://veja.abril.com.br/wp-content/uploads/2017/02/entretenimento-youtuber-pewdiepie.jpg?quality=70&strip=info&w=680&h=453&crop=1",
+      "https://www.convinceandconvert.com/wp-content/uploads/2016/07/Why-PewDiePie-Is-More-Than-a-YouTube-Sensation.jpg",
+      "https://wp.clutchpoints.com/wp-content/uploads/2022/01/Pewdiepie-will-take-a-break-from-Youtube-this-January.png",
+    ],
+    title: <>PewDiePie</>,
+    subscribers: `1.1억명`,
+    description: `Pewdiepie로 더 잘 알려진 YouTube의 가장 큰 단일 콘텐츠 제작자인 Felix Kjellberg가 연초에 잠시 쉬었던 3 주간의 휴식에서 돌아왔습니다. 그의 복귀 에피소드에서, 우리는 Pewdiepie (유튜브에서 10 년을 보낸 후)가 마침내 우리에게 얼굴을 공개 할 것이라는 사실과 Jellysmack과 계약을 맺었음을 알게 되었습니다.`,
+    offer: `20억 이상`,
+  },
+  {
+    srcs: [
+      "https://blog.jellysmack.com/wp-content/uploads/sites/2/2022/04/Karina-Garcia-featured-2.png",
+      "https://vz.cnwimg.com/wp-content/uploads/2017/07/Karina-Garcia-e1500360609958.jpg",
+      "https://www.tubefilter.com/wp-content/uploads/2019/01/karina-garcia.jpg",
+    ],
+    title: <>Karina Garcia </>,
+    subscribers: `923만명`,
+    description: `젤리스맥은 ‘슬라임 만들기’로 세계적 인기를 얻고 있는 유튜버 ‘카리나 가르시아(Karina Garcia)’ 등을 비롯한 총 500여 명의 글로벌 톱 크리에이터들과 협업하고 있다. 실제로, 젤리스맥과 협업한 크리에이터 중 65% 이상이 서비스를 통해 약 25만 달러(한화 약 3억 원)의 총 수익을 창출했으며, 젤리스맥은 현재까지 글로벌 크리에이터들과 함께 1억 5천만 달러(한화 약 1820억 원) 이상의 수익을 올린 것으로 알려졌다.`,
+    offer: `10억 이상`,
+  },
+];
+
+const sections = ["intro", "jellysmack", "cases", "info"];
 
 export default function Page() {
-  const [index, setIndex] = useState<number>(0);
+  const [tabIndex, setTabIndex] = useState<number>(0);
   const onScroll = () => {
     if (typeof document === "undefined") return;
     var container: any = document.querySelector(".container");
     const height = container.offsetHeight;
     const top = container.scrollTop;
     const index = parseInt(`${(top + 64) / height}`);
-    setIndex(index);
+    setTabIndex(index);
   };
   return (
     <Box
@@ -95,14 +131,25 @@ export default function Page() {
         overflowX: "hidden",
         overflowY: "auto",
         scrollSnapType: "y mandatory",
+        "& .color-js": {
+          color: "#00e94f !important",
+        },
       }}
       className="container"
       onScroll={onScroll}
     >
       <Header />
-      <Intro index={index} />
-      <Cases index={index} />
-      <Info index={index} />
+      {sections.map((item, index) => {
+        return item === "intro" ? (
+          <Intro key={index} index={index} tabIndex={tabIndex} />
+        ) : item === "cases" ? (
+          <Cases key={index} index={index} />
+        ) : item === "info" ? (
+          <Info key={index} index={index} />
+        ) : item === "jellysmack" ? (
+          <Jellysmack key={index} index={index} />
+        ) : null;
+      })}
     </Box>
   );
 }
@@ -162,7 +209,7 @@ export function Header() {
   );
 }
 
-function Intro({ index: propsIndex }: { index: number }) {
+function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
   const router = useRouter();
   const { ref, inView } = useInView();
   const className = inView ? "shown" : "";
@@ -200,7 +247,7 @@ function Intro({ index: propsIndex }: { index: number }) {
             objectFit: "cover",
           },
         }}
-        className="intro"
+        className={sections[index]}
       >
         <ReactPlayer
           url="https://jellysmack.com/wp-content/uploads/2022/02/ADDTL_jellysmack_longform_1920x1080_SANSattribution.mp4"
@@ -398,14 +445,14 @@ function Intro({ index: propsIndex }: { index: number }) {
           top: "50%",
           left: 0,
           transition: `all 0.35s ease`,
-          transform: `translateX(${inView ? "-100%" : "8px"})`,
+          transform: `translateX(${inView ? "-100%" : "16px"})`,
           zIndex: 99,
           width: 16,
         }}
         className={className}
       >
-        {["intro", "cases", "info"].map((item, index) => {
-          const focused = propsIndex === index;
+        {sections.map((item, index) => {
+          const focused = tabIndex === index;
           const onClick = () => {
             if (typeof document === "undefined") return;
             var container: any = document.querySelector(".container");
@@ -489,7 +536,10 @@ function Intro({ index: propsIndex }: { index: number }) {
   );
 }
 
-function Cases({ index }: { index: number }) {
+function Jellysmack({ index }: { index: number }) {
+  const swipeableViewsRef = useRef<any>(null);
+  const { ref, inView } = useInView();
+  const [viewIndex, setViewIndex] = useState<number>(0);
   return (
     <Box
       sx={{
@@ -501,9 +551,412 @@ function Cases({ index }: { index: number }) {
         scrollSnapAlign: "start",
         position: "relative",
         background: `linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0))`,
-        p: theme.spacing(12, 0, 20, 0),
+        p: theme.spacing(10, 0, 12, 0),
       }}
-      className="cases"
+      className={sections[index]}
+    >
+      <Box
+        ref={ref}
+        sx={{
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
+          height: "100%",
+          maxWidth: maxWidth * 2,
+          "@media(max-width: 480px)": {
+            flexDirection: "column",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            bottom: 0,
+            width: 400,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            zIndex: 9,
+            "@media(max-width: 480px)": {
+              position: "initial",
+              top: "initial",
+              left: "initial",
+              bottom: "initial",
+              width: "100%",
+            },
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: 40,
+              lineHeight: 1.2,
+              fontWeight: "900",
+              color: "#ffffff",
+              "@media(max-width: 480px)": {
+                fontSize: 28,
+                textAlign: "center",
+              },
+            }}
+          >
+            글로벌 1위
+            <br />
+            크리에이터 플랫폼
+            <br />
+            <span className="color-js">Jellysmack</span>
+            <br />
+            국내 지원 시작!
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: 20,
+              lineHeight: 1.4,
+              color: grey[500],
+              mt: 2,
+              "@media(max-width: 480px)": {
+                fontSize: 14,
+                mb: 4,
+                textAlign: "center",
+              },
+            }}
+          >
+            세계 최초 구독자 1억 PewDiePie
+            <br />
+            현실판 오징어게임의 MrBeast
+            <br />
+            다음 주인공은 누구?
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            flex: 1,
+            width: "100%",
+            height: "100%",
+            "@media(max-width: 480px)": {
+              position: "relative",
+              overflowX: "visible",
+            },
+          }}
+        >
+          <Box
+            sx={{
+              height: "100%",
+              position: "absolute",
+              top: 0,
+              left: 400,
+              right: 0,
+              bottom: 0,
+              "& > div": {
+                width: "100%",
+                height: "100%",
+                overflowX: "visible",
+                "@media(max-width: 480px)": {
+                  position: "relative",
+                  p: theme.spacing(0, 3),
+                  '& > div': {
+                    position:'relative',
+                    top: 'initial',
+                    left: 'initial',
+                    right: 'initial',
+                    bottom: 'initial',
+                  }
+                },
+              },
+              "@media(max-width: 480px)": {
+                left: 0,
+                right: 0,
+              },
+            }}
+          >
+            <IconButton
+              disabled={viewIndex === 0}
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: -24,
+                transform: "translateY(-50%)",
+                zIndex: 9,
+                opacity: viewIndex === 0 ? 0.2 : 1,
+                "@media(max-width: 480px)": {
+                  left: 12,
+                },
+              }}
+              onClick={() => {
+                if (viewIndex === 0) return;
+                setViewIndex(viewIndex - 1);
+              }}
+            >
+              <Icon name="chevron-left" color="#ffffff" size={24} />
+            </IconButton>
+            <IconButton
+              disabled={viewIndex === views.length - 1}
+              sx={{
+                position: "absolute",
+                top: "50%",
+                right: -24,
+                transform: "translateY(-50%)",
+                zIndex: 9,
+                opacity: viewIndex === views.length - 1 ? 0.2 : 1,
+                "@media(max-width: 480px)": {
+                  right: 12,
+                },
+              }}
+              onClick={() => {
+                if (viewIndex === views.length - 1) return;
+                setViewIndex(viewIndex + 1);
+              }}
+            >
+              <Icon name="chevron-right" color="#ffffff" size={24} />
+            </IconButton>
+            <SwipeableViews
+              ref={swipeableViewsRef}
+              index={viewIndex}
+              onChangeIndex={setViewIndex}
+              enableMouseEvents
+            >
+              {views.map((item, index) => {
+                const { srcs, title } = item;
+                const focused = viewIndex === index;
+                return (
+                  <Box
+                    key={index}
+                    sx={{
+                      width: "100%",
+                      height: "100%",
+                      transition: `all 0.35s ease`,
+                      transform: `scale(${focused ? 1 : 0.9})`,
+                      opacity: focused ? 1 : 0.2,
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: "100%",
+                        height: "100%",
+                        maxHeight: `800px`,
+                        backgroundColor: "#000000",
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          position: "relative",
+                          width: "100%",
+                          height: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            position: "relative",
+                            width: "100%",
+                            pt: `${56.25 * 2 * 0.6}%`,
+                            "& img": {
+                              objectFit: "cover",
+                            },
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              width: "100%",
+                              display: "flex",
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                position: "relative",
+                                width: "40%",
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  position: "absolute",
+                                  top: 0,
+                                  left: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  backgroundImage: `url(${srcs[0]})`,
+                                  backgroundRepeat: `no-repeat`,
+                                  backgroundSize: `cover`,
+                                  backgroundPosition: `center center`,
+                                }}
+                              />
+                            </Box>
+                            <Box
+                              sx={{
+                                flex: 1,
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  position: "relative",
+                                  width: "100%",
+                                  pt: `56.25%`,
+                                }}
+                              >
+                                <Box
+                                  sx={{
+                                    position: "absolute",
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    backgroundImage: `url(${srcs[1]})`,
+                                    backgroundRepeat: `no-repeat`,
+                                    backgroundSize: `cover`,
+                                    backgroundPosition: `center center`,
+                                  }}
+                                />
+                              </Box>
+                              <Box
+                                sx={{
+                                  position: "relative",
+                                  width: "100%",
+                                  pt: `56.25%`,
+                                }}
+                              >
+                                <Box
+                                  sx={{
+                                    position: "absolute",
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    backgroundImage: `url(${srcs[2]})`,
+                                    backgroundRepeat: `no-repeat`,
+                                    backgroundSize: `cover`,
+                                    backgroundPosition: `center center`,
+                                  }}
+                                />
+                              </Box>
+                            </Box>
+                          </Box>
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              background: `linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3), rgba(0,0,0,1))`,
+                            }}
+                          />
+                        </Box>
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            p: 3,
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <Typography
+                            sx={{
+                              fontSize: 32,
+                              fontWeight: "900",
+                              color: "#ffffff",
+                              "@media(max-width: 480px)": {
+                                fontSize: 24,
+                              },
+                            }}
+                          >
+                            {title}
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontSize: 16,
+                              color: grey[500],
+                              "@media(max-width: 480px)": {
+                                fontSize: 14,
+                              },
+                            }}
+                          >
+                            구독자 {item.subscribers}
+                          </Typography>
+                          <Box
+                            sx={{
+                              mt: 2,
+                              flex: 1,
+                            }}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: 14,
+                                color: grey[500],
+                                "@media(max-width: 480px)": {
+                                  fontSize: 12,
+                                },
+                              }}
+                            >
+                              {item.description}
+                            </Typography>
+                          </Box>
+                          <Box>
+                            <Typography
+                              sx={{
+                                mt: 6,
+                                fontSize: 14,
+                                color: grey[500],
+                                "@media(max-width: 480px)": {
+                                  mt: 3,
+                                  fontSize: 12,
+                                },
+                              }}
+                            >
+                              지원금액
+                            </Typography>
+                            <Typography
+                              sx={{
+                                fontSize: 28,
+                                fontWeight: "900",
+                                color: "#e08af4",
+                                "@media(max-width: 480px)": {
+                                  fontSize: 20,
+                                },
+                              }}
+                            >
+                              {item.offer}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Box>
+                );
+              })}
+            </SwipeableViews>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+
+function Cases({ index }: { index: number }) {
+  return (
+    <Box
+      sx={{
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        scrollSnapAlign: "start",
+        position: "relative",
+        p: theme.spacing(10, 0, 12, 0),
+      }}
+      className={sections[index]}
     >
       <Typography
         sx={{
@@ -513,17 +966,17 @@ function Cases({ index }: { index: number }) {
           textAlign: "center",
           color: "#ffffff",
           "@media(max-width: 480px)": {
-            fontSize: 24,
+            fontSize: 28,
           },
         }}
       >
-        검증된 크리에이터들의
+        <span className="color-js">Jellysmack</span>과 함께
         <br />
-        실제 펀딩 사례
+        급성장한 크리에이터들
       </Typography>
       <Typography
         sx={{
-          fontSize: 16,
+          fontSize: 20,
           lineHeight: 1.4,
           color: grey[500],
           textAlign: "center",
@@ -573,7 +1026,7 @@ function Info({ index }: { index: number }) {
         justifyContent: "center",
         alignItems: "center",
       }}
-      className="info"
+      className={sections[index]}
     >
       <Typography
         sx={{
@@ -686,9 +1139,12 @@ function Gallery() {
               </Typography>
               <Typography
                 sx={{
-                  fontSize: 14,
+                  fontSize: 16,
                   color: "#ffffff",
                   textAlign: "center",
+                  "@media(max-width: 480px)": {
+                    fontSize: 14,
+                  },
                 }}
               >
                 {subtitle}
@@ -708,6 +1164,9 @@ function Gallery() {
                   mt: 1,
                   fontSize: 14,
                   color: grey[500],
+                  "@media(max-width: 480px)": {
+                    fontSize: 12,
+                  },
                 }}
               >
                 {dialog ?? ""}
