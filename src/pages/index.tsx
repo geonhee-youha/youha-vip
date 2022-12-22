@@ -655,13 +655,13 @@ function Jellysmack({ index }: { index: number }) {
                 "@media(max-width: 480px)": {
                   position: "relative",
                   p: theme.spacing(0, 3),
-                  '& > div': {
-                    position:'relative',
-                    top: 'initial',
-                    left: 'initial',
-                    right: 'initial',
-                    bottom: 'initial',
-                  }
+                  "& > div": {
+                    position: "relative",
+                    top: "initial",
+                    left: "initial",
+                    right: "initial",
+                    bottom: "initial",
+                  },
                 },
               },
               "@media(max-width: 480px)": {
@@ -876,7 +876,7 @@ function Jellysmack({ index }: { index: number }) {
                           <Typography
                             sx={{
                               fontSize: 16,
-                              color: grey[500],
+                              color: "#ffffff",
                               "@media(max-width: 480px)": {
                                 fontSize: 14,
                               },
@@ -1070,7 +1070,7 @@ function Gallery() {
     >
       {cases.map((item, index) => {
         const { src, title, subtitle, budget, dialog } = item;
-        const size = 200;
+        const size = 240;
         return (
           <Box
             key={index}
@@ -1081,6 +1081,9 @@ function Gallery() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              "@media(max-width: 480px)": {
+                width: size - 40,
+              },
             }}
           >
             <Box
@@ -1090,6 +1093,10 @@ function Gallery() {
                 background: `linear-gradient(270deg,#00d1b0 0,#00e94f 48.96%,#0093ff 73.96%,#e08af4 97.92%)`,
                 p: theme.spacing(0.5),
                 borderRadius: 224,
+                "@media(max-width: 480px)": {
+                  width: size - 104,
+                  height: size - 104,
+                },
               }}
             >
               <Box
