@@ -512,6 +512,7 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
       <Box
         sx={{
           display: playing ? "flex" : "none",
+          flexDirection: "column",
           alignItems: "center",
           position: "fixed",
           top: "50%",
