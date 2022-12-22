@@ -33,11 +33,7 @@ export default function Page() {
         overflowY: "scroll",
       }}
     >
-      {/* <BackHeader>
-        <IconButton onClick={onClickHome}>
-          <Icon name="home-alt" color="#ffffff" />
-        </IconButton>
-      </BackHeader> */}
+      <BackHeader />
       <Box
         sx={{
           p: theme.spacing(8, 3, 16, 3),

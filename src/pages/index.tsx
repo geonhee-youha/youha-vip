@@ -73,6 +73,7 @@ const examples = [
 export default function Page() {
   const [index, setIndex] = useState<number>(0);
   const onScroll = () => {
+    if (typeof document === "undefined") return;
     var container: any = document.querySelector(".container");
     const height = container.offsetHeight;
     const top = container.scrollTop;
@@ -108,6 +109,7 @@ export function Header() {
   const router = useRouter();
   const onClickLogo = () => {
     if (router.pathname === "/") {
+      if (typeof document === "undefined") return;
       var container: any = document.querySelector(".container");
       var target: any = document.querySelector(".intro");
       if (container !== null) {
@@ -167,6 +169,7 @@ function Intro({ index: propsIndex }: { index: number }) {
     if (inView) setPlaying(inView);
   }, [inView]);
   const onClickDown = () => {
+    if (typeof document === "undefined") return;
     var container: any = document.querySelector(".container");
     var target: any = document.querySelector(".examples");
     if (container !== null) {
@@ -401,6 +404,7 @@ function Intro({ index: propsIndex }: { index: number }) {
       >
         {["intro", "examples", "info"].map((item, index) => {
           const focused = propsIndex === index;
+          if (typeof document === "undefined") return;
           var container: any = document.querySelector(".container");
           var target: any = document.querySelector(`.${item}`);
           const onClick = () => {
