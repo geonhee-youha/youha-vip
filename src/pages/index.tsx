@@ -403,10 +403,10 @@ function Intro({ index: propsIndex }: { index: number }) {
       >
         {["intro", "cases", "info"].map((item, index) => {
           const focused = propsIndex === index;
-          if (typeof document === "undefined") return;
-          var container: any = document.querySelector(".container");
-          var target: any = document.querySelector(`.${item}`);
           const onClick = () => {
+            if (typeof document === "undefined") return;
+            var container: any = document.querySelector(".container");
+            var target: any = document.querySelector(`.${item}`);
             if (container !== null) {
               container.scrollBy({
                 top: target.getBoundingClientRect().top,
@@ -415,8 +415,8 @@ function Intro({ index: propsIndex }: { index: number }) {
             }
           };
           return (
-            <Box key={index} sx={{ p: 0.5 }}>
-              <ButtonBase
+            <ButtonBase key={index} onClick={onClick} sx={{ p: 0.5 }}>
+              <Box
                 sx={{
                   width: focused ? 16 : 12,
                   height: focused ? 16 : 12,
@@ -425,9 +425,8 @@ function Intro({ index: propsIndex }: { index: number }) {
                   borderRadius: 16,
                   transition: `all 0.35s ease`,
                 }}
-                onClick={onClick}
               />
-            </Box>
+            </ButtonBase>
           );
         })}
       </Stack>
