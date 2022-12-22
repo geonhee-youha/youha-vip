@@ -1,4 +1,4 @@
-import { Box, ButtonBase, IconButton, Stack, Typography } from "@mui/material";
+import { Box, ButtonBase, Stack, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -9,9 +9,6 @@ import { theme } from "../themes/theme";
 
 export default function Page() {
   const router = useRouter();
-  const onClickButton = () => {
-    router.push(`/complete`);
-  };
   const onClickJellysmack = () => {
     router.push(`https://jellysmack.com/ko`);
   };
@@ -47,8 +44,8 @@ export default function Page() {
       >
         <Typography
           sx={{
-            fontSize: 32,
-            lineHeight: "40px",
+            fontSize: 28,
+            lineHeight: 1.2,
             fontWeight: "900",
             color: "#ffffff",
           }}
@@ -60,7 +57,7 @@ export default function Page() {
         <Typography
           sx={{
             fontSize: 16,
-            lineHeight: "24px",
+            lineHeight: 1.4,
             color: grey[500],
             mt: 1,
           }}

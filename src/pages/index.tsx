@@ -70,6 +70,8 @@ const cases = [
   },
 ];
 
+const sections = ["intro", "cases", "info"];
+
 export default function Page() {
   const [index, setIndex] = useState<number>(0);
   const onScroll = () => {
@@ -111,7 +113,7 @@ export function Header() {
     if (router.pathname === "/") {
       if (typeof document === "undefined") return;
       var container: any = document.querySelector(".container");
-      var target: any = document.querySelector(".intro");
+      var target: any = document.querySelector(`.${sections[0]}`);
       if (container !== null) {
         container.scrollBy({
           top: target.getBoundingClientRect().top,
@@ -171,7 +173,7 @@ function Intro({ index: propsIndex }: { index: number }) {
   const onClickDown = () => {
     if (typeof document === "undefined") return;
     var container: any = document.querySelector(".container");
-    var target: any = document.querySelector(".cases");
+    var target: any = document.querySelector(`.${sections[1]}`);
     if (container !== null) {
       container.scrollBy({
         top: target.getBoundingClientRect().top,
@@ -203,6 +205,7 @@ function Intro({ index: propsIndex }: { index: number }) {
         <ReactPlayer
           url="https://jellysmack.com/wp-content/uploads/2022/02/ADDTL_jellysmack_longform_1920x1080_SANSattribution.mp4"
           autoPlay
+          playing
           muted
           loop
           playsinline
@@ -234,7 +237,7 @@ function Intro({ index: propsIndex }: { index: number }) {
             <Typography
               sx={{
                 fontSize: 40,
-                lineHeight: "52px",
+                lineHeight: 1.2,
                 fontWeight: "900",
                 textAlign: "center",
                 color: "#ffffff",
@@ -254,7 +257,7 @@ function Intro({ index: propsIndex }: { index: number }) {
             <Typography
               sx={{
                 fontSize: 40,
-                lineHeight: "52px",
+                lineHeight: 1.2,
                 fontWeight: "900",
                 textAlign: "center",
                 color: "#ffffff",
@@ -274,7 +277,7 @@ function Intro({ index: propsIndex }: { index: number }) {
             <Typography
               sx={{
                 fontSize: 40,
-                lineHeight: "52px",
+                lineHeight: 1.2,
                 fontWeight: "900",
                 textAlign: "center",
                 color: "#ffffff",
@@ -509,16 +512,30 @@ function Cases({ index }: { index: number }) {
           fontWeight: "900",
           textAlign: "center",
           color: "#ffffff",
-          mb: 8,
           "@media(max-width: 480px)": {
-            fontSize: 28,
-            mb: 4,
+            fontSize: 24,
           },
         }}
       >
         검증된 크리에이터들의
         <br />
         실제 펀딩 사례
+      </Typography>
+      <Typography
+        sx={{
+          fontSize: 16,
+          lineHeight: 1.4,
+          color: grey[500],
+          textAlign: "center",
+          mt: 2,
+          mb: 8,
+          "@media(max-width: 480px)": {
+            fontSize: 14,
+            mb: 4,
+          },
+        }}
+      >
+        국내외 크리에이터들이 펀딩의 효과를 보았어요!
       </Typography>
       <Box
         sx={{
@@ -660,6 +677,9 @@ function Gallery() {
                   fontWeight: "900",
                   color: "#ffffff",
                   textAlign: "center",
+                  "@media(max-width: 480px)": {
+                    fontSize: 20,
+                  },
                 }}
               >
                 {title}
@@ -673,7 +693,7 @@ function Gallery() {
               >
                 {subtitle}
               </Typography>
-              <Typography
+              {/* <Typography
                 sx={{
                   mt: 0.5,
                   fontSize: 12,
@@ -682,7 +702,7 @@ function Gallery() {
                 }}
               >
                 2022.02.01 투자완료
-              </Typography>
+              </Typography> */}
               <Typography
                 sx={{
                   mt: 1,

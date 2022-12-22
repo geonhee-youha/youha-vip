@@ -35,8 +35,8 @@ export default function Page() {
       >
         <Typography
           sx={{
-            fontSize: 32,
-            lineHeight: "40px",
+            fontSize: 28,
+            lineHeight: 1.2,
             fontWeight: "900",
             color: "#ffffff",
           }}
@@ -48,7 +48,7 @@ export default function Page() {
         <Typography
           sx={{
             fontSize: 16,
-            lineHeight: "24px",
+            lineHeight: 1.4,
             color: grey[500],
             mt: 1,
           }}
@@ -155,7 +155,6 @@ export default function Page() {
           left: 0,
           right: 0,
           bottom: 0,
-          p: theme.spacing(3),
         }}
       >
         <Box
@@ -164,6 +163,7 @@ export default function Page() {
             maxWidth: maxWidth,
             bottom: 0,
             m: theme.spacing(0, "auto"),
+            p: theme.spacing(3),
           }}
         >
           <ButtonBase
@@ -191,9 +191,9 @@ export default function Page() {
                 alignItems: "center",
                 mr: 2,
                 "& img": {
-                    width: 20,
-                    height: 20,
-                  },
+                  width: 20,
+                  height: 20,
+                },
               }}
             >
               <img src="/logos/google.png" />

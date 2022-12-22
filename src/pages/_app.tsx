@@ -71,22 +71,25 @@ function MyApp(props: MyAppProps) {
     <CacheProvider value={emotionCache}>
       <Head>
         <meta charSet="utf-8" />
-        <title>유튜버 찾을 땐, 유하</title>
+        <title>Jellysmack X youha 크리에이터 지원 프로젝트</title>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
-        <meta name="keywords" content="유하, 유튜브, 유튜버, 광고" />
+        <meta
+          name="keywords"
+          content="jellysmack, 젤리스맥, youha, 유하, 펀딩, 크리에이터, 한도조회"
+        />
         <meta
           name="description"
-          content="유하에서 국내 모든 유튜버에게 광고를 제안하고 답장을 100% 받아보세요. 광고주와 유튜버의 인플루언서 마케팅 커뮤니티 (브랜디드 콘텐츠, PPL 등)"
+          content="글로벌 크리에이터 지원 플랫폼 Jellysmack과 유튜버 데이터 분석 플랫폼 youha가 만나 크리에이터의 미래를 지원합니다."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="유하" />
-        <meta property="og:title" content="유튜버 찾을 땐, 유하" />
+        <meta property="og:site_name" content="Jellysmack X youha" />
+        <meta property="og:title" content="Jellysmack X youha 크리에이터 지원 프로젝트" />
         <meta
           property="og:description"
-          content="유하에서 국내 모든 유튜버에게 광고를 제안하고 답장을 100% 받아보세요. 광고주와 유튜버의 인플루언서 마케팅 커뮤니티 (브랜디드 콘텐츠, PPL 등)"
+          content="글로벌 크리에이터 지원 플랫폼 Jellysmack과 유튜버 데이터 분석 플랫폼 youha가 만나 크리에이터의 미래를 지원합니다."
         />
         <meta property="og:image" content="/images/favicon/share.png" />
         <meta property="og:image:width" content="200" />
@@ -97,12 +100,12 @@ function MyApp(props: MyAppProps) {
         <meta name="twitter:creator" content="" data-react-helmet="true" />
         <meta
           name="twitter:title"
-          content="유튜버 찾을 땐, 유하"
+          content="Jellysmack X youha 크리에이터 지원 프로젝트"
           data-react-helmet="true"
         />
         <meta
           name="twitter:description"
-          content="유하에서 국내 모든 유튜버에게 광고를 제안하고 답장을 100% 받아보세요. 광고주와 유튜버의 인플루언서 마케팅 커뮤니티 (브랜디드 콘텐츠, PPL 등)"
+          content="글로벌 크리에이터 지원 플랫폼 Jellysmack과 유튜버 데이터 분석 플랫폼 youha가 만나 크리에이터의 미래를 지원합니다."
           data-react-helmet="true"
         />
         <meta name="twitter:image" content="/images/share.png" />
