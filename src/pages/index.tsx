@@ -1336,6 +1336,9 @@ function Revenue({ index }: { index: number }) {
               left: `calc(${(6 / 30) * 100}% + 6px)`,
               bottom: 32,
               pl: 2,
+              "@media(max-width: 480px)": {
+                left: `calc(${(6 / 30) * 100}% + 6px)`,
+              },
             }}
           >
             <Box
@@ -1756,6 +1759,9 @@ function Offer({ index }: { index: number }) {
                     fontSize: 14,
                     fontWeight: "700",
                     color: grey[700],
+                    "@media(max-width: 480px)": {
+                      fontSize: 12,
+                    },
                   }}
                 >
                   30일 이전
@@ -1789,6 +1795,9 @@ function Offer({ index }: { index: number }) {
                     fontSize: 14,
                     fontWeight: "700",
                     color: grey[700],
+                    "@media(max-width: 480px)": {
+                      fontSize: 12,
+                    },
                   }}
                 >
                   당일
@@ -2303,7 +2312,7 @@ function Outro({ index }: { index: number }) {
           sx={{
             width: "100%",
             maxWidth: maxWidth * 2,
-            p: theme.spacing(5, 3, 10, 3),
+            p: theme.spacing(3, 3, 10, 3),
             m: theme.spacing(0, "auto"),
           }}
         >
@@ -2339,6 +2348,10 @@ function Outro({ index }: { index: number }) {
               fontSize: 14,
               lineHeight: "20px",
               color: grey[500],
+              "@media(max-width: 480px)": {
+                fontSize: 12,
+                lineHeight: "16px",
+              },
             }}
           >
             주식회사 티켓플레이스

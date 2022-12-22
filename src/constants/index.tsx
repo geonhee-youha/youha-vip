@@ -100,9 +100,9 @@ export const chartDataMobile = {
       type: "line" as const,
       label: "Dataset 1",
       data: [412, 48, 20, 11, 9, 7.8, 6.8],
-      pointRadius: 6,
-      pointBorderWidth: 6,
-      borderWidth: 8,
+      pointRadius: 4,
+      pointBorderWidth: 4,
+      borderWidth: 6,
       backgroundColor: grey[50],
       borderColor: "#00d1b0",
       curve: 3,
@@ -121,7 +121,7 @@ export const chartOptionsMobile = {
       ticks: {
         display: false,
         font: {
-          size: 14,
+          size: 12,
           family: "LINESeedKR",
           weight: "700",
         },
@@ -134,7 +134,7 @@ export const chartOptionsMobile = {
     x: {
       ticks: {
         font: {
-          size: 14,
+          size: 12,
           family: "LINESeedKR",
           weight: "700",
         },
