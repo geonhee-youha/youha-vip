@@ -18,7 +18,7 @@ import { maxWidth } from "../constants";
 
 const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false });
 
-const examples = [
+const cases = [
   {
     src: "https://images.axios.com/78wSW59uOBxN6c2bLQxFA_t38Y0=/700x0:3367x2667/1600x1600/2022/10/24/1666642218954.jpg",
     title: "Mr.Beast",
@@ -99,7 +99,7 @@ export default function Page() {
     >
       <Header />
       <Intro index={index} />
-      <Examples index={index} />
+      <Cases index={index} />
       <Info index={index} />
     </Box>
   );
@@ -171,7 +171,7 @@ function Intro({ index: propsIndex }: { index: number }) {
   const onClickDown = () => {
     if (typeof document === "undefined") return;
     var container: any = document.querySelector(".container");
-    var target: any = document.querySelector(".examples");
+    var target: any = document.querySelector(".cases");
     if (container !== null) {
       container.scrollBy({
         top: target.getBoundingClientRect().top,
@@ -203,7 +203,6 @@ function Intro({ index: propsIndex }: { index: number }) {
         <ReactPlayer
           url="https://jellysmack.com/wp-content/uploads/2022/02/ADDTL_jellysmack_longform_1920x1080_SANSattribution.mp4"
           autoPlay
-          playing
           muted
           loop
           playsinline
@@ -402,7 +401,7 @@ function Intro({ index: propsIndex }: { index: number }) {
         }}
         className={className}
       >
-        {["intro", "examples", "info"].map((item, index) => {
+        {["intro", "cases", "info"].map((item, index) => {
           const focused = propsIndex === index;
           if (typeof document === "undefined") return;
           var container: any = document.querySelector(".container");
@@ -416,7 +415,7 @@ function Intro({ index: propsIndex }: { index: number }) {
             }
           };
           return (
-            <ButtonBase key={index} onClick={onClick} sx={{ p: 0.5 }}>
+            <Box key={index} sx={{ p: 0.5 }}>
               <ButtonBase
                 sx={{
                   width: focused ? 16 : 12,
@@ -426,8 +425,9 @@ function Intro({ index: propsIndex }: { index: number }) {
                   borderRadius: 16,
                   transition: `all 0.35s ease`,
                 }}
-              ></ButtonBase>
-            </ButtonBase>
+                onClick={onClick}
+              />
+            </Box>
           );
         })}
       </Stack>
@@ -487,7 +487,7 @@ function Intro({ index: propsIndex }: { index: number }) {
   );
 }
 
-function Examples({ index }: { index: number }) {
+function Cases({ index }: { index: number }) {
   return (
     <Box
       sx={{
@@ -501,7 +501,7 @@ function Examples({ index }: { index: number }) {
         background: `linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0))`,
         p: theme.spacing(12, 0, 20, 0),
       }}
-      className="examples"
+      className="cases"
     >
       <Typography
         sx={{
@@ -599,7 +599,7 @@ function Gallery() {
         },
       }}
     >
-      {examples.map((item, index) => {
+      {cases.map((item, index) => {
         const { src, title, subtitle, budget, dialog } = item;
         const size = 200;
         return (
