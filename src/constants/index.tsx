@@ -2,7 +2,7 @@ import { grey } from "@mui/material/colors";
 
 export const maxWidth = 480;
 
-export const chartData = {
+export const videoChart = {
   labels: [
     "0",
     "1",
@@ -93,7 +93,7 @@ export const chartOptions = {
   maintainAspectRatio: false,
 };
 
-export const chartDataMobile = {
+export const videoChartMobile = {
   labels: ["0", "5", "10", "15", "20", "25", "30"],
   datasets: [
     {
@@ -143,6 +143,59 @@ export const chartOptionsMobile = {
       grid: {
         display: false,
         drawBorder: false,
+      },
+    },
+  },
+  maintainAspectRatio: false,
+};
+
+export const revenueChartData = {
+  labels: ["1", "2", "3", "4"],
+  datasets: [
+    {
+      // type: "pie" as const,
+      label: "Dataset 1",
+      data: [685, 80, 63, 172],
+      backgroundColor: ["#00e94f", grey[800], grey[600], grey[400]],
+      borderWidth: 0,
+      spacing: 24,
+    },
+  ],
+};
+export const revenueChartOptions = {
+  cutout: 60,
+  plugins: {
+    tooltip: {
+      enabled: false,
+    },
+    legend: {
+      display: false,
+      labels: {
+        font: {
+          color: grey[700],
+          family: "Pretendard",
+          weight: "700",
+        },
+      },
+    },
+  },
+  maintainAspectRatio: false,
+};
+
+export const revenueChartOptionsMobile = {
+  cutout: 40,
+  plugins: {
+    tooltip: {
+      enabled: false,
+    },
+    legend: {
+      display: false,
+      labels: {
+        font: {
+          color: grey[700],
+          family: "Pretendard",
+          weight: "700",
+        },
       },
     },
   },
