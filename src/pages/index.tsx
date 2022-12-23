@@ -1999,7 +1999,7 @@ function Offer({ index }: { index: number }) {
                     left: "50%",
                     transform: "translate(-50%, -50%)",
                     width: "100%",
-                    display: "flex",
+                    // display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
