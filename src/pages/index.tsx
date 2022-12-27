@@ -136,7 +136,7 @@ const sections = [
 
 const flows: {
   icon: IconName | null;
-  title: string;
+  title: React.ReactNode;
   duration?: string | null;
 }[] = [
   {
@@ -146,21 +146,31 @@ const flows: {
   },
   {
     icon: "chart-pie-simple",
-    title: "가능 여부 분석",
+    title: (
+      <>
+        채널 가치 분석 및<br />
+        선지급 가능여부 분석
+      </>
+    ),
     duration: "1일",
   },
   {
     icon: "calculator",
-    title: "지급 금액 분석",
+    title: (
+      <>
+        지급액 분석 및<br />
+        한도설명서 전달
+      </>
+    ),
     duration: "3~5일",
   },
   {
     icon: "comment-check",
-    title: "완료",
+    title: "지급 완료!",
   },
   {
     icon: "handshake",
-    title: "담보 교환",
+    title: "입금 완료",
     duration: "2주",
   },
   {
@@ -379,7 +389,7 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
               }}
               className={className}
             >
-              최대 2억원,
+              최대 20억원,
             </Typography>
             <Typography
               sx={{
@@ -1265,7 +1275,7 @@ function Video({ index }: { index: number }) {
             },
           }}
         >
-          개별 영상 수익의 대부분은
+          유튜브 영상 수익의 대부분은
           <br />
           <span
             style={{
@@ -1290,9 +1300,9 @@ function Video({ index }: { index: number }) {
             },
           }}
         >
-          당신의 영상은 6일 이후에도 수익이 됩니다.
+          유큐브 영상은 6일 이후에도 수익이 되지만,
           <br />
-          하지만 한번에 수익이 되지 않습니다.
+          오랜 시간 쌓여야 의미가 있을 정도로 적습니다.
         </Typography>
         <Box
           sx={{
@@ -1563,7 +1573,7 @@ function Revenue({ index }: { index: number }) {
               },
             }}
           >
-            유튜브 채널 수익의
+            월 조회수 수익의
             <br />
             대부분은{" "}
             <span
@@ -1589,9 +1599,9 @@ function Revenue({ index }: { index: number }) {
               },
             }}
           >
-            당신의 콘텐츠는 6일 이후에도 수익이 됩니다.
+            유튜브 채널에서 발생하는 월 조회수 수익의
             <br />
-            하지만 한번에 수익이 되지 않습니다.
+            70%가 30일 이내의 영상에서 발생하고 있습니다.
           </Typography>
         </Box>
         <Box
@@ -1850,7 +1860,7 @@ function Offer({ index }: { index: number }) {
             <br />
             <span
               style={{
-                color: `#00e94f`,
+                color: `#0093ff`,
               }}
             >
               한번에
@@ -1881,6 +1891,384 @@ function Offer({ index }: { index: number }) {
             width: "100%",
             height: "100%",
             display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            maxHeight: `480px`,
+            "@media(max-width: 480px)": {
+              width: "100%",
+              height: "auto",
+              flex: "initial",
+              p: theme.spacing(0, 3),
+            },
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              "@media(max-width: 480px)": {
+                flexDirection: "column",
+              },
+            }}
+          >
+            <Box
+              sx={{
+                flex: 1,
+                height: "100%",
+                display: 'flex',
+                flexDirection:'column',
+              }}
+            >
+              <Box
+                sx={{
+                  mb: 2,
+                  "@media(max-width: 480px)": {
+                    mb: 2,
+                  },
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: 20,
+                    fontWeight: "900",
+                    color: "#ffffff",
+                    textAlign: "center",
+                    "@media(max-width: 480px)": {
+                      fontSize: 16,
+                      textAlign: "left",
+                    },
+                  }}
+                >
+                  기존 수익 방식
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: 14,
+                    color: "#ffffff",
+                    textAlign: "center",
+                    "@media(max-width: 480px)": {
+                      fontSize: 12,
+                      textAlign: "left",
+                    },
+                  }}
+                >
+                  조금씩 나눠 들어오는 30일 이전 수익
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  flex: 1,
+                  position: "relative",
+                  display: 'flex',
+                  flexDirection:'column',
+                  alignItems:'center',
+                }}
+              >
+                <Icon
+                  name="faucet"
+                  prefix="fad"
+                  color="#0093ff"
+                  size={64}
+                  sx={{
+                    transform: `scaleX(-1) translateX(-24px)`,
+                  }}
+                />
+                <Box
+                  sx={{
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-around",
+                  }}
+                >
+                  <Icon name="droplet" color="#0093ff" prefix="fas" size={16} />
+                  <Icon name="droplet" color="#0093ff" prefix="fas" size={16} />
+                  <Icon name="droplet" color="#0093ff" prefix="fas" size={16} />
+                  <Icon name="droplet" color="#0093ff" prefix="fas" size={16} />
+                  <Icon name="droplet" color="#0093ff" prefix="fas" size={16} />
+                  <Icon name="droplet" color="#0093ff" prefix="fas" size={16} />
+                  <Icon name="droplet" color="#0093ff" prefix="fas" size={16} />
+                  <Icon name="droplet" color="#0093ff" prefix="fas" size={16} />
+                  <Icon name="droplet" color="#0093ff" prefix="fas" size={16} />
+                </Box>
+                <Box sx={{
+                  mt: -6,
+                  width: 200,
+                  height: 100,
+                  borderBottomLeftRadius: 24,
+                  borderBottomRightRadius: 24,
+                  borderLeft: `4px solid ${grey[700]}`,
+                  borderRight: `4px solid ${grey[700]}`,
+                  borderBottom: `4px solid ${grey[700]}`,
+                }}></Box>
+              </Box>
+            </Box>
+            <Icon
+              name="arrow-right"
+              color="#ffffff"
+              prefix="fas"
+              size={48}
+              sx={{
+                m: theme.spacing(0, 3),
+                "@media(max-width: 480px)": {
+                  transform: `rotate(90deg)`,
+                  fontSize: `16px !important`,
+                  m: theme.spacing(3, "auto", 2, "auto"),
+                  display: "none",
+                },
+              }}
+            />
+            <Box
+              sx={{
+                flex: 1,
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                "@media(max-width: 480px)": {
+                  mt: 4,
+                },
+              }}
+            >
+              <Box
+                sx={{
+                  mb: 2,
+                  "@media(max-width: 480px)": {
+                    mb: 2,
+                  },
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: 20,
+                    fontWeight: "900",
+                    color: "#00e94f",
+                    textAlign: "center",
+                    "@media(max-width: 480px)": {
+                      fontSize: 16,
+                      textAlign: "left",
+                    },
+                  }}
+                >
+                  Jellysmack의 제안
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: 14,
+                    color: "#ffffff",
+                    textAlign: "center",
+                    "@media(max-width: 480px)": {
+                      fontSize: 12,
+                      textAlign: "left",
+                    },
+                  }}
+                >
+                  한번에 가용할 수 있는 미래 수익
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  position: "relative",
+                  flex: 1,
+                }}
+              >
+                <Box
+                  sx={{
+                    position: "relative",
+                    width: "100%",
+                    pt: "100%",
+                    "@media(max-width: 480px)": {
+                      pt: "25%",
+                    },
+                  }}
+                >
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: "100%",
+                        height: "100%",
+                        backgroundColor: "#00e94f",
+                        borderRadius: "50%",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        "@media(max-width: 480px)": {
+                          borderRadius: 1,
+                          flexDirection: "row",
+                        },
+                      }}
+                    >
+                      <Icon
+                        name="sack-dollar"
+                        prefix="fad"
+                        color={grey[900]}
+                        size={80}
+                        sx={{
+                          "@media(max-width: 480px)": {
+                            fontSize: `24px !important`,
+                          },
+                        }}
+                      />
+                      <Typography
+                        sx={{
+                          mt: 2,
+                          fontSize: 32,
+                          lineHeight: 1.2,
+                          fontWeight: "900",
+                          color: grey[900],
+                          textAlign: "center",
+                          "@media(max-width: 480px)": {
+                            mt: 0,
+                            fontSize: 20,
+                            textAlign: "left",
+                            mr: 2,
+                          },
+                        }}
+                      >
+                        5년치 수익을
+                        <br />
+                        한번에 지급!
+                      </Typography>
+                    </Box>
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      sx={{
+                        width: "100%",
+                        mt: -1,
+                        p: `0 16px`,
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          left: "10%",
+                          bottom: "10%",
+                          backgroundColor: "#ffffff",
+                          p: theme.spacing(1, 2),
+                          borderRadius: 0.5,
+                          transform: "scale(1.1)",
+                          "@media(max-width: 480px)": {
+                            position: "relative",
+                            top: "initial",
+                            left: "initial",
+                            right: "initial",
+                            bottom: "initial",
+                            transform: "none",
+                            flex: 1,
+                            p: theme.spacing(0.5, 0),
+                            display: "flex",
+                            justifyContent: "center",
+                          },
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            fontSize: 12,
+                            fontWeight: "900",
+                            "@media(max-width: 480px)": {
+                              fontSize: 10,
+                              // letterSpacing: `-1.5px !important`,
+                            },
+                          }}
+                        >
+                          고정지출 운용
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          right: "5%",
+                          top: "25%",
+                          backgroundColor: "#ffffff",
+                          p: theme.spacing(1, 2),
+                          borderRadius: 0.5,
+                          transform: "scale(1.5)",
+                          "@media(max-width: 480px)": {
+                            position: "relative",
+                            top: "initial",
+                            left: "initial",
+                            right: "initial",
+                            bottom: "initial",
+                            transform: "none",
+                            flex: 1,
+                            p: theme.spacing(0.5, 0),
+                            display: "flex",
+                            justifyContent: "center",
+                          },
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            fontSize: 12,
+                            fontWeight: "900",
+                            "@media(max-width: 480px)": {
+                              fontSize: 10,
+                              // letterSpacing: `-1.5px !important`,
+                            },
+                          }}
+                        >
+                          신규 콘텐츠 제작
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          left: "6%",
+                          top: "15%",
+                          backgroundColor: "#ffffff",
+                          p: theme.spacing(1, 2),
+                          borderRadius: 0.5,
+                          transform: "scale(1)",
+                          "@media(max-width: 480px)": {
+                            flex: 1,
+                            position: "relative",
+                            top: "initial",
+                            left: "initial",
+                            right: "initial",
+                            bottom: "initial",
+                            transform: "none",
+                            p: theme.spacing(0.5, 0),
+                            display: "flex",
+                            justifyContent: "center",
+                          },
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            fontSize: 12,
+                            fontWeight: "900",
+                            "@media(max-width: 480px)": {
+                              fontSize: 10,
+                              // letterSpacing: `-1.5px !important`,
+                            },
+                          }}
+                        >
+                          채널 및 구독자 성장
+                        </Typography>
+                      </Box>
+                    </Stack>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            flex: 1,
+            width: "100%",
+            height: "100%",
+            display: "none",
             flexDirection: "column",
             justifyContent: "center",
             maxHeight: `480px`,
@@ -2403,9 +2791,9 @@ function Option({ index }: { index: number }) {
               },
             }}
           >
-            당신의 콘텐츠는 6일 이후에도 수익이 됩니다.
+            내 조회수 수익이 확 줄어들까 걱정이신가요?
             <br />
-            하지만 한번에 수익이 되지 않습니다.
+            걱정마세요. 오직 30일 이전의 수익만 선지급합니다.
           </Typography>
         </Box>
         <Box
@@ -2854,7 +3242,7 @@ function Flow({ index }: { index: number }) {
             3주 안에
           </span>
           <br />
-          모든 과정 완료.
+          입금까지 완료!
         </Typography>
         <Typography
           sx={{
@@ -2870,9 +3258,9 @@ function Flow({ index }: { index: number }) {
             },
           }}
         >
-          당신의 콘텐츠는 6일 이후에도 수익이 됩니다.
+          신청에서부터 입금까지
           <br />
-          하지만 한번에 수익이 되지 않습니다.
+          젤리스맥과 유하는 단 3주면 충분합니다.
         </Typography>
         <Box
           sx={{
@@ -2916,12 +3304,13 @@ function Flow({ index }: { index: number }) {
                   />
                   <Typography
                     sx={{
-                      fontSize: 20,
+                      fontSize: index === 1 || index === 2 ? 16 : 20,
                       color: "#ffffff",
                       fontWeight: "900",
                       mt: 2,
+                      textAlign: "center",
                       "@media(max-width: 480px)": {
-                        fontSize: 14,
+                        fontSize: index === 1 || index === 2 ? 12 : 14,
                       },
                     }}
                   >
