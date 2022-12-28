@@ -1954,7 +1954,7 @@ function Slip2({ index }: { index: number }) {
         justifyContent: "center",
         alignItems: "center",
         p: theme.spacing(10, 0, 12, 0),
-        background: `linear-gradient(rgba(0, 0, 0, 1),rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 1))`,
+        background: `linear-gradient(rgba(0, 0, 0, 1),rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1))`,
       }}
       className={sections[index]}
     >
@@ -1966,7 +1966,7 @@ function Slip2({ index }: { index: number }) {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundImage: `url('https://images.unsplash.com/photo-1501139083538-0139583c060f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2970&q=80')`,
+          backgroundImage: `url('https://images.unsplash.com/photo-1532007271951-c487760934ae?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2080&q=80')`,
           backgroundRepeat: `no-repeat`,
           backgroundSize: `cover`,
           backgroundPosition: `center center`,
