@@ -157,7 +157,7 @@ export const revenueChartData = {
     {
       // type: "pie" as const,
       label: "Dataset 1",
-      data: [685, 80, 63, 172],
+      data: [725, 80, 63, 132],
       backgroundColor: ["#00e94f", grey[800], grey[600], grey[400]],
       borderWidth: 0,
       spacing: 24,
