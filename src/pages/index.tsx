@@ -3618,7 +3618,7 @@ function Logic({ index }: { index: number }) {
                     >
                       Jelleysmack X youha
                       <br />
-                      선지급 대상
+                      선지급 계약 대상
                     </Typography>
                   </Box>
                 </Box>
