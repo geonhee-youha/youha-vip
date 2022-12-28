@@ -217,8 +217,9 @@ export default function Page() {
       <Slip index={3} />
       <Video index={4} />
       <Revenue index={5} />
-      <Offer index={6} />
-      <Option index={7} />
+      <Logic index={6} />
+      <Offer index={7} />
+      {/* <Option index={7} /> */}
       <Flow index={8} />
       <Outro index={9} />
       {/* {sections.map((item, index) => {
@@ -729,7 +730,7 @@ function BigCases({ index }: { index: number }) {
             }}
           >
             글로벌 1위 <br />
-            크리에이터 플랫폼
+            크리에이터 기업
           </Typography>
           <Typography
             sx={{
@@ -745,7 +746,8 @@ function BigCases({ index }: { index: number }) {
           >
             <span className="color-js">Jellysmack</span>
             <br />
-            국내 지원 시작!
+            youha와 함께 <br />
+            국내 상륙!
           </Typography>
           <Typography
             sx={{
@@ -1215,13 +1217,14 @@ function Slip({ index }: { index: number }) {
           },
         }}
       >
-        총 예산{" "}
+        크리에이터 지원 예산
+        <br />
         <span
           style={{
             color: `#e08af4`,
           }}
         >
-          6,000억,
+          총 6,000억원,
         </span>
         <br />
         어떤 원리로 지급되나요?
@@ -1301,7 +1304,7 @@ function Video({ index }: { index: number }) {
             },
           }}
         >
-          유큐브 영상은 6일 이후에도 수익이 되지만,
+          유큐브 영상은 6일 이후에도 수익이 발생하지만,
           <br />
           오랜 시간 쌓여야 의미가 있을 정도로 적습니다.
         </Typography>
@@ -1579,12 +1582,13 @@ function Revenue({ index }: { index: number }) {
             월 조회수 수익의
             <br />
             대부분은{" "}
+            <br />
             <span
               style={{
                 color: `#00e94f`,
               }}
             >
-              30일 이내 영상
+              30일 이내 업로드한 영상
             </span>{" "}
             <br />
             에서 발생합니다.
@@ -1860,16 +1864,16 @@ function Offer({ index }: { index: number }) {
               },
             }}
           >
-            당신의 미래 수익을
+            이제, 플랜을 선택하고
             <br />
             <span
               style={{
                 color: `#0093ff`,
               }}
             >
-              한번에
+              새로운 콘텐츠
             </span>{" "}
-            지급합니다.
+            에 투자하세요!
           </Typography>
           <Typography
             sx={{
@@ -1884,9 +1888,9 @@ function Offer({ index }: { index: number }) {
               },
             }}
           >
-            한번에 미래 수익을 지원받고,
+            더 나은 콘텐츠, 더 많은 구독자.
             <br />
-            새로운 콘텐츠에 투자하세요!
+            Jellysmack과 함께라면 가능합니다!
           </Typography>
         </Box>
         <Box
@@ -2225,21 +2229,27 @@ function Offer({ index }: { index: number }) {
                 </Typography>
               </Box>
             </Box>
-            <Icon
-              name="arrow-right"
-              color="#ffffff"
-              prefix="fas"
-              size={32}
+            <Box
               sx={{
-                m: theme.spacing(0, 3),
-                "@media(max-width: 480px)": {
-                  transform: `rotate(90deg)`,
-                  fontSize: `16px !important`,
-                  m: theme.spacing(3, "auto", 2, "auto"),
-                  display: "none",
-                },
+                height: "100%",
               }}
-            />
+            >
+              <Icon
+                name="arrow-right"
+                color="#ffffff"
+                prefix="fas"
+                size={32}
+                sx={{
+                  m: theme.spacing(0, 3),
+                  "@media(max-width: 480px)": {
+                    transform: `rotate(90deg)`,
+                    fontSize: `16px !important`,
+                    m: theme.spacing(3, "auto", 2, "auto"),
+                    display: "none",
+                  },
+                }}
+              />
+            </Box>
             <Box
               sx={{
                 flex: 1,
@@ -2953,6 +2963,125 @@ const days = () => {
   return arr;
 };
 
+function Logic({ index }: { index: number }) {
+  const { ref, inView } = useInView();
+  return (
+    <Box
+      sx={{
+        // scrollSnapAlign: "start",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+      className={sections[index]}
+    >
+      <Box
+        ref={ref}
+        sx={{
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "100%",
+          maxWidth: maxWidth * 2,
+          "@media(max-width: 480px)": {
+            flexDirection: "column",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            mb: 6,
+            "@media(max-width: 480px)": {
+              width: "100%",
+              mb: 6,
+            },
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: 40,
+              lineHeight: 1.2,
+              fontWeight: "900",
+              color: "#ffffff",
+              textAlign: "center",
+              "@media(max-width: 480px)": {
+                fontSize: 28,
+                textAlign: "center",
+              },
+            }}
+          >
+            업로드 후 30일이 지난 영상들의
+            <br />
+            <span
+              style={{
+                // color: `#e08af4`,
+                // color: `#0093ff`,
+                color: `#00d1b0`,
+              }}
+            >
+              작은 조회수 수익들
+            </span>
+            을 모아
+            <br />
+            <span
+              style={{
+                // color: `#e08af4`,
+                // color: `#0093ff`,
+                color: `#00d1b0`,
+              }}
+            >
+              한번에 선지급
+            </span>
+            해 드립니다.
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: 16,
+              lineHeight: 1.4,
+              color: grey[500],
+              mt: 2,
+              textAlign: "center",
+              "@media(max-width: 480px)": {
+                fontSize: 14,
+                textAlign: "center",
+              },
+            }}
+          >
+            당신이 30일 이전에 올린 영상들에서 발생하는
+            <br />
+            작은 조회수 수익들을 한번에 받아 보세요.
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            flex: 1,
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            maxHeight: `480px`,
+            "@media(max-width: 480px)": {
+              width: "100%",
+              height: "auto",
+              flex: "initial",
+              p: theme.spacing(0, 3),
+            },
+          }}
+        >
+          <Box sx={{ width: "100%" }}></Box>
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+
 function Option({ index }: { index: number }) {
   const { ref, inView } = useInView();
   return (
@@ -3010,7 +3139,8 @@ function Option({ index }: { index: number }) {
             <br />
             <span
               style={{
-                color: `#e08af4`,
+                // color: `#e08af4`,
+                color: `#0093ff`,
               }}
             >
               온전히 보장
@@ -3476,8 +3606,8 @@ function Flow({ index }: { index: number }) {
           신청으로부터{" "}
           <span
             style={{
-              // color: `#0093ff`,
-              color: `#00d1b0`,
+              color: `#0093ff`,
+              // color: `#00d1b0`,
             }}
           >
             3주 안에
@@ -3534,8 +3664,8 @@ function Flow({ index }: { index: number }) {
                 <>
                   <Icon
                     name={item.icon}
-                    // color="#0093ff"
-                    color="#00d1b0"
+                    color="#0093ff"
+                    // color="#00d1b0"
                     prefix="fad"
                     size={64}
                     sx={{
