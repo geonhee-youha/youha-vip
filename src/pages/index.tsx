@@ -36,53 +36,92 @@ const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false });
 
 const cases = [
   {
-    src: "https://images.axios.com/78wSW59uOBxN6c2bLQxFA_t38Y0=/700x0:3367x2667/1600x1600/2022/10/24/1666642218954.jpg",
-    title: "Mr.Beast",
-    subtitle: "게임 및 콘텐츠 크리에이터",
+    nation: "🇲🇽",
+    src: "https://upload.wikimedia.org/wikipedia/commons/3/3b/Luisito_Comunica.jpg",
+    title: "Luisito Comunica",
+    subtitle: "여행 크리에이터",
     budget: 3000000,
-    dialog: `“제 라이브러리에 대해 평가를 받고 몇 년 간 제작한 동영상이 얼마나 가치가 있는지 알 수 있게 되어 정말 기뻤습니다. 제가 이미 제작한 콘텐츠를 이용하여 새로운 수익을 창출하고 다른 프로젝트에 적용할 수 있으니 정말 놀라웠죠.”`,
+    subscribers: "3,980만",
+    dialog: `“저는 이야기를 전달하는 새로운 방법을 찾는 데 열정을 가진 크리에이터입니다. 렌즈를 통해 나를 표현하고 다양한 디지털 채널에서 내 경험을 공유할 수 있게 돕는 플랫폼을 좋아합니다.”`,
   },
   {
-    src: "https://jellysmack.com/wp-content/uploads/2022/08/Screen-Shot-2022-08-09-at-9.27.09-AM-e1660147208277.png",
-    title: "Gaba",
+    nation: "🇺🇸",
+    src: "https://i1.sndcdn.com/artworks-BO9zYA3HToHqSnNi-Q9ozWA-t500x500.jpg",
+    title: "Zach Choi",
     subtitle: "음식 크리에이터",
     budget: 3000000,
-    dialog: `“제 라이브러리에 대해 평가를 받고 몇 년 간 제작한 동영상이 얼마나 가치가 있는지 알 수 있게 되어 정말 기뻤습니다. 제가 이미 제작한 콘텐츠를 이용하여 새로운 수익을 창출하고 다른 프로젝트에 적용할 수 있으니 정말 놀라웠죠.”`,
+    subscribers: "1,720만",
+    dialog: `“Jellysmack은 모든 소셜 미디어 플랫폼에서 콘텐츠를 성공시키는 데 필요한 기술, 데이터 및 인프라를 제공합니다. 우리는 글로벌 푸드 아이콘이 되기 위한 여정에서 그들의 성장 파트너입니다.”`,
   },
   {
-    src: "https://jellysmack.com/wp-content/uploads/2022/08/br-mandy-candy-1-e1660146990512.jpeg",
-    title: "RR Buildings",
-    subtitle: "공예 및 건축 크리에이터",
+    nation: "🇦🇺",
+    src: "https://yt3.ggpht.com/ytc/AMLnZu9U3YuqOXjzTbdSYrWNUAgQVfrPGf_Cjq5KrefDKQ=s900-c-k-c0x00ffffff-no-rj",
+    title: "HowToBasic",
+    subtitle: "음식 크리에이터",
     budget: 3000000,
-    dialog: `"Jellysmack 덕분에 정말 쉬워졌어요… 저는 수표를 선불로 받아서 하루 만에 제 미래에 직접 다시 투자할 수 있었습니다."`,
+    subscribers: "1,710만",
+    dialog: `“Jellysmack의 크리에이터 프로그램이 시작되기를 오랫동안 기다려 왔습니다. 지금까지 맺은 파트너십은 회사와 지역 저 모두에게 엄청난 성장 잠재력이 있음을 증명합니다. 미래가 어떻게 될지 기대됩니다.”`,
   },
   {
-    src: "https://jellysmack.com/wp-content/uploads/2022/08/rr_buildings-e1660165901999.jpg",
-    title: "Mandy Candy",
-    subtitle: "라이프스타일 크리에이터",
-    budget: 3000000,
-    dialog: `“제 라이브러리에 대해 평가를 받고 몇 년 간 제작한 동영상이 얼마나 가치가 있는지 알 수 있게 되어 정말 기뻤습니다. 제가 이미 제작한 콘텐츠를 이용하여 새로운 수익을 창출하고 다른 프로젝트에 적용할 수 있으니 정말 놀라웠죠.”`,
+    nation: "🇮🇳",
+    src: "https://i.scdn.co/image/ab67656300005f1fda7c4c5e42815c1f5ee91cb1",
+    title: "Mythpat",
+    subtitle: "게임 크리에이터",
+    subscribers: "1,280만",
+    dialog: `“인도는 글로벌 크리에이터 경제의 허브가 되기 위해 순조롭게 진행되고 있습니다. Jellysmack은 확실히 여기 인도에서 업계의 전반적인 성장에 중추적인 역할을 할 것입니다.”`,
   },
   {
-    src: "https://yt3.ggpht.com/zQe7ypCPRCJraUm2N13qTVrSDcfBHnffhtf1aQj5PzQopslprvF1Yrak_pblon5ht4IcPG6l=s900-c-k-c0x00ffffff-no-rj",
-    title: "디바제시카",
-    subtitle: "범죄장르 크리에이터",
-    budget: 3000000,
-    dialog: `“제 라이브러리에 대해 평가를 받고 몇 년 간 제작한 동영상이 얼마나 가치가 있는지 알 수 있게 되어 정말 기뻤습니다. 제가 이미 제작한 콘텐츠를 이용하여 새로운 수익을 창출하고 다른 프로젝트에 적용할 수 있으니 정말 놀라웠죠.”`,
-  },
-  {
-    src: "https://blog.kakaocdn.net/dn/cGHXJg/btrv6X0MNuO/FExP1GA4CV5aEYdn0i9h31/img.png",
-    title: "수빙수tv",
-    subtitle: "해산물 크리에이터",
-    budget: 3000000,
-    dialog: `“제 라이브러리에 대해 평가를 받고 몇 년 간 제작한 동영상이 얼마나 가치가 있는지 알 수 있게 되어 정말 기뻤습니다. 제가 이미 제작한 콘텐츠를 이용하여 새로운 수익을 창출하고 다른 프로젝트에 적용할 수 있으니 정말 놀라웠죠.”`,
-  },
-  {
+    nation: "🇰🇷",
     src: "https://yt3.googleusercontent.com/ytc/AMLnZu_AOWkUT0yEUvsJCsao3ZTJ-jhSsRqES45jKFyTVw=s176-c-k-c0x00ffffff-no-rj",
     title: "야미보이",
     subtitle: "푸드 크리에이터",
     budget: 3000000,
-    dialog: `“제 라이브러리에 대해 평가를 받고 몇 년 간 제작한 동영상이 얼마나 가치가 있는지 알 수 있게 되어 정말 기뻤습니다. 제가 이미 제작한 콘텐츠를 이용하여 새로운 수익을 창출하고 다른 프로젝트에 적용할 수 있으니 정말 놀라웠죠.”`,
+    subscribers: "728만",
+    dialog: `“좋은영상 만들고자 항상 노력하는 야미보이 입니다. 오늘도 시청해주시고 응원해주셔서 감사합니다.”`,
+  },
+  {
+    nation: "🇰🇷",
+    src: "https://yt3.ggpht.com/zQe7ypCPRCJraUm2N13qTVrSDcfBHnffhtf1aQj5PzQopslprvF1Yrak_pblon5ht4IcPG6l=s900-c-k-c0x00ffffff-no-rj",
+    title: "디바제시카",
+    subtitle: "범죄장르 크리에이터",
+    budget: 3000000,
+    subscribers: "224만",
+    dialog: `“꿈을 향해 시간을 투자하고, 열심히 배우고, 고민하는 그대들을 만나 정말 보람찼습니다! 힘들다고 느끼는 하루하루가 쌓여 당신을 완성시키는 날이 온다고 믿어요! 나도 아직 그러는 과정입니다.”`,
+  },
+  {
+    nation: "🇵🇹",
+    src: "https://jellysmack.com/wp-content/uploads/2022/08/Screen-Shot-2022-08-09-at-9.27.09-AM-e1660147208277.png",
+    title: "Gaba",
+    subtitle: "음식 크리에이터",
+    subscribers: "213만",
+    dialog: `“Jellysmack을 통해 제 채널과 과거 영상들의 가치를 평가받게 되어 정말 기뻤습니다. 과거 제작해 온 콘텐츠들울 이용하여 새로운 수익을 얻었고, 이를 새 콘텐츠에 적용할 수 있어 정말 놀라운 경험이었어요.”`,
+  },
+  {
+    nation: "🇧🇷",
+    src: "https://jellysmack.com/wp-content/uploads/2022/08/br-mandy-candy-1-e1660146990512.jpeg",
+    title: "Mandy Candy",
+    subtitle: "라이프스타일 크리에이터",
+    budget: 3000000,
+    subscribers: "210만",
+    dialog: `“제게 Jellysmack은 기회였어요. 새 영상 업로드가 힘든 시기에, 과거 영상들은 큰 수익이 되지 않아 어려웠던 적이 있어요. 그때 Jellysmack이 손을 내밀었고, 덕분에 다시 기회를 잡았어요.”`,
+  },
+  {
+    nation: "🇺🇸",
+    src: "https://jellysmack.com/wp-content/uploads/2022/08/rr_buildings-e1660165901999.jpg",
+    title: "RR Buildings",
+    subtitle: "공예 및 건축 크리에이터",
+    budget: 3000000,
+    subscribers: "115만",
+    dialog: `"Jellysmack 덕분이에요. 저는 오랜 기간 쌓여야 할 수익을 한번에 받았죠, 그것도 선불로. 채널 운영이 힘들던 시기 단 하루만에 제 미래에 재투자할 수 있었습니다."`,
+  },
+  {
+    nation: "🇰🇷",
+    src: "https://blog.kakaocdn.net/dn/cGHXJg/btrv6X0MNuO/FExP1GA4CV5aEYdn0i9h31/img.png",
+    title: "수빙수tv",
+    subtitle: "수산물 크리에이터",
+    budget: 3000000,
+    subscribers: "117만",
+    dialog: `“솔직히 아직도 실감이 나지 않아요. 내가 이렇게도 많은 사랑과 관심을 받아도 되는 걸까? 나는 이 아낌없는 사랑에 어떻게 잘 보답할 수 있을까 항상 고민하고 생각합니다!”`,
   },
 ];
 
@@ -94,6 +133,7 @@ const views = [
       "https://storage.googleapis.com/cdn.media.bluedot.so/bluedot.excitingfx/2021/12/MrBeastGame.png",
     ],
     title: <>MrBeast </>,
+    subtitle: "게임 크리에이터",
     subscribers: `1.2억명`,
     description: `공개 된지 2주가 안된 시점에서 조회수 1.5억을 돌파하였다. 이는 MrBeast의 영상의 최고 조회수이며, 한국 시간 기준으로 12일 월 10일 1위 자리를 차지했다고 한다. 2022년 1월 15일 기준으로 2억회를 돌파했고 2022년 11월 기준으로 3억회를 돌파했다. 오징어 게임 관련 영상 중 조회수 1위다.`,
     offer: `30억 이상`,
@@ -105,8 +145,9 @@ const views = [
       "https://wp.clutchpoints.com/wp-content/uploads/2022/01/Pewdiepie-will-take-a-break-from-Youtube-this-January.png",
     ],
     title: <>PewDiePie</>,
+    subtitle: "게임 크리에이터",
     subscribers: `1.1억명`,
-    description: `Pewdiepie로 더 잘 알려진 YouTube의 가장 큰 단일 콘텐츠 제작자인 Felix Kjellberg가 연초에 잠시 쉬었던 3 주간의 휴식에서 돌아왔습니다. 그의 복귀 에피소드에서, 우리는 Pewdiepie (유튜브에서 10 년을 보낸 후)가 마침내 우리에게 얼굴을 공개 할 것이라는 사실과 Jellysmack과 계약을 맺었음을 알게 되었습니다.`,
+    description: `Pewdiepie로 더 잘 알려진 YouTube의 가장 큰 단일 콘텐츠 제작자인 Felix Kjellberg가 연초에 잠시 쉬었던 3주간의 휴식에서 돌아왔다. 그는 복귀 에피소드에서 본인의 채널이 Jellysmack과 계약을 맺었음을 알렸다.`,
     offer: `20억 이상`,
   },
   {
@@ -117,6 +158,7 @@ const views = [
     ],
     title: <>Karina Garcia </>,
     subscribers: `923만명`,
+    subtitle: "게임 크리에이터",
     description: `젤리스맥은 ‘슬라임 만들기’로 세계적 인기를 얻고 있는 유튜버 ‘카리나 가르시아(Karina Garcia)’ 등을 비롯한 총 500여 명의 글로벌 톱 크리에이터들과 협업하고 있다. 실제로, 젤리스맥과 협업한 크리에이터 중 65% 이상이 서비스를 통해 약 25만 달러(한화 약 3억 원)의 총 수익을 창출했으며, 젤리스맥은 현재까지 글로벌 크리에이터들과 함께 1억 5천만 달러(한화 약 1820억 원) 이상의 수익을 올린 것으로 알려졌다.`,
     offer: `10억 이상`,
   },
@@ -309,7 +351,11 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
   const router = useRouter();
   const { ref, inView } = useInView();
   const onClickButton = () => {
-    router.push(`pairing`);
+    // window.open("https://webtvasia.catalog.jellysmack.com/");
+    window.open(
+      "https://app.catalog.jellysmack.com/ko?utm_source=jellysmack.com&utm_medium=referral&utm_campaign=JellyFi_CTA_ES"
+    );
+    router.push(`/complete`);
   };
   const [playing, setPlaying] = useState<boolean>(false);
   useEffect(() => {
@@ -1176,9 +1222,12 @@ function SmallCases({ index }: { index: number }) {
           },
         }}
       >
-        <span className="color-js">Jellysmack</span>과 함께
+        500명이 넘는
         <br />
-        급성장한 크리에이터들
+        크리에이터들을
+        <br />
+        <span className="color-js">Jellysmack</span>이<br />
+        지원합니다.
       </Typography>
       <Typography
         sx={{
@@ -1194,7 +1243,8 @@ function SmallCases({ index }: { index: number }) {
           },
         }}
       >
-        국내외 크리에이터들이 펀딩의 효과를 보았어요!
+        이미 수많은 크리에이터들이 Jellysmack을 통해
+        <br />더 많은 수익을 창출하며 성장하고 있습니다.
       </Typography>
       <Box
         sx={{
@@ -1422,9 +1472,9 @@ function Video({ index }: { index: number }) {
             },
           }}
         >
-          유큐브 영상은 6일 이후에도 수익이 발생하지만,
+          유튜브 영상 수익의 75%가 업로드 6일 이내 발생하며,
           <br />
-          오랜 시간 쌓여야 의미가 있을 정도로 적습니다.
+          6일 이후 수익은 오랜 기간 누적해야 의미가 있습니다.
         </Typography>
         <Box
           sx={{
@@ -1723,9 +1773,9 @@ function Revenue({ index }: { index: number }) {
               },
             }}
           >
-            유튜브 채널에서 발생하는 월 조회수 수익의
+            유튜브 채널에서 발생하는 월 전체 조회수 수익의
             <br />
-            70%가 30일 이내의 영상에서 발생하고 있습니다.
+            70%가 업로드 30일 이내의 영상에서 발생합니다.
           </Typography>
         </Box>
         <Box
@@ -2281,12 +2331,16 @@ function Offer({ index }: { index: number }) {
                       height: 128,
                       mt: -22,
                     },
-                    borderBottomLeftRadius: 24,
-                    borderBottomRightRadius: 24,
                     borderLeft: `4px solid ${grey[700]}`,
                     borderRight: `4px solid ${grey[700]}`,
                     borderBottom: `4px solid ${grey[700]}`,
                     overflow: "hidden",
+                    borderBottomLeftRadius: 24,
+                    borderBottomRightRadius: 24,
+                    willChange: "transform",
+                    transform: "translateZ(0)",
+                    isolation: "isolate",
+                    zIndex: 0,
                     "& .wave": {
                       position: "absolute",
                       left: 0,
@@ -2608,17 +2662,21 @@ function Offer({ index }: { index: number }) {
                       height: 128,
                       // mt: -16,
                     },
-                    borderBottomLeftRadius: 24,
-                    borderBottomRightRadius: 24,
                     borderLeft: `4px solid ${grey[700]}`,
                     borderRight: `4px solid ${grey[700]}`,
                     borderBottom: `4px solid ${grey[700]}`,
                     overflow: "hidden",
+                    borderBottomLeftRadius: 24,
+                    borderBottomRightRadius: 24,
+                    willChange: "transform",
+                    transform: "translateZ(0)",
+                    isolation: "isolate",
+                    zIndex: 0,
                     "& .wave": {
                       position: "absolute",
                       left: 0,
                       top: 0,
-                      zIndex: -1,
+                      // zIndex: -1,
                       width: "100%",
                       height: "100%",
                       transform: `translate(0, calc(100% - ${
@@ -3309,9 +3367,9 @@ function Logic({ index }: { index: number }) {
               },
             }}
           >
-            당신이 30일 이전에 올린 영상들에서 발생하는
+            오랜 기간 누적해야 의미있는 수익을
             <br />
-            작은 조회수 수익들을 한번에 받아 보세요.
+            한번에 얻을 수 있는 기회!
           </Typography>
         </Box>
         <Box
@@ -3567,7 +3625,7 @@ function Logic({ index }: { index: number }) {
                   />
                   <Box
                     sx={{
-                      mt: 6,
+                      mt: 20,
                       borderRight: `2px dashed #0093ff`,
                       borderTop: `2px dashed #0093ff`,
                       background: `repeating-linear-gradient(45deg, ${alpha(
@@ -3583,6 +3641,7 @@ function Logic({ index }: { index: number }) {
                       alignItems: "center",
                       flex: 1,
                       "@media(max-width: 480px)": {
+                        mt: 12,
                         borderRight: `2px dashed #0093ff`,
                         borderTop: `2px dashed #0093ff`,
                       },
@@ -4567,7 +4626,6 @@ function Outro({ index }: { index: number }) {
               }}
               className={className}
             >
-              국내 1위{" "}
               <span
                 style={{
                   color: "#0093ff",
@@ -4598,7 +4656,6 @@ function Outro({ index }: { index: number }) {
               }}
               className={className}
             >
-              글로벌 1위{" "}
               <span
                 style={{
                   color: "#00e94f",
@@ -4642,7 +4699,10 @@ function Outro({ index }: { index: number }) {
                   opacity: 1,
                 },
                 transitionDelay: `1.5s`,
-                m: theme.spacing(3, 0, 0, 0),
+                m: theme.spacing(6, 0, 0, 0),
+                "@media(max-width: 480px)": {
+                  m: theme.spacing(3, 0, 0, 0),
+                },
               }}
               className={className}
             >
@@ -4828,8 +4888,8 @@ function Gallery() {
                 p: theme.spacing(0.5),
                 borderRadius: 224,
                 "@media(max-width: 480px)": {
-                  width: size - 104,
-                  height: size - 104,
+                  width: size - 128,
+                  height: size - 128,
                 },
               }}
             >
@@ -4867,44 +4927,47 @@ function Gallery() {
             >
               <Typography
                 sx={{
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: "900",
                   color: "#ffffff",
                   textAlign: "center",
                   "@media(max-width: 480px)": {
-                    fontSize: 20,
+                    fontSize: 16,
                   },
                 }}
               >
-                {title}
+                {item.nation} {title}
               </Typography>
               <Typography
                 sx={{
-                  fontSize: 16,
+                  fontSize: 14,
                   color: "#ffffff",
                   textAlign: "center",
                   "@media(max-width: 480px)": {
-                    fontSize: 14,
+                    fontSize: 12,
+                  },
+                }}
+              >
+                구독자 {item.subscribers}명
+              </Typography>
+              <Typography
+                sx={{
+                  mt: 0.5,
+                  fontSize: 14,
+                  color: grey[400],
+                  textAlign: "center",
+                  "@media(max-width: 480px)": {
+                    fontSize: 12,
                   },
                 }}
               >
                 {subtitle}
               </Typography>
-              {/* <Typography
-                sx={{
-                  mt: 0.5,
-                  fontSize: 12,
-                  color: grey[500],
-                  textAlign: "center",
-                }}
-              >
-                2022.02.01 투자완료
-              </Typography> */}
               <Typography
                 sx={{
                   mt: 1,
                   fontSize: 14,
-                  color: grey[500],
+                  color: grey[600],
                   "@media(max-width: 480px)": {
                     fontSize: 12,
                   },
