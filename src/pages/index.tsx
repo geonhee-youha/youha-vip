@@ -245,8 +245,8 @@ export default function Page() {
         width: "100%",
         height: "100%",
         overflowX: "hidden",
-        overflowY: "auto",
-        scrollSnapType: "y mandatory",
+        overflowY: "scroll",
+        // scrollSnapType: "y mandatory",
         "& .color-js": {
           color: "#00e94f !important",
         },
@@ -254,6 +254,11 @@ export default function Page() {
           display: "none",
           "@media(max-width: 480px)": {
             display: "initial",
+          },
+        },
+        "& .wrapper": {
+          "@media(max-width: 480px)": {
+            height: 640,
           },
         },
       }}
@@ -389,7 +394,7 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
             objectFit: "cover",
           },
         }}
-        className={sections[index]}
+        className={`wrapper ${sections[index]}`}
       >
         <ReactPlayer
           url="https://jellysmack.com/wp-content/uploads/2022/02/ADDTL_jellysmack_longform_1920x1080_SANSattribution.mp4"
@@ -438,6 +443,9 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
                   opacity: 1,
                 },
                 transitionDelay: `0s`,
+                "@media(max-width: 480px)": {
+                  fontSize: 32,
+                },
               }}
               className={className}
             >
@@ -458,6 +466,9 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
                   opacity: 1,
                 },
                 transitionDelay: `0.5s`,
+                "@media(max-width: 480px)": {
+                  fontSize: 32,
+                },
               }}
               className={className}
             >
@@ -478,6 +489,9 @@ function Intro({ index, tabIndex }: { index: number; tabIndex: number }) {
                   opacity: 1,
                 },
                 transitionDelay: `1s`,
+                "@media(max-width: 480px)": {
+                  fontSize: 32,
+                },
               }}
               className={className}
             >
@@ -759,9 +773,9 @@ function BigCases({ index }: { index: number }) {
         // scrollSnapAlign: "start",
         position: "relative",
         background: `linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0))`,
-        p: theme.spacing(10, 0, 12, 0),
+        p: theme.spacing(10, 0, 4, 0),
       }}
-      className={sections[index]}
+      className={`wrapper ${sections[index]}`}
     >
       <Box
         ref={ref}
@@ -1205,10 +1219,10 @@ function SmallCases({ index }: { index: number }) {
         alignItems: "center",
         // scrollSnapAlign: "start",
         position: "relative",
-        p: theme.spacing(10, 0, 12, 0),
+        p: theme.spacing(10, 0, 4, 0),
         background: `linear-gradient(rgba(0,0,0,0), rgba(0,0,0,1))`,
       }}
-      className={sections[index]}
+      className={`wrapper ${sections[index]}`}
     >
       <Typography
         sx={{
@@ -1222,11 +1236,10 @@ function SmallCases({ index }: { index: number }) {
           },
         }}
       >
-        500명이 넘는
+        <span className="color-js">500명</span>이 넘는
         <br />
         크리에이터들을
         <br />
-        <span className="color-js">Jellysmack</span>이<br />
         지원합니다.
       </Typography>
       <Typography
@@ -1298,7 +1311,7 @@ function Slip1({ index }: { index: number }) {
         p: theme.spacing(10, 0, 12, 0),
         background: `linear-gradient(rgba(0, 0, 0, 1),rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 1))`,
       }}
-      className={sections[index]}
+      className={`wrapper ${sections[index]}`}
     >
       <Box
         ref={ref}
@@ -1411,7 +1424,7 @@ function Video({ index }: { index: number }) {
         p: theme.spacing(10, 0, 12, 0),
         background: `linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))`,
       }}
-      className={sections[index]}
+      className={`wrapper ${sections[index]}`}
     >
       <Box
         ref={ref}
@@ -1712,7 +1725,7 @@ function Revenue({ index }: { index: number }) {
         p: theme.spacing(10, 0, 12, 0),
         background: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1))`,
       }}
-      className={sections[index]}
+      className={`wrapper ${sections[index]}`}
     >
       <Box
         ref={ref}
@@ -2006,7 +2019,7 @@ function Slip2({ index }: { index: number }) {
         p: theme.spacing(10, 0, 12, 0),
         background: `linear-gradient(rgba(0, 0, 0, 1),rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1))`,
       }}
-      className={sections[index]}
+      className={`wrapper ${sections[index]}`}
     >
       <Box
         ref={ref}
@@ -2129,7 +2142,7 @@ function Offer({ index }: { index: number }) {
         justifyContent: "center",
         alignItems: "center",
       }}
-      className={sections[index]}
+      className={`wrapper ${sections[index]}`}
     >
       <Box
         ref={ref}
@@ -3288,7 +3301,7 @@ function Logic({ index }: { index: number }) {
         alignItems: "center",
         background: `linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))`,
       }}
-      className={sections[index]}
+      className={`wrapper ${sections[index]}`}
     >
       <Box
         ref={ref}
@@ -3874,7 +3887,7 @@ function Option({ index }: { index: number }) {
         justifyContent: "center",
         alignItems: "center",
       }}
-      className={sections[index]}
+      className={`wrapper ${sections[index]}`}
     >
       <Box
         ref={ref}
@@ -4354,7 +4367,7 @@ function Flow({ index }: { index: number }) {
         alignItems: "center",
         p: theme.spacing(10, 0, 12, 0),
       }}
-      className={sections[index]}
+      className={`wrapper ${sections[index]}`}
     >
       <Box
         ref={ref}
@@ -4578,7 +4591,7 @@ function Outro({ index }: { index: number }) {
         justifyContent: "center",
         alignItems: "center",
       }}
-      className={sections[index]}
+      className={`wrapper ${sections[index]}`}
     >
       <Box ref={ref} sx={{ flex: 1, width: "100%", position: "relative" }}>
         <Box
