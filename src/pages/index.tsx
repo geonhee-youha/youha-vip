@@ -225,6 +225,7 @@ const flows: {
 ];
 
 export default function Page() {
+  const router = useRouter();
   const [tabIndex, setTabIndex] = useState<number>(0);
   const onScroll = () => {
     if (typeof document === "undefined") return;
@@ -234,6 +235,9 @@ export default function Page() {
     const index = parseInt(`${(top + 64) / height}`);
     setTabIndex(index);
   };
+  useEffect(() => {
+    router.replace("https://jellysmack.youha.info/");
+  }, []);
   return (
     <Box
       sx={{
