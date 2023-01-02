@@ -3494,7 +3494,9 @@ function Logic({ index }: { index: number }) {
                     },
                   }}
                 >
-                  {dayjs(new Date()).format("YYYY년 MM월 DD일")}
+                  {dayjs(
+                    new Date(new Date().getTime() - 3600000 * 24 * 30)
+                  ).format("YYYY년 MM월 DD일")}
                 </Typography>
               </Box>
               <Box
