@@ -91,7 +91,7 @@ function MyApp(props: MyAppProps) {
           property="og:description"
           content="글로벌 크리에이터 지원 플랫폼 Jellysmack과 유튜버 데이터 분석 플랫폼 youha가 만나 크리에이터의 미래를 지원합니다."
         />
-        <meta property="og:image" content="/images/favicon/share.png" />
+        <meta property="og:image" content="/images/share.png" />
         <meta property="og:image:width" content="200" />
         <meta property="og:image:height" content="200" />
         <meta property="og:image:type" content="image/png" />
