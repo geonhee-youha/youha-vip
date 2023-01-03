@@ -29,6 +29,7 @@ import { Chart } from "react-chartjs-2";
 import Typo from "../components/atoms/Typo";
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 import dayjs from "dayjs";
+import { useLocation } from "react-router-dom";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -224,7 +225,13 @@ const flows: {
   },
 ];
 
-export default function Page() {
+export default function Index() {
+  if (typeof window !== "undefined")
+    window.location.href = "https://jellysmack.youha.info/";
+  return null;
+}
+
+function Page() {
   const router = useRouter();
   const [tabIndex, setTabIndex] = useState<number>(0);
   const onScroll = () => {

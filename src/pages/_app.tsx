@@ -95,7 +95,7 @@ function MyApp(props: MyAppProps) {
         <meta property="og:image:width" content="200" />
         <meta property="og:image:height" content="200" />
         <meta property="og:image:type" content="image/png" />
-        <meta property="og:url" content="https://youha.info" />
+        <meta property="og:url" content="https://youha-vip-test.vercel.app/" />
         <meta name="twitter:card" content="summary" data-react-helmet="true" />
         <meta name="twitter:creator" content="" data-react-helmet="true" />
         <meta
