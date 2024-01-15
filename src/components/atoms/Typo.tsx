@@ -2,12 +2,12 @@ import { SxProps } from "@mui/material";
 import Typography from "@mui/material/Typography";
 type TypoProps = {
   variant?: any;
-  disabled: boolean;
   textAlign?: "center" | "right" | undefined;
   lines?: number;
   children?: React.ReactNode;
   sx?: SxProps;
   className?: any;
+  onLayout?: any;
 };
 export default function Typo({
   variant,
@@ -16,6 +16,7 @@ export default function Typo({
   children,
   sx,
   className,
+  onLayout,
 }: TypoProps) {
   return (
     <Typography
@@ -46,7 +47,3 @@ export default function Typo({
     </Typography>
   );
 }
-
-Typo.defaultProps = {
-  disabled: false,
-};
